@@ -1,5 +1,3 @@
-Defenders of Wildlife repo for the first section 7 data analysis and app.
+Defenders of Wildlife repo for the expenditures app (beta version).
 
-This repository includes the code used to prepare the section 7 datasets as well
-as the various old versions of the Shiny web app. Many sub-directories include 
-their own READMEs.
+This repository contains code used to create the expenditures app to analyse the expenditures data in real time. 
