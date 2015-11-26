@@ -51,41 +51,46 @@ source("txt/text_styles.R")
 #############################################################################
 # Load the data and basic data prep
 #############################################################################
-load("data/FWS_S7_clean_30Jul2015.RData")
+data <- read.table(gzfile("data/FY2008-2013_fed_ESA_expenditures_by_county.tab.gz"), 
+                   header = T, sep = "\t")
 
-full$work_category <- as.factor(full$work_category)
-full$lead_agency <- as.factor(full$lead_agency)
-full$ESOffice <- as.factor(full$ESOffice)
-full$region <- as.factor(full$region)
-full$FY <- as.factor(full$FY)
-full$consult_type <- as.factor(full$consult_type)
-full$consult_complex <- as.factor(full$consult_complex)
+data$Year <- as.factor(data$Year)
+data$Group <- as.factor(data$Group)
+data$scientific <- as.factor(data$scientific)
+data$Common <- as.factor(data$Common)
+data$Name <- as.factor(data$Name)
+data$STABBREV <- as.factor(data$STABBREV)
+data$STATE <- as.factor(data$STATE)
+data$n_combos <- as.factor(data$n_combos)
+data$grand_per_cnty <- as.factor(data$grand_per_cnty)
+data$fws_per_cnty <- as.facor(data$fws_per_cnty)
+data$other_fed_per_cnty <- as.factor(data$other_fed_per_cnty)
+data$fed_per_cnty <- as.factor(data$fed_per_cnty)
+data$state_per_cnty <- as.factor(data$state_per_cnty)
 
 # To facilitate adding new data, generate the vectors from the data
-regions <- c("All", levels(full$region))
-ESOs <- c("All", levels(full$ESOffice))
-years <- as.numeric(levels(full$FY))
-cons_types <- c("All", levels(full$consult_type))
-cons_complx <- c("All", levels(full$consult_complex))
-agencies <- c("All", levels(full$lead_agency))
-work_cats <- c("All", levels(full$work_category))
-formal_cons_choice <- c("All", "Yes", "No")
+years <- c("All", as.numeric(levels(data$Year)))
 states <- c("All", "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DE", "FL", "GA", 
              "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", 
              "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", 
              "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
              "UT", "VA", "VT", "WA", "WI", "WV", "WY")
+groups <- c("All", as.character(levels(data$Group)))
 
-species <- c("All", as.character(levels(as.factor(unlist(unlist(full$spp_ev_ls))))))
+cs <- paste(data$Name, data$STABBREV, sep = ", ")
+cty_st <- c("All", as.character(levels(cs)))
+
+sp <- paste(data$Common, data$scientific, sep = ", ")
+species <- c("All", as.character(levels(sp)))
 
 # table to look up species-specific jeop/admod info
-sp_look_f <- "data/jeop_admod_spp_table_12Jun2015.tab"
-sp_ja_dat <- read.table(sp_look_f, sep="\t", header=T)
+# sp_look_f <- "data/jeop_admod_spp_table_12Jun2015.tab"
+# sp_ja_dat <- read.table(sp_look_f, sep="\t", header=T)
 
 # data for ESFO-level map
-eso_geo_fil <- "data/fieldOfficesTAILS.shp"
-eso_geo_dat <- readShapePoly(eso_geo_fil, 
-                             proj4string = CRS("+proj=merc +lon_0=90w"))
+# eso_geo_fil <- "data/fieldOfficesTAILS.shp"
+# eso_geo_dat <- readShapePoly(eso_geo_fil, 
+#                              proj4string = CRS("+proj=merc +lon_0=90w"))
 
 extent <- as.vector(bbox(eso_geo_dat))
 xmin <- extent[1]

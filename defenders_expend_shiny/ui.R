@@ -1,4 +1,4 @@
-# A Shiny Dashboard version of the section 7 app.
+# A Shiny Dashboard version of the expenditures app.
 # Copyright (C) 2015 Defenders of Wildlife, jmalcom@defenders.org
 
 # This program is free software; you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 source("pages/results_page.R")
-source("pages/help_page.R")
+# source("pages/help_page.R")
 
 #############################################################################
 # Define the header and sidebar (disabled)

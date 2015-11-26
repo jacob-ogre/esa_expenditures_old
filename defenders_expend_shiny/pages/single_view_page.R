@@ -16,7 +16,7 @@
 
 single_view_page <- {
     tabPanel(
-        title="Single View",
+        title="Page 1",
         fluidRow(
             column(1,
                 br(), br(), br(),
@@ -28,7 +28,7 @@ single_view_page <- {
             ),
             column(10,
                 br(), br(),
-                h2("Endangered Species Act consultation explorer",
+                h2("Endangered Species Expenditures",
                    style="text-align:center;font-weight:bold")
             ),
             column(1,
@@ -67,132 +67,130 @@ single_view_page <- {
                     ),
                     column(2,
                         selectInput(
-                            inputId="action_category",
-                            label="Work Category",
-                            choices=work_cats,
+                            inputId="years",
+                            label="Year",
+                            choices=years,
                             selected="All",
-                            multiple=FALSE,
                             width="95%"
                         ),
                         selectInput(
-                            inputId="lead_agency",
-                            label="Lead Agency",
-                            choices=agencies,
+                            inputId="groups",
+                            label="Taxonomic group",
+                            choices=groups,
                             selected="All",
-                            multiple=FALSE,
                             width="95%"
                         )
                     ),
                     column(2,
                         selectInput(
-                            inputId="formal_consult",
-                            label="Formal consult?",
-                            choices=formal_cons_choice,
-                            selected="All",
-                            width="95%"
+                          inputId="cty_st",
+                          label="County, State",
+                          choices=cty_st,
+                          selected="All",
+                          width="95%"
                         )
                     ),
                     column(6,
-                        HTML("<p class='help-block'>Select your favorite state, species, work type, lead agency, and formal vs. informal consultations from drop-downs at left; graphs and maps will update automatically. You may select more than one category to filter on.  For example, if you're just interested in bull trout in Idaho and for projects involving the Forest Service, then you may select each of those criteria (or any others as you see fit).</p><br><br><code>Click the <span style='font-size:larger;font-weight:bold'>+</span> on the right in the box below to reveal additional selectors.</code>")
-                    ),
-                    column(12,
-                        box(title="Additional selectors",
-                            status="warning",
-                            solidHeader=FALSE,
-                            height=NULL,
-                            width=NULL,
-                            collapsible=TRUE,
-                            collapsed=TRUE,
-                            helpText("These additional selectors may be useful for digging deeper into the section 7 data."),
-                            column(2,
-                                popify(
-                                    selectInput(
-                                        inputId="region",
-                                        label="FWS Region",
-                                        choices=regions,
-                                        selected="All",
-                                        width="95%"
-                                    ),
-                                    title="Fish and Wildlife Service Regions",
-                                    content="A map of FWS regions can be found at <br>http://www.fws.gov/Endangered/regions/index.html",
-                                    placement="top",
-                                    options=list(container="body", html="true")
-                                ),
-                                popify(
-                                    selectInput(
-                                        inputId="ESFO",
-                                        label="ES Office",
-                                        choices=ESOs,
-                                        selected="All",
-                                        width="95%"
-                                    ),
-                                    title="ES Office",
-                                    content="ES = Ecological Services. Approximate ES Office boundaries are available on the Map View page.",
-                                    placement="top",
-                                    options=list(container="body", html="true")
-                                )
-                            ),
-                            column(2,
-                                selectInput(
-                                    inputId="cons_complex",
-                                    label="Consult. Complexity",
-                                    choices=cons_complx,
-                                    selected="All",
-                                    width="95%"
-                                ),
-                                selectInput(
-                                    inputId="consult_type",
-                                    label="Consult. Type",
-                                    choices=cons_types,
-                                    selected="All",
-                                    width="95%"
-                                )
-                            ),
-                            column(2,
-                                popify(
-                                    selectInput(
-                                        inputId="jeopardy",
-                                        label="Jeopardy?",
-                                        choices=c("All", "Yes", "No"),
-                                        selected="All",
-                                        width="95%"
-                                    ),
-                                    title="Jeopardy",
-                                    content="Select 'Yes' to view consultations that FWS determined were likely to jeopardize the existence of one or more listed species. See the Glossary on the 'Section 7 background' page for more information.",
-                                    placement="right",
-                                    options=list(container="body", html="true")
-                                ),
-                                popify(
-                                    selectInput(
-                                        inputId="admod",
-                                        label="Adverse Mod.?",
-                                        choices=c("All", "Yes", "No"),
-                                        selected="All",
-                                        width="95%"
-                                    ),
-                                    title="Adverse Modification",
-                                    content="Select 'Yes' to view consultations that FWS determined were likely to negatively alter designated critical habitat of one or more listed species. See the Glossary on the 'Section 7 background' page for more information.",
-                                    placement="right",
-                                    options=list(container="body", html="true")
-                                )
-                            ),
-                            column(2,
-                                popify(
-                                    selectInput(
-                                        inputId="rpa",
-                                        label="RPAs?",
-                                        choices=c("All", "Yes", "No"),
-                                        selected="All",
-                                        width="95%"
-                                    ),
-                                    title="Reasonable and Prudent Alternatives",
-                                    content="RPAs are alternatives to the proposed project that FWS and the action agency determined would reduce the likelihood of jeopardy or adverse modification. See the Glossary on the 'Section 7 background' page for more information.",
-                                    placement="right",
-                                    options=list(container="body", html="true")
-                                )
-                            )
-                        )
+                        HTML("<p class='help-block'>Select your favorite state, species, county, and taxonomic group from drop-downs at left; graphs and maps will update automatically. You may select more than one category to filter on.  For example, if you're just interested in bull trout in Idaho and for expenses in 2009, then you may select each of those criteria (or any others as you see fit).</p><br><br><code>Click the <span style='font-size:larger;font-weight:bold'>+</span> on the right in the box below to reveal additional selectors.</code>")
                     )
+#                    column(12,
+#                        box(title="Additional selectors",
+#                            status="warning",
+#                            solidHeader=FALSE,
+#                            height=NULL,
+#                            width=NULL,
+#                            collapsible=TRUE,
+#                            collapsed=TRUE,
+#                            helpText("These additional selectors may be useful for digging deeper into the section 7 data."),
+#                            column(2,
+#                                popify(
+#                                    selectInput(
+#                                        inputId="region",
+#                                        label="FWS Region",
+#                                        choices=regions,
+#                                        selected="All",
+#                                        width="95%"
+#                                    ),
+#                                    title="Fish and Wildlife Service Regions",
+#                                    content="A map of FWS regions can be found at <br>http://www.fws.gov/Endangered/regions/index.html",
+#                                    placement="top",
+#                                    options=list(container="body", html="true")
+#                                ),
+#                                popify(
+#                                    selectInput(
+                            #             inputId="ESFO",
+                            #             label="ES Office",
+                            #             choices=ESOs,
+                            #             selected="All",
+                            #             width="95%"
+                            #         ),
+                            #         title="ES Office",
+                            #         content="ES = Ecological Services. Approximate ES Office boundaries are available on the Map View page.",
+                            #         placement="top",
+                            #         options=list(container="body", html="true")
+                            #     )
+                            # ),
+                            # column(2,
+                            #     selectInput(
+                            #         inputId="cons_complex",
+                            #         label="Consult. Complexity",
+                            #         choices=cons_complx,
+                            #         selected="All",
+                            #         width="95%"
+                            #     ),
+                            #     selectInput(
+                            #         inputId="consult_type",
+                            #         label="Consult. Type",
+                            #         choices=cons_types,
+                            #         selected="All",
+                            #         width="95%"
+                            #     )
+                            # ),
+                            # column(2,
+                            #     popify(
+                            #         selectInput(
+                            #             inputId="jeopardy",
+                            #             label="Jeopardy?",
+                            #             choices=c("All", "Yes", "No"),
+                            #             selected="All",
+                            #             width="95%"
+                            #         ),
+                            #         title="Jeopardy",
+                            #         content="Select 'Yes' to view consultations that FWS determined were likely to jeopardize the existence of one or more listed species. See the Glossary on the 'Section 7 background' page for more information.",
+                            #         placement="right",
+                            #         options=list(container="body", html="true")
+                            #     ),
+                            #     popify(
+                            #         selectInput(
+                            #             inputId="admod",
+                            #             label="Adverse Mod.?",
+                            #             choices=c("All", "Yes", "No"),
+                            #             selected="All",
+                            #             width="95%"
+                            #         ),
+                            #         title="Adverse Modification",
+                            #         content="Select 'Yes' to view consultations that FWS determined were likely to negatively alter designated critical habitat of one or more listed species. See the Glossary on the 'Section 7 background' page for more information.",
+                            #         placement="right",
+                            #         options=list(container="body", html="true")
+                            #     )
+                            # ),
+                            # column(2,
+                            #     popify(
+                            #         selectInput(
+                            #             inputId="rpa",
+                            #             label="RPAs?",
+                            #             choices=c("All", "Yes", "No"),
+                            #             selected="All",
+                            #             width="95%"
+                            #         ),
+                            #         title="Reasonable and Prudent Alternatives",
+                            #         content="RPAs are alternatives to the proposed project that FWS and the action agency determined would reduce the likelihood of jeopardy or adverse modification. See the Glossary on the 'Section 7 background' page for more information.",
+                            #         placement="right",
+                            #         options=list(container="body", html="true")
+                                # )
+                            # )
+                        # )
+                    # )
                 ),
                 bsModal(id="open_select", 
                         title="Getting started",
