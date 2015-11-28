@@ -1,6 +1,2 @@
 .Rhistory
-*.tab*
 .DS_Store
-*.csv*
-*.tsv*
-*.pyc*
