@@ -20,15 +20,15 @@
 ###########################################################################
 server_overview <- function(input, output, selected) {
     output$num_consult <- renderText({
-        get_number_consults(full)
+        get_number_consults(data)
     })
 
     output$num_formal_consult <- renderText({
-        get_number_formal(full)
+        get_number_formal(data)
     })
 
     output$num_years <- renderText({
-        get_number_years(full)
+        get_number_years(data)
     })
 
     output$n_spp_total <- renderText({
@@ -36,16 +36,16 @@ server_overview <- function(input, output, selected) {
     })
 
     output$n_agencies_total <- renderText({
-        get_number_agencies(full)
+        get_number_agencies(data)
     })
 
     output$n_personnel_total <- renderText({
-        get_number_personnel(full)
+        get_number_personnel(data)
     })
 
     output$n_consult_time_plot <- renderUI({
         title <- "FWS section 7 consultations (Jan 2008 - May 2015)"
-        make_all_consult_summary_plot(full, title=title)
+        make_all_consult_summary_plot(data, title=title)
     })
 }
 

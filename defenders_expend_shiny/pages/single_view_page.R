@@ -91,7 +91,7 @@ single_view_page <- {
                         )
                     ),
                     column(6,
-                        HTML("<p class='help-block'>Select your favorite state, species, county, and taxonomic group from drop-downs at left; graphs and maps will update automatically. You may select more than one category to filter on.  For example, if you're just interested in bull trout in Idaho and for expenses in 2009, then you may select each of those criteria (or any others as you see fit).</p><br><br><code>Click the <span style='font-size:larger;font-weight:bold'>+</span> on the right in the box below to reveal additional selectors.</code>")
+                        HTML("<p class='help-block'>Select your favorite state, species, county, and taxonomic group from drop-downs at left; graphs and maps will update automatically. You may select more than one category to filter on.  For example, if you're just interested in bull trout in Idaho and for expenses in 2009, then you may select each of those criteria (or any others as you see fit).")
                     )
 #                    column(12,
 #                        box(title="Additional selectors",
@@ -209,76 +209,76 @@ single_view_page <- {
         ),
         br(),
 
-        fluidRow(
-            column(3,
-                tipify(
-                    el=valueBox(
-                        subtitle="Total # consultations",
-                        value=textOutput("total_n_consult"),
-                        color="blue",
-                        icon=NULL,
-                        width=NULL
-                    ),
-                    title="Includes both informal and formal consultations."
-                )
-            ),
-            column(3,
-                tipify(
-                    valueBox(
-                        subtitle="Number formal consultations",
-                        value=textOutput("n_formal_consult"),
-                        color="orange",
-                        icon=NULL,
-                        width=NULL
-                    ),
-                    title="Likely to adversely affect one or more species."
-                )
-            ),
-            column(3,
-                tipify(
-                    valueBox(
-                        subtitle="Median days to approval (all)",
-                        value=textOutput("median_time_all"),
-                        color="blue",
-                        icon=NULL,
-                        width=NULL
-                    ),
-                    title="Includes both informal and formal consultations."
-                )
-            ),
-            column(3,
-                tipify(
-                    valueBox(
-                        subtitle="Median days to approval (formal)",
-                        value=textOutput("median_time_formal"),
-                        color="orange",
-                        icon=NULL,
-                        width=NULL
-                    ),
-                    title="Half of formal consultations shorter than this time."
-                )
-            )
-        ),
+        # fluidRow(
+        #     column(3,
+        #         tipify(
+        #             el=valueBox(
+        #                 subtitle="Total dollars spent",
+        #                 value=textOutput("total_spent"),
+        #                 color="blue",
+        #                 icon=NULL,
+        #                 width=NULL
+        #             ),
+        #             title="Includes all funding sources."
+        #         )
+        #     ),
+        #     column(3,
+        #         tipify(
+        #             valueBox(
+        #                 subtitle="Number of species",
+        #                 value=textOutput("n_species"),
+        #                 color="orange",
+        #                 icon=NULL,
+        #                 width=NULL
+        #             ),
+        #             title="Number of species receiving funding."
+        #         )
+        #     ),
+        #     column(3,
+        #         tipify(
+        #             valueBox(
+        #                 subtitle="Average spending per species",
+        #                 value=textOutput("avg_spend_sp"),
+        #                 color="blue",
+        #                 icon=NULL,
+        #                 width=NULL
+        #             ),
+        #             title="Includes all funding sources."
+        #         )
+        #     )
+        #     column(3,
+        #         tipify(
+        #             valueBox(
+        #                 subtitle="Median days to approval (formal)",
+        #                 value=textOutput("median_time_formal"),
+        #                 color="orange",
+        #                 icon=NULL,
+        #                 width=NULL
+        #             ),
+        #             title="Half of formal consultations shorter than this time."
+        #         )
+        #     )
+        #  ),
 
         fluidRow(
-            column(6,
-                box(title="Consultations by fiscal year",
+            column(8,
+                box(title="Spending by State",
                     status="primary",
                     solidHeader=TRUE,
                     height=NULL,
                     width=NULL,
                     collapsible=TRUE,
                     collapsed=FALSE,
-                    htmlOutput("consults_time"),
-                    bsButton("modConsultsTime",
-                             label="Larger",
-                             style="primary",
-                             size="small"
-                    )
+                    htmlOutput("consults_map")
+                    # bsButton("modConsultsMap",
+                    #          label="Larger",
+                    #          style="primary",
+                    #          size="small"
+                    # )
                 )
             ),
-            column(6,
-                box(title="Consultations by state",
+            column(4,
+                box(title="General",
                     status="primary",
                     solidHeader=TRUE,
                     height=NULL,
@@ -286,51 +286,58 @@ single_view_page <- {
                     collapsible=TRUE,
                     collapsed=FALSE,
                     fluidRow(
-                        column(9,
-                            htmlOutput("consults_map")
-                        ),
-                        column(3, 
-                            br(),
-                            br(),
-                            tags$small(tableOutput("other_states"))
-                        )
+                          tipify(
+                               valueBox(
+                                   subtitle="Total dollars spent",
+                                   value=textOutput("total_spent"),
+                                   color="blue",
+                                   icon=NULL,
+                                   width=NULL
+                               ),
+                               title="Includes all funding sources."
+                          )
                     ),
                     fluidRow(
-                        column(12,
-                            helpText("Five New England states and parts of Iowa and Illinois are each covered by a single FWS office. See table for consultation counts of these groups of states.")
-                        )
+                          tipify(
+                               valueBox(
+                                   subtitle="Number of species",
+                                   value=textOutput("n_species"),
+                                   color="orange",
+                                   icon=NULL,
+                                   width=NULL
+                               ),
+                               title="Number of species receiving funding."
+                             )
                     ),
-                    bsButton("modConsultsMap",
-                             label="Larger",
-                             style="primary",
-                             size="small"
+                    fluidRow(
+                             htmlOutput("bargraph_here") #create this
                     )
                 )
-            ),
-            bsModal("largeConsultsTime",
-                    title="Consultations by Fiscal Year",
-                    trigger="modConsultsTime",
-                    size="large",
-                    htmlOutput("consults_time_large")
-            ),
-            bsModal("largeConsultsMap",
-                    title="Consultations by State",
-                    trigger="modConsultsMap",
-                    size="large",
-                    fluidRow(
-                        column(9,
-                            htmlOutput("consults_map_large")
-                        ),
-                        column(3,
-                            tableOutput("other_states_lg")
-                        )
-                    ),
-                    fluidRow(
-                        column(12,
-                            helpText(style="font-size:large", "Five New England states and parts of Iowa and Illinois are each covered by a single FWS office. See table for consultation counts of these groups of states.")
-                        )
-                    )
             )
+            # bsModal("largeConsultsTime",
+            #         title="Consultations by Fiscal Year",
+            #         trigger="modConsultsTime",
+            #         size="large",
+            #         htmlOutput("consults_time_large")
+            # ),
+            # bsModal("largeConsultsMap",
+            #         title="Consultations by State",
+            #         trigger="modConsultsMap",
+            #         size="large",
+            #         fluidRow(
+            #             column(9,
+            #                 htmlOutput("consults_map_large")
+            #             ),
+            #             column(3,
+            #                 tableOutput("other_states_lg")
+            #             )
+            #         ),
+            #         fluidRow(
+            #             column(12,
+            #                 helpText(style="font-size:large", "Five New England states and parts of Iowa and Illinois are each covered by a single FWS office. See table for consultation counts of these groups of states.")
+            #             )
+            #         )
+            # )
         ),
 
         fluidRow(
@@ -361,82 +368,82 @@ single_view_page <- {
             )
         ),
 
-        fluidRow(
-            column(6,
-                box(title="Consultation duration",
-                    status="primary",
-                    solidHeader=TRUE,
-                    height=NULL,
-                    width=NULL,
-                    collapsible=TRUE,
-                    collapsed=FALSE,
-                    htmlOutput("consults_duration"),
-                    helpText("The full range of duration values is trimmed to make the graph more readable. Note that long duration (>135 days) may be caused by consultation reinitiation (see Sec. 7 background page) rather than a single, long-running consultation."),
-                    bsButton("modConsultsDuration",
-                             label="Larger",
-                             style="primary",
-                             size="small"
-                    )
-                )
-            ),
-            column(6,
-                popify(
-                    box(title="Consultations by work category (top 20)",
-                        status="primary",
-                        solidHeader=TRUE,
-                        height=NULL,
-                        width=NULL,
-                        collapsible=TRUE,
-                        collapsed=FALSE,
-                        htmlOutput("consults_work_cat"),
-                        bsButton("modConsultsCategory",
-                                 label="Larger",
-                                 style="primary",
-                                 size="small"
-                        )
-                    ),
-                    title="Work categories",
-                    content="Work categories are generally broad; see the 'Data' page to get more detailed information about your selected data."
-                )
-            ),
-            bsModal("largeConsultsDuration",
-                    title="Distributions of consultation durations",
-                    trigger="modConsultsDuration",
-                    size="large",
-                    htmlOutput("consults_duration_large")
-            ),
-            bsModal("largeConsultsCategory",
-                    title="Consultations by work category (top 20)",
-                    trigger="modConsultsCategory",
-                    size="large",
-                    htmlOutput("consults_work_cat_large")
-            )
-        ),
-
-        fluidRow(
-            column(12,
-                box(title="Consultations by agency (top 25)",
-                    status="primary",
-                    solidHeader=TRUE,
-                    height=NULL,
-                    width=NULL,
-                    collapsible=TRUE,
-                    collapsed=FALSE,
-                    htmlOutput("consults_agencies"),
-                    bsButton("modConsultsAgency",
-                             label="Larger",
-                             style="primary",
-                             size="small"),
-                    helpText("Agencies in the database may include either the federal action agency or the applicant. The plotted values are therefore lower limits to the number of consultations by federal agencies.")
-                )
-            ),
-            bsModal("largeConsultsAgency",
-                    title="Consultations by agency (top 25)",
-                    trigger="modConsultsAgency",
-                    size="large",
-                    htmlOutput("consults_agencies_large")
-            )
-        ),
+        # fluidRow(
+        #     column(6,
+        #         box(title="Consultation duration",
+        #             status="primary",
+        #             solidHeader=TRUE,
+        #             height=NULL,
+        #             width=NULL,
+        #             collapsible=TRUE,
+        #             collapsed=FALSE,
+        #             htmlOutput("consults_duration"),
+        #             helpText("The full range of duration values is trimmed to make the graph more readable. Note that long duration (>135 days) may be caused by consultation reinitiation (see Sec. 7 background page) rather than a single, long-running consultation."),
+        #             bsButton("modConsultsDuration",
+        #                      label="Larger",
+        #                      style="primary",
+        #                      size="small"
+        #             )
+        #         )
+        #     ),
+        #     column(6,
+        #         popify(
+        #             box(title="Consultations by work category (top 20)",
+        #                 status="primary",
+        #                 solidHeader=TRUE,
+        #                 height=NULL,
+        #                 width=NULL,
+        #                 collapsible=TRUE,
+        #                 collapsed=FALSE,
+        #                 htmlOutput("consults_work_cat"),
+        #                 bsButton("modConsultsCategory",
+        #                          label="Larger",
+        #                          style="primary",
+        #                          size="small"
+        #                 )
+        #             ),
+        #             title="Work categories",
+        #             content="Work categories are generally broad; see the 'Data' page to get more detailed information about your selected data."
+        #         )
+        #     ),
+        #     bsModal("largeConsultsDuration",
+        #             title="Distributions of consultation durations",
+        #             trigger="modConsultsDuration",
+        #             size="large",
+        #             htmlOutput("consults_duration_large")
+        #     ),
+        #     bsModal("largeConsultsCategory",
+        #             title="Consultations by work category (top 20)",
+        #             trigger="modConsultsCategory",
+        #             size="large",
+        #             htmlOutput("consults_work_cat_large")
+        #     )
+        # ),
+        # 
+        # fluidRow(
+        #     column(12,
+        #         box(title="Consultations by agency (top 25)",
+        #             status="primary",
+        #             solidHeader=TRUE,
+        #             height=NULL,
+        #             width=NULL,
+        #             collapsible=TRUE,
+        #             collapsed=FALSE,
+        #             htmlOutput("consults_agencies"),
+        #             bsButton("modConsultsAgency",
+        #                      label="Larger",
+        #                      style="primary",
+        #                      size="small"),
+        #             helpText("Agencies in the database may include either the federal action agency or the applicant. The plotted values are therefore lower limits to the number of consultations by federal agencies.")
+        #         )
+        #     ),
+        #     bsModal("largeConsultsAgency",
+        #             title="Consultations by agency (top 25)",
+        #             trigger="modConsultsAgency",
+        #             size="large",
+        #             htmlOutput("consults_agencies_large")
+        #     )
+        # ),
 
         # a placeholder
         fluidRow(
@@ -446,17 +453,17 @@ single_view_page <- {
         ),
 
         hr(),
-        fluidRow(
-            column(2),
-            column(3,
-                HTML("<h4 style='font-weight:bold'>Alternate views</h4> <p style='font-size:larger'>Check out the <span style='font-weight:bold'>Alternate Map</span> page for a different geographic view, the <span style='font-weight:bold'>Comparison View</span> page for side-by-side comparisons, and the <span style='font-weight:bold'>Data</span> page to get the raw data.</p>")
-            ),
-            column(2),
-            column(3,
-                shinyURL.ui(label=HTML("<h4 style='font-weight:bold'>Share your selection!</h4>"))
-            ),
-            column(2)
-        ),
+        # fluidRow(
+        #     column(2),
+        #     column(3,
+        #         HTML("<h4 style='font-weight:bold'>Alternate views</h4> <p style='font-size:larger'>Check out the <span style='font-weight:bold'>Alternate Map</span> page for a different geographic view, the <span style='font-weight:bold'>Comparison View</span> page for side-by-side comparisons, and the <span style='font-weight:bold'>Data</span> page to get the raw data.</p>")
+        #     ),
+        #     column(2),
+        #     column(3,
+        #         shinyURL.ui(label=HTML("<h4 style='font-weight:bold'>Share your selection!</h4>"))
+        #     ),
+        #     column(2)
+        # ),
         hr(),
 
         fluidRow(

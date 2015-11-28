@@ -74,7 +74,7 @@ make_top_25_agencies_df <- function(sub) {
 ############################################################################
 # Create a small dataframe for the state-resolution map
 make_map_df <- function(sub) {
-    sub_state <- table(sub()$state)
+    sub_state <- table(sub()$STABBREV)
     res <- data.frame(state=names(sub_state), consults=as.vector(sub_state))
     return(res)
 }

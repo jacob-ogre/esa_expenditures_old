@@ -26,7 +26,7 @@ library(RJSONIO)
 library(shiny)
 library(shinydashboard)
 library(shinyBS)
-library(shinyURL)
+# library(shinyURL)
 library(xtable)
 
 library(leaflet)
@@ -52,36 +52,32 @@ source("txt/text_styles.R")
 # Load the data and basic data prep
 #############################################################################
 data <- read.table(gzfile("data/FY2008-2013_fed_ESA_expenditures_by_county.tab.gz"), 
-                   header = T, sep = "\t")
+                   header = T, sep = "\t", stringsAsFactors = F)
 
 data$Year <- as.factor(data$Year)
 data$Group <- as.factor(data$Group)
 data$scientific <- as.factor(data$scientific)
 data$Common <- as.factor(data$Common)
-data$Name <- as.factor(data$Name)
+data$NAME <- as.factor(data$NAME)
 data$STABBREV <- as.factor(data$STABBREV)
 data$STATE <- as.factor(data$STATE)
-data$n_combos <- as.factor(data$n_combos)
-data$grand_per_cnty <- as.factor(data$grand_per_cnty)
-data$fws_per_cnty <- as.facor(data$fws_per_cnty)
-data$other_fed_per_cnty <- as.factor(data$other_fed_per_cnty)
-data$fed_per_cnty <- as.factor(data$fed_per_cnty)
-data$state_per_cnty <- as.factor(data$state_per_cnty)
+data$n_combos <- as.numeric(data$n_combos)
+data$grand_per_cnty <- as.numeric(data$grand_per_cnty)
+data$fws_per_cnty <- as.numeric(data$fws_per_cnty)
+data$other_fed_per_cnty <- as.numeric(data$other_fed_per_cnty)
+data$fed_per_cnty <- as.numeric(data$fed_per_cnty)
+data$state_per_cnty <- as.numeric(data$state_per_cnty)
 
 # To facilitate adding new data, generate the vectors from the data
+data$cs <- paste(as.character(data$NAME), as.character(data$STABBREV), sep = ", ")
+data$sp <- paste(as.character(data$Common), " (", as.character(data$scientific), ")", sep = "")
+
 years <- c("All", as.numeric(levels(data$Year)))
-states <- c("All", "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DE", "FL", "GA", 
-             "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", 
-             "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", 
-             "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
-             "UT", "VA", "VT", "WA", "WI", "WV", "WY")
+states <- c("All", as.character(levels(data$STABBREV)))
 groups <- c("All", as.character(levels(data$Group)))
+species <- c("All", as.character(levels(as.factor(data$sp))))
+cty_st <- c("All", as.character(levels(as.factor(data$cs))))
 
-cs <- paste(data$Name, data$STABBREV, sep = ", ")
-cty_st <- c("All", as.character(levels(cs)))
-
-sp <- paste(data$Common, data$scientific, sep = ", ")
-species <- c("All", as.character(levels(sp)))
 
 # table to look up species-specific jeop/admod info
 # sp_look_f <- "data/jeop_admod_spp_table_12Jun2015.tab"
@@ -92,11 +88,11 @@ species <- c("All", as.character(levels(sp)))
 # eso_geo_dat <- readShapePoly(eso_geo_fil, 
 #                              proj4string = CRS("+proj=merc +lon_0=90w"))
 
-extent <- as.vector(bbox(eso_geo_dat))
-xmin <- extent[1]
-ymin <- extent[2]
-xmax <- extent[3]
-ymax <- extent[4]
+# extent <- as.vector(bbox(eso_geo_dat))
+# xmin <- extent[1]
+# ymin <- extent[2]
+# xmax <- extent[3]
+# ymax <- extent[4]
 
 # update colors for CSS
 validColors_2 <- c("red", "yellow", "aqua", "blue", "light-blue", "green",
