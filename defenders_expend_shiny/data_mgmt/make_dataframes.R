@@ -28,45 +28,64 @@ make_consult_year_summary_df <- function(x) {
 ############################################################################
 # Create a small dataframe for top 25 species bar plot
 make_top_25_species_df <- function(sub) {
-    sub_species <- table(unlist(sub$spp_ev_ls))
-    sorted <- -sort(-sub_species)
-    if (length(sorted) <= 25) {
-        dat <- data.frame(species=names(sorted), 
-                          consultations=as.vector(sorted))
+    sub_species <- data.frame(species=sub$sp, FWS=sub$fws_per_cnty, 
+                              Other_fed=sub$other_fed_per_cnty, 
+                              Federal=sub$fed_per_cnty, 
+                              State=sub$state_per_cnty,
+                              Total=sub$grand_per_cnty)
+    s <- aggregate(cbind(FWS, Other_fed, Federal, State, Total)~species, sub_species, sum)
+    sorted <- s[order(s$Total, decreasing=T),]
+    if (length(sorted$species) <= 25) {
+       dat <- sorted[, c(1:3,5)]
     } else {
-        dat <- data.frame(species=names(sorted)[1:25], 
-                          consultations=as.vector(sorted[1:25]))
+       dat <- sorted[1:25, c(1:3,5)]
     }
     return(dat)
 }
 
 ############################################################################
 # Create a small dataframe for state work categories summary figure
-make_state_work_cat_df <- function(x) {
-    categories <- table(droplevels(x$work_category))
-    sorted <- -sort(-categories)
-    if (length(sorted) <= 20) {
-        dat <- data.frame(work_cat=names(sorted), 
-                          consultations=as.vector(sorted))
+make_tax_group_df <- function(x) {
+    sub_tax <- data.frame(Group=x$Group, 
+                          FWS=x$fws_per_cnty, 
+                          Other_fed=x$other_fed_per_cnty, 
+                          State=x$state_per_cnty)
+    s <- aggregate(cbind(FWS, Other_fed, State)~Group, sub_tax, sum)
+    return(s)
+}
+
+############################################################################
+# Create a small dataframe for top 10 states bar plot
+make_top_10_states_df <- function(sub) {
+    sub_state <- data.frame(State=sub$STATE, 
+                            FWS=sub$fws_per_cnty, 
+                            Other_fed=sub$other_fed_per_cnty, 
+                            State=sub$state_per_cnty,
+                            Total=sub$grand_per_cnty)
+    s <- aggregate(cbind(FWS, Other_fed, State, Total)~State, sub_state, sum)
+    sorted <- s[order(s$Total, decreasing=T),]
+    if (length(sorted$State) <= 25) {
+        dat <- sorted[, c(1:4)]
     } else {
-        dat <- data.frame(work_cat=names(sorted)[1:20], 
-                          consultations=as.vector(sorted[1:20]))
+        dat <- sorted[1:25, c(1:4)]
     }
     return(dat)
 }
 
 ############################################################################
-# Create a small dataframe for top 25 agencies bar plot
-make_top_25_agencies_df <- function(sub) {
-    sub_agency <- table(sub$lead_agency)
-    sorted <- -sort(-sub_agency)
-    sorted <- sorted[sorted > 0]
-    if (length(sorted) <= 25) {
-        dat <- data.frame(agency=names(sorted), 
-                          consultations=as.vector(sorted))
+# Create a small dataframe for top 10 counties bar plot
+make_top_10_county_df <- function(sub) {
+    sub_cnty <- data.frame(County=sub$cs, 
+                           FWS=sub$fws_per_cnty, 
+                           Other_fed=sub$other_fed_per_cnty, 
+                           State=sub$state_per_cnty,
+                           Total=sub$grand_per_cnty)
+    s <- aggregate(cbind(FWS, Other_fed, State, Total)~County, sub_cnty, sum)
+    sorted <- s[order(s$Total, decreasing=T),]
+    if (length(sorted$State) <= 25) {
+        dat <- sorted[, c(1:4)]
     } else {
-        dat <- data.frame(agency=names(sorted)[1:25], 
-                          consultations=as.vector(sorted[1:25]))
+        dat <- sorted[1:25, c(1:4)]
     }
     return(dat)
 }
@@ -74,17 +93,19 @@ make_top_25_agencies_df <- function(sub) {
 ############################################################################
 # Create a small dataframe for the state-resolution map
 make_map_df <- function(sub) {
-    sub_state <- table(sub()$STABBREV)
-    res <- data.frame(state=names(sub_state), consults=as.vector(sub_state))
+    sub_state <- data.frame(STABBREV=sub()$STABBREV, grand_per_cnty=sub()$grand_per_cnty)
+    s <- aggregate(grand_per_cnty ~ STABBREV, sub_state, sum)
+    res <- data.frame(state=s$STABBREV, total=s$grand_per_cnty)
     return(res)
 }
 
 ############################################################################
-# Create a small dataframe for the ESFO-resolution map
-make_alt_map_df <- function(sub, esls) {
-    cur_tab <- table(sub$ESOffice)
-    to_remove <- setdiff(names(cur_tab), esls)
-    tab_upd <- cur_tab[!(names(cur_tab) %in% to_remove)]
-    # print(head(tab_upd))
-    return(tab_upd)
+# Create a small dataframe for the spending over time map
+make_spend_time_df <- function(sub) {
+    spend_tab <- data.frame(Year=sub$Year, 
+                      FWS=sub$fws_per_cnty, 
+                      Other_fed=sub$other_fed_per_cnty, 
+                      State=sub$state_per_cnty)
+    s <- aggregate(cbind(FWS, Other_fed, State)~Year, spend_tab, sum)
+    return(s)
 }

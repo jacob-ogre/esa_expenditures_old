@@ -16,31 +16,19 @@
 
 ##############################################################################
 # Histogram of consultation times
-make_consult_duration_hist <- function(all, height="365px") {
-    q98 <- quantile(all()$elapsed, 0.98, na.rm=TRUE)
-    min <- min(all()[all()$elapsed < q98,]$elapsed, na.rm=TRUE)
-    max <- max(all()[all()$elapsed < q98,]$elapsed, na.rm=TRUE)
-    by <- round((max - min) / 20, 0)
-    brks <- c(seq(min, max, by), max)
-    formal <- all()[all()$formal_consult == "Yes", ]
-    all_hist <- hist(all()[all()$elapsed < q98,]$elapsed, 
-                     breaks=brks, 
-                     plot=FALSE)
-    formal_hist <- hist(formal[formal$elapsed < q98,]$elapsed, 
-                        breaks=brks,
-                        plot=FALSE)
-    data <- data.frame(breaks=paste("<=", as.character(brks[2:length(brks)])), 
-                       all=all_hist$counts, 
-                       formal=formal_hist$counts)
-    chart <- gvisSteppedAreaChart(data,
-                 xvar="breaks", 
-                 yvar=c("all", "formal"),
-                 options = list(legend="{ position: 'top', maxLines: 2 }",
+make_spending_time_line <- function(all, height="365px") {
+    dat <- make_spend_time_df(all())
+    chart <- gvisLineChart(dat,
+                 xvar="Year", 
+                 yvar=c("FWS", "Other_fed", "State"),
+                 options = list(legend="{ position: 'top' }",
                                 height=height,
-                                colors="['#0A4783', '#f49831']",
-                                hAxis="{title: 'Consultation duration (days)', showTextEvery: 4}",
-                                isStacked=FALSE,
-                                chartArea="{left: 80, top: 50, width:'85%', height:'75%'}")
+                                # colors="['#0A4783', '#f49831']",
+                                vAxis="{title: 'Money Spent (American $)'}",
+                                hAxis="{title: 'Year'}"
+                                # isStacked=FALSE,
+                                # chartArea="{left: 80, top: 50, width:'85%', height:'75%'}"
+                                )
     )
     chart
 }

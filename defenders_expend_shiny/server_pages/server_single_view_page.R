@@ -22,30 +22,30 @@ server_single_view_page <- function(input, output, selected, session) {
 
     # shinyURL.server(session)
 
-    output$total_n_consult <- renderText({
-        get_number_consults(selected())
+    output$total_spent <- renderText({
+        get_number_spent(selected())
     })
 
-    output$n_formal_consult <- renderText({
-        get_number_formal(selected())
+    output$n_species <- renderText({
+        get_number_species(selected())
     })
 
-    output$median_time_all <- renderText({
-        calculate_median_time(selected())
-    })
-
-    output$median_time_formal <- renderText({
-        calculate_median_formal_time(selected())
-    })
-
-    output$consults_time <- renderGvis({
-        make_consult_time_figure(selected)
-    })
-
-    output$consults_time_large <- renderGvis({
-        make_consult_time_figure(selected, height="575px")
-    })
-
+    # output$median_time_all <- renderText({
+    #     calculate_median_time(selected())
+    # })
+    # 
+    # output$median_time_formal <- renderText({
+    #     calculate_median_formal_time(selected())
+    # })
+    # 
+    # output$consults_time <- renderGvis({
+    #     make_consult_time_figure(selected)
+    # })
+    # 
+    # output$consults_time_large <- renderGvis({
+    #     make_consult_time_figure(selected, height="575px")
+    # })
+    # 
     output$consults_species <- renderGvis({
         make_species_plot(selected)
     })
@@ -58,7 +58,7 @@ server_single_view_page <- function(input, output, selected, session) {
         d <- make_map_df(selected)
         map <- gvisGeoChart(d, 
             locationvar = "state", 
-            colorvar = "consults",
+            colorvar = "total",
             options = list(height="360",
                            region = "US",
                            legend = "none",
@@ -71,32 +71,32 @@ server_single_view_page <- function(input, output, selected, session) {
         map
     })
 
-    # output$consults_map_large <- renderGvis({
-    #     d <- make_map_df(selected)
-    #     base <- session$clientData$output_a_line_width
-    #     if(base > 1000) {
-    #         width <- 1000
-    #         height <- 642
-    #     } else {
-    #         width <- 0.9 * base
-    #         height <- 0.642 * width
-    #     }
-    #     map <- gvisGeoChart(d, 
-    #         locationvar = "state", 
-    #         colorvar = "consults",
-    #         options = list(width=width,
-    #                        height=642,
-    #                        region="US",
-    #                        legend="none",
-    #                        displayMode = "regions",
-    #                        resolution = "provinces",
-    #                        colorAxis = "{colors:['#CEDAE6', '#0A4783']}", 
-    #                        datalessRegionColor = "#FFFFFF", 
-    #                        projection = "lambert")
-    #     ) 
-    #     cat(map$html$jsData)
-    #     map
-    # })
+    output$consults_map_large <- renderGvis({
+        d <- make_map_df(selected)
+        base <- session$clientData$output_a_line_width
+        if(base > 1000) {
+            width <- 1000
+            height <- 642
+        } else {
+            width <- 0.9 * base
+            height <- 0.642 * width
+        }
+        map <- gvisGeoChart(d,
+            locationvar = "state",
+            colorvar = "total",
+            options = list(width=width,
+                           height=642,
+                           region="US",
+                           legend="none",
+                           displayMode = "regions",
+                           resolution = "provinces",
+                           colorAxis = "{colors:['#CEDAE6', '#0A4783']}",
+                           datalessRegionColor = "#FFFFFF",
+                           projection = "lambert")
+        )
+        cat(map$html$jsData)
+        map
+    })
 
     # output$other_states <- renderTable({
     #     tmp <- selected()
@@ -120,38 +120,45 @@ server_single_view_page <- function(input, output, selected, session) {
     #     some_data
     # }, include.rownames=FALSE)
 
-    output$consults_duration <- renderGvis({
-        make_consult_duration_hist(selected)
+    output$spending_time <- renderGvis({
+        make_spending_time_line(selected)
     })
 
-    output$consults_duration_large <- renderGvis({
-        make_consult_duration_hist(selected, height="550px")
+    output$spending_time_large <- renderGvis({
+        make_spending_time_line(selected, height="550px")
     })
 
-    output$consults_work_cat <- renderGvis({
-        make_work_cat_plot(selected)
+    output$spend_tax_group <- renderGvis({
+        make_tax_group_plot(selected)
     })
 
-    output$consults_work_cat_large <- renderGvis({
-        make_work_cat_plot(selected, height="575px", chartHeight="75%")
+    output$spend_tax_group_large <- renderGvis({
+        make_tax_group_plot(selected, height="575px", chartHeight="75%")
     })
 
-    output$consults_agencies <- renderGvis({
-        make_agency_plot(selected)
+    output$spend_state <- renderGvis({
+        make_spend_state_plot(selected)
     })
 
-    output$consults_agencies_large <- renderGvis({
-        make_agency_plot(selected, height="575px", chartHeight="70%")
+    output$spend_state_large <- renderGvis({
+        make_spend_state_plot(selected, height="575px", chartHeight="70%")
     })
 
-    output$a_line <- renderImage({
-        width <- session$clientData$output_a_line_width
-        list(src = "www/line-01.png",
-             contentType = "image/png",
-             alt = "",
-             a(href = ""),
-             width=width)
-    }, deleteFile=FALSE)
-
+    output$spend_county <- renderGvis({
+      make_spend_county_plot(selected)
+    })
+    
+    output$spend_county_large <- renderGvis({
+      make_spend_county_plot(selected, height="575px", chartHeight="70%")
+    })
+#     output$a_line <- renderImage({
+#         width <- session$clientData$output_a_line_width
+#         list(src = "www/line-01.png",
+#              contentType = "image/png",
+#              alt = "",
+#              a(href = ""),
+#              width=width)
+#     }, deleteFile=FALSE)
+# 
 }
 

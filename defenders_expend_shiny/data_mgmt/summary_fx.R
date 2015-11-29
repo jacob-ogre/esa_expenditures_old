@@ -64,8 +64,8 @@ get_year_range <- function(x) {
 
 ############################################################################
 # Helper functions for consultations
-get_number_consults <- function(x) {
-    return(length(x$activity_code))
+get_number_spent <- function(x) {
+    return(sum(x$grand_per_cnty))
 }
 
 get_number_formal <- function(x) {
@@ -90,8 +90,8 @@ calculate_n_admod_cons <- function(x) {
 
 ############################################################################
 # Helper functions for species
-get_number_species <- function() {
-    return(length(species)-1)
+get_number_species <- function(x) {
+    return(length(levels(as.factor(x$sp))))
 }
 
 get_number_groups <- function(x) {

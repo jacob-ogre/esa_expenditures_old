@@ -16,88 +16,89 @@
 
 #############################################################################
 # Species consultation summary barchart
-make_consult_time_figure <- function(dat, height="415px") {
-    cur_dat <- make_consult_year_summary_df(dat())
-    chart <- gvisColumnChart(cur_dat, 
-                 xvar="years", 
-                 yvar=c("all", "formal"),
-                 options = list(legend="{ position: 'top', maxLines: 2 }",
-                                height=height,
-                                colors="['#0A4783', '#f49831']",
-                                bar="{groupWidth:'90%'}",
-                                vAxis="{title: '# Consultations'}",
-                                chartArea="{left: 80, top: 50, width:'90%', height:'75%'}")
-    )
-    chart
-}
+# make_consult_time_figure <- function(dat, height="415px") {
+#     cur_dat <- make_consult_year_summary_df(dat())
+#     chart <- gvisColumnChart(cur_dat, 
+#                  xvar="years", 
+#                  yvar=c("all", "formal"),
+#                  options = list(legend="{ position: 'top', maxLines: 2 }",
+#                                 height=height,
+#                                 colors="['#0A4783', '#f49831']",
+#                                 bar="{groupWidth:'90%'}",
+#                                 vAxis="{title: '# Consultations'}",
+#                                 chartArea="{left: 80, top: 50, width:'90%', height:'75%'}")
+#     )
+#     chart
+# }
 
 #############################################################################
 # Species summary barchart
 make_species_plot <- function(dat, height="475px", chartHeight="65%") {
     cur_dat <- make_top_25_species_df(dat())
-    left <- nchar(as.character(cur_dat$species[1])) * 5
-    if (left > 200) {
-        left <- 200
-    }
-    chartArea <- paste("{left: ", left, ", top: 50, width: '90%', height: '",
-                       chartHeight, "'}", sep="")
+    # left <- nchar(as.character(cur_dat$species[1])) * 5
+    # if (left > 200) {
+    #     left <- 200
+    # }
+    # chartArea <- paste("{left: ", left, ", top: 50, width: '90%', height: '",
+    #                    chartHeight, "'}", sep="")
     chart2 <- gvisColumnChart(cur_dat,
-                 xvar="species",
-                 yvar="consultations",
+                 # xvar='species',
+                 # yvar=c('FWS', 'Other_Fed', 'State'),
                  options = list(height=height,
-                                colors="['#0A4783']",
-                                legend="{position: 'none'}",
-                                vAxis="{title: '# Consultations'}",
-                                chartArea=chartArea)
+                                # colors="['#0A4783']",
+                                legend="{position: 'right'}",
+                                vAxis="{title: 'Money Spent (American $)'}",
+                                # chartArea=chartArea,
+                                isStacked=T)
              )
     chart2
 }
 
 #############################################################################
-# Work categories summary barchart
-make_work_cat_plot <- function(dat, height="440px", chartHeight="65%") {
-    cur_dat2 <- make_state_work_cat_df(dat())
-    left <- nchar(as.character(cur_dat2$work_cat[1])) * 5
-    if (left < 80) {
-        left <- 80
-    }
-    chartArea <- paste("{left: ", left, ", top: 50, width: '85%', height: '",
-                       chartHeight, "'}", sep="")
+# Spending by taxonomic group barchart
+make_tax_group_plot <- function(dat, height="440px", chartHeight="65%") {
+    cur_dat2 <- make_tax_group_df(dat())
     chart3 <- gvisColumnChart(cur_dat2,
-                 xvar="work_cat",
-                 yvar="consultations",
-                 chartid=rand_str(),
+                 # xvar="work_cat",
+                 # yvar="consultations",
+                 # chartid=rand_str(),
                  options = list(height=height,
-                                colors="['#0A4783']",
-                                legend="{position: 'none'}",
-                                vAxis="{title: '# Consultations'}",
-                                chartArea=chartArea)
+                                # colors="['#0A4783']",
+                                legend="{position: 'top'}",
+                                vAxis="{title: 'Money Spent (American $)'}",
+                                isStacked=T)
              )
     chart3
 }
 
 #############################################################################
-# Agency summary barchart
-make_agency_plot <- function(dat, height="500px", chartHeight="65%", width="90%") {
-    cur_dat <- make_top_25_agencies_df(dat())
-    left <- nchar(as.character(cur_dat$agency[1])) * 6
-    if (left < 80) {
-        left <- 80
-    }
-    if (left > 200) {
-        left <- 200
-    }
-    chartArea <- paste("{left: ", left, ", top: 50, width: '", width, "', height: '",
-                       chartHeight, "'}", sep="")
+# Top State spending barchart
+make_spend_state_plot <- function(dat, height="500px", chartHeight="65%") {
+    cur_dat <- make_top_10_states_df(dat())
     chart4 <- gvisColumnChart(cur_dat,
-                 xvar="agency",
-                 yvar="consultations",
+                 # xvar="agency",
+                 # yvar="consultations",
                  options = list(height=height,
-                                colors="['#0A4783']",
-                                legend="{position: 'none'}",
-                                vAxis="{title: '# Consultations'}",
-                                chartArea=chartArea)
+                                # colors="['#0A4783']",
+                                legend="{position: 'top'}",
+                                vAxis="{title: 'Money Spent (American $)'}",
+                                isStacked=T)
              )
     chart4
 }
 
+#############################################################################
+# Top County spending barchart
+make_spend_county_plot <- function(dat, height="500px", chartHeight="65%") {
+  cur_dat <- make_top_10_county_df(dat())
+  chart5 <- gvisColumnChart(cur_dat,
+                            # xvar="agency",
+                            # yvar="consultations",
+                            options = list(height=height,
+                                           # colors="['#0A4783']",
+                                           legend="{position: 'top'}",
+                                           vAxis="{title: 'Money Spent (American $)'}",
+                                           isStacked=T)
+  )
+  chart5
+}

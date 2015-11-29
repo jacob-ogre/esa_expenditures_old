@@ -269,16 +269,16 @@ single_view_page <- {
                     width=NULL,
                     collapsible=TRUE,
                     collapsed=FALSE,
-                    htmlOutput("consults_map")
-                    # bsButton("modConsultsMap",
-                    #          label="Larger",
-                    #          style="primary",
-                    #          size="small"
-                    # )
+                    htmlOutput("consults_map"),
+                    bsButton("modConsultsMap",
+                             label="Larger",
+                             style="primary",
+                             size="small"
+                    )
                 )
             ),
             column(4,
-                box(title="General",
+                box(title="General Information",
                     status="primary",
                     solidHeader=TRUE,
                     height=NULL,
@@ -290,9 +290,9 @@ single_view_page <- {
                                valueBox(
                                    subtitle="Total dollars spent",
                                    value=textOutput("total_spent"),
-                                   color="blue",
+                                   color="orange",
                                    icon=NULL,
-                                   width=NULL
+                                   width=12
                                ),
                                title="Includes all funding sources."
                           )
@@ -302,9 +302,9 @@ single_view_page <- {
                                valueBox(
                                    subtitle="Number of species",
                                    value=textOutput("n_species"),
-                                   color="orange",
+                                   color="blue",
                                    icon=NULL,
-                                   width=NULL
+                                   width=12
                                ),
                                title="Number of species receiving funding."
                              )
@@ -313,37 +313,29 @@ single_view_page <- {
                              htmlOutput("bargraph_here") #create this
                     )
                 )
-            )
+            ),
             # bsModal("largeConsultsTime",
             #         title="Consultations by Fiscal Year",
             #         trigger="modConsultsTime",
             #         size="large",
             #         htmlOutput("consults_time_large")
             # ),
-            # bsModal("largeConsultsMap",
-            #         title="Consultations by State",
-            #         trigger="modConsultsMap",
-            #         size="large",
-            #         fluidRow(
-            #             column(9,
-            #                 htmlOutput("consults_map_large")
-            #             ),
-            #             column(3,
-            #                 tableOutput("other_states_lg")
-            #             )
-            #         ),
-            #         fluidRow(
-            #             column(12,
-            #                 helpText(style="font-size:large", "Five New England states and parts of Iowa and Illinois are each covered by a single FWS office. See table for consultation counts of these groups of states.")
-            #             )
-            #         )
-            # )
+            bsModal("largeConsultsMap",
+                    title="Spending by State",
+                    trigger="modConsultsMap",
+                    size="large",
+                    fluidRow(
+                        column(12,
+                            htmlOutput("consults_map_large")
+                        )
+                    )
+            )
         ),
 
         fluidRow(
             column(12,
                 popify(
-                    box(title="Consultations by species (top 25)",
+                    box(title="Spending by Species (Top 25)",
                         status="primary",
                         solidHeader=TRUE,
                         height=NULL,
@@ -361,89 +353,105 @@ single_view_page <- {
                 )
             ),
             bsModal("largeConsultsSpecies",
-                    title="Consultations by species (top 25)",
+                    title="Spending by Species (Top 25)",
                     trigger="modConsultsSpecies",
                     size="large",
                     htmlOutput("consults_species_large")
             )
         ),
 
-        # fluidRow(
-        #     column(6,
-        #         box(title="Consultation duration",
-        #             status="primary",
-        #             solidHeader=TRUE,
-        #             height=NULL,
-        #             width=NULL,
-        #             collapsible=TRUE,
-        #             collapsed=FALSE,
-        #             htmlOutput("consults_duration"),
-        #             helpText("The full range of duration values is trimmed to make the graph more readable. Note that long duration (>135 days) may be caused by consultation reinitiation (see Sec. 7 background page) rather than a single, long-running consultation."),
-        #             bsButton("modConsultsDuration",
-        #                      label="Larger",
-        #                      style="primary",
-        #                      size="small"
-        #             )
-        #         )
-        #     ),
-        #     column(6,
-        #         popify(
-        #             box(title="Consultations by work category (top 20)",
-        #                 status="primary",
-        #                 solidHeader=TRUE,
-        #                 height=NULL,
-        #                 width=NULL,
-        #                 collapsible=TRUE,
-        #                 collapsed=FALSE,
-        #                 htmlOutput("consults_work_cat"),
-        #                 bsButton("modConsultsCategory",
-        #                          label="Larger",
-        #                          style="primary",
-        #                          size="small"
-        #                 )
-        #             ),
-        #             title="Work categories",
-        #             content="Work categories are generally broad; see the 'Data' page to get more detailed information about your selected data."
-        #         )
-        #     ),
-        #     bsModal("largeConsultsDuration",
-        #             title="Distributions of consultation durations",
-        #             trigger="modConsultsDuration",
-        #             size="large",
-        #             htmlOutput("consults_duration_large")
-        #     ),
-        #     bsModal("largeConsultsCategory",
-        #             title="Consultations by work category (top 20)",
-        #             trigger="modConsultsCategory",
-        #             size="large",
-        #             htmlOutput("consults_work_cat_large")
-        #     )
-        # ),
-        # 
-        # fluidRow(
-        #     column(12,
-        #         box(title="Consultations by agency (top 25)",
-        #             status="primary",
-        #             solidHeader=TRUE,
-        #             height=NULL,
-        #             width=NULL,
-        #             collapsible=TRUE,
-        #             collapsed=FALSE,
-        #             htmlOutput("consults_agencies"),
-        #             bsButton("modConsultsAgency",
-        #                      label="Larger",
-        #                      style="primary",
-        #                      size="small"),
-        #             helpText("Agencies in the database may include either the federal action agency or the applicant. The plotted values are therefore lower limits to the number of consultations by federal agencies.")
-        #         )
-        #     ),
-        #     bsModal("largeConsultsAgency",
-        #             title="Consultations by agency (top 25)",
-        #             trigger="modConsultsAgency",
-        #             size="large",
-        #             htmlOutput("consults_agencies_large")
-        #     )
-        # ),
+        fluidRow(
+            column(6,
+                box(title="Spending Changes Over Time",
+                    status="primary",
+                    solidHeader=TRUE,
+                    height=NULL,
+                    width=NULL,
+                    collapsible=TRUE,
+                    collapsed=FALSE,
+                    htmlOutput("spending_time"),
+                    # helpText(""),
+                    bsButton("modSpendingTime",
+                             label="Larger",
+                             style="primary",
+                             size="small"
+                    )
+                )
+            ),
+            column(6,
+                box(title="Spending per Taxonomic Group",
+                    status="primary",
+                    solidHeader=TRUE,
+                    height=NULL,
+                    width=NULL,
+                    collapsible=TRUE,
+                    collapsed=FALSE,
+                    htmlOutput("spend_tax_group"),
+                    bsButton("modTaxSpending",
+                             label="Larger",
+                             style="primary",
+                             size="small"
+                    )
+                )
+            ),
+            bsModal("largeSpendingTime",
+                    title="Spending Changes Over Time",
+                    trigger="modSpendingTime",
+                    size="large",
+                    htmlOutput("spending_time_large")
+            ),
+            bsModal("largeTaxSpending",
+                    title="Spending per Taxonomic Group",
+                    trigger="modTaxSpending",
+                    size="large",
+                    htmlOutput("spend_tax_group_large")
+            )
+        ),
+
+        fluidRow(
+            column(6,
+                box(title="Spending by State (Top 10)",
+                    status="primary",
+                    solidHeader=TRUE,
+                    height=NULL,
+                    width=NULL,
+                    collapsible=TRUE,
+                    collapsed=FALSE,
+                    htmlOutput("spend_state"),
+                    bsButton("modSpendState",
+                             label="Larger",
+                             style="primary",
+                             size="small")
+                )
+            ),
+        column(6,
+            box(title="Spending By County (Top 10)",
+                status="primary",
+                solidHeader=TRUE,
+                height=NULL,
+                width=NULL,
+                collapsible=TRUE,
+                collapsed=FALSE,
+                htmlOutput("spend_county"),
+                bsButton("modSpendCounty",
+                         label="Larger",
+                         style="primary",
+                         size="small")
+            )
+        ),
+            bsModal("largeSpendState",
+                    title="Spending by State (Top 10)",
+                    trigger="modSpendState",
+                    size="large",
+                    htmlOutput("spend_state_large")
+            ),
+              bsModal("largeSpendCounty",
+                      title="Spending By County (Top 10)",
+                      trigger="modSpendCounty",
+                      size="large",
+                      htmlOutput("spend_county_large")
+              )
+        ),
 
         # a placeholder
         fluidRow(

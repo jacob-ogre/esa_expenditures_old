@@ -51,32 +51,14 @@ source("txt/text_styles.R")
 #############################################################################
 # Load the data and basic data prep
 #############################################################################
-data <- read.table(gzfile("data/FY2008-2013_fed_ESA_expenditures_by_county.tab.gz"), 
-                   header = T, sep = "\t", stringsAsFactors = F)
-
-data$Year <- as.factor(data$Year)
-data$Group <- as.factor(data$Group)
-data$scientific <- as.factor(data$scientific)
-data$Common <- as.factor(data$Common)
-data$NAME <- as.factor(data$NAME)
-data$STABBREV <- as.factor(data$STABBREV)
-data$STATE <- as.factor(data$STATE)
-data$n_combos <- as.numeric(data$n_combos)
-data$grand_per_cnty <- as.numeric(data$grand_per_cnty)
-data$fws_per_cnty <- as.numeric(data$fws_per_cnty)
-data$other_fed_per_cnty <- as.numeric(data$other_fed_per_cnty)
-data$fed_per_cnty <- as.numeric(data$fed_per_cnty)
-data$state_per_cnty <- as.numeric(data$state_per_cnty)
+load("data/FY2008-2013_fed_ESA_expenditures_by_county.RData")
 
 # To facilitate adding new data, generate the vectors from the data
-data$cs <- paste(as.character(data$NAME), as.character(data$STABBREV), sep = ", ")
-data$sp <- paste(as.character(data$Common), " (", as.character(data$scientific), ")", sep = "")
-
-years <- c("All", as.numeric(levels(data$Year)))
-states <- c("All", as.character(levels(data$STABBREV)))
-groups <- c("All", as.character(levels(data$Group)))
-species <- c("All", as.character(levels(as.factor(data$sp))))
-cty_st <- c("All", as.character(levels(as.factor(data$cs))))
+years <- c("All", as.numeric(levels(full$Year)))
+states <- c("All", as.character(levels(full$STABBREV)))
+groups <- c("All", as.character(levels(full$Group)))
+species <- c("All", as.character(levels(as.factor(full$sp))))
+cty_st <- c("All", as.character(levels(as.factor(full$cs))))
 
 
 # table to look up species-specific jeop/admod info

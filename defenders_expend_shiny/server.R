@@ -37,23 +37,17 @@ shinyServer(function(input, output, session) {
     # The basic reactive subsetting functions...separate functions for each
     # of the pages.
     selected <- reactive({
-        sub_df(data,
-               input$Year,
-               input$Group,
-               input$sp,
-               input$cs,
-               input$STABBREV,
-               input$n_combos,
-               input$grand_per_cnty,
-               input$fws_per_cnty,
-               input$other_fed_per_cnty,
-               input$fed_per_cnty,
-               input$state_per_cnty
+        sub_df(full,
+               input$years,
+               input$groups,
+               input$species,
+               input$cty_st,
+               input$state
         )
     })
 
     # selected_1 <- reactive({
-    #     sub_df(data,
+    #     sub_df(full,
     #            input$state_1,
     #            input$lead_agency_1,
     #            input$species_1,
@@ -70,7 +64,7 @@ shinyServer(function(input, output, session) {
     # })
     # 
     # selected_2 <- reactive({
-    #     sub_df(data,
+    #     sub_df(full,
     #            input$state_2,
     #            input$lead_agency_2,
     #            input$species_2,
@@ -87,7 +81,7 @@ shinyServer(function(input, output, session) {
     # })
     # 
     # selected_3 <- reactive({
-    #     sub_df(data,
+    #     sub_df(full,
     #            input$state_3,
     #            input$lead_agency_3,
     #            input$species_3,

@@ -17,59 +17,21 @@
 ##############################################################################
 # Return a subset of the Sec7 db (x) based on a suite of variables.
 ##############################################################################
-sub_df <- function(x, state, agency, sp, act_cat, formal_cons, 
-                   region, ESFO, cons_complex, cons_type, jeop, admo, rpa) {
-    if (agency != "All") {
-        x <- x[x$lead_agency %in% agency, ]
+sub_df <- function(x, years, groups, species, cty_st, state) {
+    if (years != "All") {
+        x <- x[x$Year %in% years, ]
     }
-    if (act_cat != "All") {
-        x <- x[x$work_category %in% tolower(act_cat), ]
+    if (groups != "All") {
+        x <- x[x$Group %in% groups, ]
     }
-    if (formal_cons != "All") {
-        x <- x[x$formal_consult %in% formal_cons, ]
+    if (species != "All") {
+        x <- x[x$sp %in% species, ]
     }
-    if (sp != "All") {
-        sp_pattern <- paste(sp, collapse="|")
-        sp_pattern <- gsub("(", "\\(", sp_pattern, fixed=T)
-        sp_pattern <- gsub(")", "\\)", sp_pattern, fixed=T)
-        indices <- grep(sp_pattern, x$spp_ev_ls, value=FALSE, fixed=FALSE)
-        x <- x[indices, ]
+    if (cty_st != "All") {
+        x <- x[x$cs %in% cty_st, ]
     }
     if (state != "All") {
-        x <- x[x$state %in% state, ]
-    }
-    if (region != "All") {
-        x <- x[x$region %in% region, ]
-    }
-    if (ESFO != "All") {
-        x <- x[x$ESOffice %in% ESFO, ]
-    }
-    if (cons_complex != "All") {
-        x <- x[x$consult_complex %in% cons_complex, ]
-    }
-    if (cons_type != "All") {
-        x <- x[x$consult_type %in% cons_type, ]
-    }
-    if (jeop != "All") {
-        if (jeop == "Yes") {
-            x <- x[x$n_jeop > 0 & !is.na(x$n_jeop), ]
-        } else {
-            x <- x[x$n_jeop == 0 & !is.na(x$n_jeop), ]
-        }
-    }
-    if (admo != "All") {
-        if (admo == "Yes") {
-            x <- x[x$n_admo > 0 & !is.na(x$n_admo), ]
-        } else {
-            x <- x[x$n_admo == 0 & !is.na(x$n_admo), ]
-        }
-    }
-    if (rpa != "All") {
-        if (rpa == "Yes") {
-            x <- x[x$n_rpa > 0 & !is.na(x$n_rpa), ]
-        } else {
-            x <- x[x$n_rpa == 0 & !is.na(x$n_rpa), ]
-        }
+        x <- x[x$STABBREV %in% state, ]
     }
     return(x)
 
