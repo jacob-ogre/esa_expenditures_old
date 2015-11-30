@@ -16,14 +16,14 @@
 
 ############################################################################
 # Create a small dataframe for front-page summary figure
-make_consult_year_summary_df <- function(x) {
-    cons_yr <- calculate_consults_per_year(x)
-    form_yr <- calculate_formal_per_year(x)
-    years <- names(cons_yr)
-    dat <- data.frame(years, as.vector(cons_yr), as.vector(form_yr))
-    names(dat) <- c("years", "all", "formal")
-    return(dat)
-}
+# make_consult_year_summary_df <- function(x) {
+#     cons_yr <- calculate_consults_per_year(x)
+#     form_yr <- calculate_formal_per_year(x)
+#     years <- names(cons_yr)
+#     dat <- data.frame(years, as.vector(cons_yr), as.vector(form_yr))
+#     names(dat) <- c("years", "all", "formal")
+#     return(dat)
+# }
 
 ############################################################################
 # Create a small dataframe for top 25 species bar plot
@@ -44,7 +44,7 @@ make_top_25_species_df <- function(sub) {
 }
 
 ############################################################################
-# Create a small dataframe for state work categories summary figure
+# Create a small dataframe for taxonomic group spending plot
 make_tax_group_df <- function(x) {
     sub_tax <- data.frame(Group=x$Group, 
                           FWS=x$fws_per_cnty, 
@@ -57,14 +57,14 @@ make_tax_group_df <- function(x) {
 ############################################################################
 # Create a small dataframe for top 10 states bar plot
 make_top_10_states_df <- function(sub) {
-    sub_state <- data.frame(State=sub$STATE, 
+    sub_state <- data.frame(ST=sub$STATE, 
                             FWS=sub$fws_per_cnty, 
                             Other_fed=sub$other_fed_per_cnty, 
                             State=sub$state_per_cnty,
                             Total=sub$grand_per_cnty)
-    s <- aggregate(cbind(FWS, Other_fed, State, Total)~State, sub_state, sum)
+    s <- aggregate(cbind(FWS, Other_fed, State, Total)~ST, sub_state, sum)
     sorted <- s[order(s$Total, decreasing=T),]
-    if (length(sorted$State) <= 25) {
+    if (length(sorted$ST) <= 25) {
         dat <- sorted[, c(1:4)]
     } else {
         dat <- sorted[1:25, c(1:4)]
@@ -100,7 +100,7 @@ make_map_df <- function(sub) {
 }
 
 ############################################################################
-# Create a small dataframe for the spending over time map
+# Create a small dataframe for the spending over time plot
 make_spend_time_df <- function(sub) {
     spend_tab <- data.frame(Year=sub$Year, 
                       FWS=sub$fws_per_cnty, 
@@ -108,4 +108,18 @@ make_spend_time_df <- function(sub) {
                       State=sub$state_per_cnty)
     s <- aggregate(cbind(FWS, Other_fed, State)~Year, spend_tab, sum)
     return(s)
+}
+
+############################################################################
+# Create small dataframe for the percentage plot
+make_percent_plot_df <- function(sub) {
+    sub_perc <- data.frame(species=sub$sp,
+                           total=sub$grand_per_cnty)
+    s <- aggregate(total~species, sub_perc, sum)
+    sorted <- s[order(s$total, decreasing=T),]
+    t_10_pos <- round(length(sorted$total)/10)
+    top_10 <- sum(sorted[1:t_10_pos,2])
+    other_90 <- sum(sorted[t_10_pos:length(sorted$total),2])
+    res <- data.frame(names=c("Top 10%", "Other 90%"), percent=c(top_10, other_90))
+    return(res)
 }

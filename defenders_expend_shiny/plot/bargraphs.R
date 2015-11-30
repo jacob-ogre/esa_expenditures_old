@@ -102,3 +102,16 @@ make_spend_county_plot <- function(dat, height="500px", chartHeight="65%") {
   )
   chart5
 }
+
+#############################################################################
+# top 10% species spending versus bottom 90% chart
+make_percent_plot <- function(dat) {
+        per_dat <- make_percent_plot_df(dat())
+        chart6 <- gvisColumnChart(per_dat,
+                                  options = list(legend="{position: 'none'}",
+                                                vAxis="{title: 'Money Spent (American $)'}",
+                                                title="Spending on Top 10% of Species versus the Other 90%",
+                                                isStacked=F)
+        )
+    chart6
+}
