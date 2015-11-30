@@ -310,16 +310,18 @@ single_view_page <- {
                              )
                     ),
                     fluidRow(
-                             htmlOutput("bargraph_here") #create this
+                        box(width=12,
+                            solidHeader = TRUE,
+                            htmlOutput("percentage_chart")
+                            # bsButton("modPercentChart",
+                            #          label="Larger",
+                            #          style="primary",
+                            #          size="small"
+                            # )
+                        )
                     )
                 )
             ),
-            # bsModal("largeConsultsTime",
-            #         title="Consultations by Fiscal Year",
-            #         trigger="modConsultsTime",
-            #         size="large",
-            #         htmlOutput("consults_time_large")
-            # ),
             bsModal("largeConsultsMap",
                     title="Spending by State",
                     trigger="modConsultsMap",

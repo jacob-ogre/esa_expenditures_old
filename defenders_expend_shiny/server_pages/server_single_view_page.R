@@ -167,12 +167,17 @@ server_single_view_page <- function(input, output, selected, session) {
     })
 
     output$spend_county <- renderGvis({
-      make_spend_county_plot(selected)
+        make_spend_county_plot(selected)
     })
     
     output$spend_county_large <- renderGvis({
-      make_spend_county_plot(selected, height="575px", chartHeight="70%")
+        make_spend_county_plot(selected, height="575px", chartHeight="70%")
     })
+    
+    output$percentage_chart <- renderGvis({
+        make_percent_plot(selected)
+    })
+    
 #     output$a_line <- renderImage({
 #         width <- session$clientData$output_a_line_width
 #         list(src = "www/line-01.png",
