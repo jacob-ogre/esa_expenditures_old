@@ -18,9 +18,10 @@
 # Histogram of consultation times
 make_spending_time_line <- function(all, height="365px") {
     dat <- make_spend_time_df(all())
+    observe({ print(head(dat)) })
     chart <- gvisLineChart(dat,
-                 xvar="Year", 
-                 yvar=c("FWS", "Other_fed", "State"),
+                 xvar="year", 
+                 yvar=c("FWS", "other fed", "state"),
                  options = list(legend="{ position: 'top' }",
                                 height=height,
                                 # colors="['#0A4783', '#f49831']",

@@ -107,6 +107,7 @@ make_spend_time_df <- function(sub) {
                       Other_fed=sub$other_fed_per_cnty, 
                       State=sub$state_per_cnty)
     s <- aggregate(cbind(FWS, Other_fed, State)~Year, spend_tab, sum)
+    names(s) <- c("year", "FWS", "other fed", "state")
     return(s)
 }
 
