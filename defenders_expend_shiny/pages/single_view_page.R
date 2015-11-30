@@ -261,7 +261,7 @@ single_view_page <- {
         #  ),
 
         fluidRow(
-            column(8,
+            column(9,
                 box(title="Spending by State",
                     status="primary",
                     solidHeader=TRUE,
@@ -277,7 +277,7 @@ single_view_page <- {
                     )
                 )
             ),
-            column(4,
+            column(3,
                 box(title="General Information",
                     status="primary",
                     solidHeader=TRUE,

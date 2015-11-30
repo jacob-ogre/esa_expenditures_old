@@ -56,18 +56,40 @@ server_single_view_page <- function(input, output, selected, session) {
 
     output$consults_map <- renderGvis({
         d <- make_map_df(selected)
-        map <- gvisGeoChart(d, 
-            locationvar = "state", 
+        base <- session$clientData$output_a_line_width
+        if(base > 1000) {
+            width <- 1000
+            height <- 642
+        } else {
+            width <- 0.9 * base
+            height <- 0.642 * width
+        }
+        map <- gvisGeoChart(d,
+            locationvar = "state",
             colorvar = "total",
-            options = list(height="360",
-                           region = "US",
-                           legend = "none",
+            options = list(width=width,
+                           height=height,
+                           region="US",
+                           legend="none",
                            displayMode = "regions",
                            resolution = "provinces",
-                           colorAxis = "{colors:['#CEDAE6', '#0A4783']}", 
-                           datalessRegionColor = "#FFFFFF", 
+                           colorAxis = "{colors:['#CEDAE6', '#0A4783']}",
+                           datalessRegionColor = "#FFFFFF",
                            projection = "lambert")
-        ) 
+        )
+        # d <- make_map_df(selected)
+        # map <- gvisGeoChart(d, 
+        #     locationvar = "state", 
+        #     colorvar = "total",
+        #     options = list(height="642",
+        #                    region = "US",
+        #                    legend = "none",
+        #                    displayMode = "regions",
+        #                    resolution = "provinces",
+        #                    colorAxis = "{colors:['#CEDAE6', '#0A4783']}", 
+        #                    datalessRegionColor = "#FFFFFF", 
+        #                    projection = "lambert")
+        # ) 
         map
     })
 
