@@ -30,17 +30,40 @@
 make_top_25_species_df <- function(sub) {
     sub_species <- data.frame(species=sub$sp, FWS=sub$fws_per_cnty, 
                               Other_fed=sub$other_fed_per_cnty, 
-                              Federal=sub$fed_per_cnty, 
                               State=sub$state_per_cnty,
                               Total=sub$grand_per_cnty)
-    s <- aggregate(cbind(FWS, Other_fed, Federal, State, Total)~species, sub_species, sum)
+    s <- aggregate(cbind(FWS, Other_fed, State, Total)~species, sub_species, sum)
     sorted <- s[order(s$Total, decreasing=T),]
     if (length(sorted$species) <= 25) {
-       dat <- sorted[, c(1:3,5)]
+       dat <- sorted[, c(1:4)]
+       fws_tooltip <- paste("<b>", dat$species, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
+       other_tooltip <- paste("<b>", dat$species, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
+       state_tooltip <- paste("<b>", dat$species, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+       res <- data.frame(species=dat$species,
+                         FWS=dat$FWS,
+                         fws.html.tooltip=fws_tooltip,
+                         other_fed=dat$Other_fed,
+                         other.html.tooltip=other_tooltip,
+                         state=dat$State,
+                         state.html.tooltip=state_tooltip)
+       names(res) <- c("species", "FWS", "fws.html.tooltip", "other fed", 
+                       "other fed.html.tooltip", "state", "state.html.tooltip")
     } else {
-       dat <- sorted[1:25, c(1:3,5)]
+       dat <- sorted[1:25, c(1:4)]
+       fws_tooltip <- paste("<b>", dat$species, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
+       other_tooltip <- paste("<b>", dat$species, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
+       state_tooltip <- paste("<b>", dat$species, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+       res <- data.frame(species=dat$species,
+                         FWS=dat$FWS,
+                         fws.html.tooltip=fws_tooltip,
+                         other_fed=dat$Other_fed,
+                         other.html.tooltip=other_tooltip,
+                         state=dat$State,
+                         state.html.tooltip=state_tooltip)
+       names(res) <- c("species", "FWS", "fws.html.tooltip", "other fed", 
+                       "other fed.html.tooltip", "state", "state.html.tooltip")
     }
-    return(dat)
+    return(res)
 }
 
 ############################################################################
@@ -51,7 +74,19 @@ make_tax_group_df <- function(x) {
                           Other_fed=x$other_fed_per_cnty, 
                           State=x$state_per_cnty)
     s <- aggregate(cbind(FWS, Other_fed, State)~Group, sub_tax, sum)
-    return(s)
+    fws_tooltip <- paste("<b>", s$Group, '</b><br>FWS: ', make_dollars(s$FWS), "</br>", sep="")
+    other_tooltip <- paste("<b>", s$Group, '</b><br>other fed: ', make_dollars(s$Other_fed), "</br>", sep="")
+    state_tooltip <- paste("<b>", s$Group, '</b><br>state: ', make_dollars(s$State), "</br>", sep="")
+    res <- data.frame(group=s$Group,
+                      FWS=s$FWS,
+                      fws.html.tooltip=fws_tooltip,
+                      other_fed=s$Other_fed,
+                      other.html.tooltip=other_tooltip,
+                      state=s$State,
+                      state.html.tooltip=state_tooltip)
+    names(res) <- c("group", "FWS", "fws.html.tooltip", "other fed", 
+                    "other fed.html.tooltip", "state", "state.html.tooltip")
+    return(res)
 }
 
 ############################################################################
@@ -66,10 +101,34 @@ make_top_10_states_df <- function(sub) {
     sorted <- s[order(s$Total, decreasing=T),]
     if (length(sorted$ST) <= 25) {
         dat <- sorted[, c(1:4)]
+        fws_tooltip <- paste("<b>", dat$ST, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
+        other_tooltip <- paste("<b>", dat$ST, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
+        state_tooltip <- paste("<b>", dat$ST, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+        res <- data.frame(st=dat$ST,
+                          FWS=dat$FWS,
+                          fws.html.tooltip=fws_tooltip,
+                          other_fed=dat$Other_fed,
+                          other.html.tooltip=other_tooltip,
+                          state=dat$State,
+                          state.html.tooltip=state_tooltip)
+        names(res) <- c("st", "FWS", "fws.html.tooltip", "other fed", 
+                        "other fed.html.tooltip", "state", "state.html.tooltip")
     } else {
         dat <- sorted[1:25, c(1:4)]
+        fws_tooltip <- paste("<b>", dat$ST, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
+        other_tooltip <- paste("<b>", dat$ST, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
+        state_tooltip <- paste("<b>", dat$ST, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+        res <- data.frame(st=dat$ST,
+                          FWS=dat$FWS,
+                          fws.html.tooltip=fws_tooltip,
+                          other_fed=dat$Other_fed,
+                          other.html.tooltip=other_tooltip,
+                          state=dat$State,
+                          state.html.tooltip=state_tooltip)
+        names(res) <- c("st", "FWS", "fws.html.tooltip", "other fed", 
+                        "other fed.html.tooltip", "state", "state.html.tooltip")
     }
-    return(dat)
+    return(res)
 }
 
 ############################################################################
@@ -84,10 +143,34 @@ make_top_10_county_df <- function(sub) {
     sorted <- s[order(s$Total, decreasing=T),]
     if (length(sorted$State) <= 25) {
         dat <- sorted[, c(1:4)]
+        fws_tooltip <- paste("<b>", dat$County, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
+        other_tooltip <- paste("<b>", dat$County, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
+        state_tooltip <- paste("<b>", dat$County, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+        res <- data.frame(cs=dat$County,
+                          FWS=dat$FWS,
+                          fws.html.tooltip=fws_tooltip,
+                          other_fed=dat$Other_fed,
+                          other.html.tooltip=other_tooltip,
+                          state=dat$State,
+                          state.html.tooltip=state_tooltip)
+        names(res) <- c("county", "FWS", "fws.html.tooltip", "other fed", 
+                        "other fed.html.tooltip", "state", "state.html.tooltip")
     } else {
         dat <- sorted[1:25, c(1:4)]
+        fws_tooltip <- paste("<b>", dat$County, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
+        other_tooltip <- paste("<b>", dat$County, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
+        state_tooltip <- paste("<b>", dat$County, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+        res <- data.frame(cs=dat$County,
+                          FWS=dat$FWS,
+                          fws.html.tooltip=fws_tooltip,
+                          other_fed=dat$Other_fed,
+                          other.html.tooltip=other_tooltip,
+                          state=dat$State,
+                          state.html.tooltip=state_tooltip)
+        names(res) <- c("county", "FWS", "fws.html.tooltip", "other fed", 
+                        "other fed.html.tooltip", "state", "state.html.tooltip")
     }
-    return(dat)
+    return(res)
 }
 
 ############################################################################
@@ -107,7 +190,20 @@ make_spend_time_df <- function(sub) {
                       Other_fed=sub$other_fed_per_cnty, 
                       State=sub$state_per_cnty)
     s <- aggregate(cbind(FWS, Other_fed, State)~Year, spend_tab, sum)
-    return(s)
+    fws_tooltip <- paste("<b>", s$Year, "</b><br>FWS: ", make_dollars(s$FWS), "</br>", sep="")
+    other_tooltip <- paste("<b>", s$Year, "</b><br>other fed: ", make_dollars(s$Other_fed), "</br>", sep="")
+    state_tooltip <- paste("<b>", s$Year, "</b><br>state: ", make_dollars(s$State), "</br>", sep="")
+    res <- data.frame(year=s$Year,
+                      FWS=s$FWS,
+                      fws.html.tooltip=fws_tooltip,
+                      other_fed=s$Other_fed,
+                      other.html.tooltip=other_tooltip,
+                      state=s$State,
+                      state.html.tooltip=state_tooltip)
+    names(res) <- c("year", "FWS", "fws.html.tooltip", 
+                    "other fed", "other fed.html.tooltip", 
+                    "state", "state.html.tooltip")
+    return(res)
 }
 
 ############################################################################
@@ -120,6 +216,8 @@ make_percent_plot_df <- function(sub) {
     t_10_pos <- round(length(sorted$total)/10)
     top_10 <- sum(sorted[1:t_10_pos,2])
     other_90 <- sum(sorted[t_10_pos:length(sorted$total),2])
-    res <- data.frame(names=c("Top 10%", "Other 90%"), percent=c(top_10, other_90))
+    tag_10 <- paste("<b># Species: </b>", t_10_pos, "<br>", make_dollars(top_10), "</br>", sep="")
+    tag_90 <- paste("<b># Species: </b>", length(sorted$total)-t_10_pos, "<br>", make_dollars(other_90), "</br>", sep="")
+    res <- data.frame(names=c("Top 10%", "Other 90%"), spent=c(top_10, other_90), spent.html.tooltip=c(tag_10, tag_90))
     return(res)
 }
