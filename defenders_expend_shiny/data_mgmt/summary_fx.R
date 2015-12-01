@@ -65,7 +65,9 @@ get_year_range <- function(x) {
 ############################################################################
 # Helper functions for consultations
 get_number_spent <- function(x) {
-    return(sum(x$grand_per_cnty))
+    num <- sum(round(x$grand_per_cnty, 0))
+    dol <- make_dollars(num)
+    return(dol)
 }
 
 get_number_formal <- function(x) {

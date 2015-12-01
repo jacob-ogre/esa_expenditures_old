@@ -21,15 +21,13 @@ make_spending_time_line <- function(all, height="365px") {
     observe({ print(head(dat)) })
     chart <- gvisLineChart(dat,
                  xvar="year", 
-                 yvar=c("FWS", "other fed", "state"),
+                 yvar=c("FWS", "fws.html.tooltip", "other fed", "other fed.html.tooltip", "state", "state.html.tooltip"),
                  options = list(legend="{ position: 'top' }",
                                 height=height,
                                 # colors="['#0A4783', '#f49831']",
                                 vAxis="{title: 'Money Spent (American $)'}",
-                                hAxis="{title: 'Year'}"
-                                # isStacked=FALSE,
-                                # chartArea="{left: 80, top: 50, width:'85%', height:'75%'}"
-                                )
+                                hAxis="{title: 'Year'}",
+                                tooltip="{isHtml: 'true'}")
     )
     chart
 }

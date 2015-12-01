@@ -42,14 +42,15 @@ make_species_plot <- function(dat, height="475px", chartHeight="65%") {
     # chartArea <- paste("{left: ", left, ", top: 50, width: '90%', height: '",
     #                    chartHeight, "'}", sep="")
     chart2 <- gvisColumnChart(cur_dat,
-                 # xvar='species',
-                 # yvar=c('FWS', 'Other_Fed', 'State'),
+                 xvar="species",
+                 yvar=c("FWS", "fws.html.tooltip", "other fed", "other fed.html.tooltip", "state", "state.html.tooltip"),
                  options = list(height=height,
                                 # colors="['#0A4783']",
                                 legend="{position: 'right'}",
                                 vAxis="{title: 'Money Spent (American $)'}",
                                 # chartArea=chartArea,
-                                isStacked=T)
+                                isStacked=T,
+                                tooltip="{isHtml: 'true'}")
              )
     chart2
 }
@@ -59,14 +60,15 @@ make_species_plot <- function(dat, height="475px", chartHeight="65%") {
 make_tax_group_plot <- function(dat, height="440px", chartHeight="65%") {
     cur_dat2 <- make_tax_group_df(dat())
     chart3 <- gvisColumnChart(cur_dat2,
-                 # xvar="work_cat",
-                 # yvar="consultations",
+                 xvar="group",
+                 yvar=c("FWS", "fws.html.tooltip", "other fed", "other fed.html.tooltip", "state", "state.html.tooltip"),
                  # chartid=rand_str(),
                  options = list(height=height,
                                 # colors="['#0A4783']",
                                 legend="{position: 'top'}",
                                 vAxis="{title: 'Money Spent (American $)'}",
-                                isStacked=T)
+                                isStacked=T,
+                                tooltip="{isHtml: 'true'}")
              )
     chart3
 }
@@ -76,13 +78,14 @@ make_tax_group_plot <- function(dat, height="440px", chartHeight="65%") {
 make_spend_state_plot <- function(dat, height="500px", chartHeight="65%") {
     cur_dat <- make_top_10_states_df(dat())
     chart4 <- gvisColumnChart(cur_dat,
-                 # xvar="agency",
-                 # yvar="consultations",
+                 xvar="st",
+                 yvar=c("FWS", "fws.html.tooltip", "other fed", "other fed.html.tooltip", "state", "state.html.tooltip"),
                  options = list(height=height,
                                 # colors="['#0A4783']",
                                 legend="{position: 'top'}",
                                 vAxis="{title: 'Money Spent (American $)'}",
-                                isStacked=T)
+                                isStacked=T,
+                                tooltip="{isHtml: 'true'}")
              )
     chart4
 }
@@ -92,13 +95,14 @@ make_spend_state_plot <- function(dat, height="500px", chartHeight="65%") {
 make_spend_county_plot <- function(dat, height="500px", chartHeight="65%") {
   cur_dat <- make_top_10_county_df(dat())
   chart5 <- gvisColumnChart(cur_dat,
-                            # xvar="agency",
-                            # yvar="consultations",
+                            xvar="county",
+                            yvar=c("FWS", "fws.html.tooltip", "other fed", "other fed.html.tooltip", "state", "state.html.tooltip"),
                             options = list(height=height,
                                            # colors="['#0A4783']",
                                            legend="{position: 'top'}",
                                            vAxis="{title: 'Money Spent (American $)'}",
-                                           isStacked=T)
+                                           isStacked=T,
+                                           tooltip="{isHtml: 'true'}")
   )
   chart5
 }
@@ -108,10 +112,13 @@ make_spend_county_plot <- function(dat, height="500px", chartHeight="65%") {
 make_percent_plot <- function(dat) {
         per_dat <- make_percent_plot_df(dat())
         chart6 <- gvisColumnChart(per_dat,
+                                  xvar="names",
+                                  yvar=c("spent", "spent.html.tooltip"),
                                   options = list(legend="{position: 'none'}",
                                                 vAxis="{title: 'Money Spent (American $)'}",
                                                 title="Spending on Top 10% of Species versus the Other 90%",
-                                                isStacked=F)
+                                                isStacked=F,
+                                                tooltip="{isHtml: 'true'}")
         )
     chart6
 }
