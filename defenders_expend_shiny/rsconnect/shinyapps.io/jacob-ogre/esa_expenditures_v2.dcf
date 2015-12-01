@@ -1,0 +1,9 @@
+name: esa_expenditures_v2
+account: jacob-ogre
+server: shinyapps.io
+appId: 71536
+bundleId: 322236
+url: https://jacob-ogre.shinyapps.io/esa_expenditures_v2
+when: 1448969602.676
+asMultiple: FALSE
+asStatic: FALSE
