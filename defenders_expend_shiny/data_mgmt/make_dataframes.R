@@ -28,17 +28,18 @@
 ############################################################################
 # Create a small dataframe for top 25 species bar plot
 make_top_25_species_df <- function(sub) {
-    sub_species <- data.frame(species=sub$sp, FWS=sub$fws_per_cnty, 
-                              Other_fed=sub$other_fed_per_cnty, 
-                              State=sub$state_per_cnty,
-                              Total=sub$grand_per_cnty)
+    sub_species <- data.frame(species=sub$sp, 
+                              FWS=round(sub$fws_per_cnty,0), 
+                              Other_fed=round(sub$other_fed_per_cnty,0), 
+                              State=round(sub$state_per_cnty,0),
+                              Total=round(sub$grand_per_cnty,0))
     s <- aggregate(cbind(FWS, Other_fed, State, Total)~species, sub_species, sum)
     sorted <- s[order(s$Total, decreasing=T),]
     if (length(sorted$species) <= 25) {
        dat <- sorted[, c(1:4)]
-       fws_tooltip <- paste("<b>", dat$species, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
-       other_tooltip <- paste("<b>", dat$species, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
-       state_tooltip <- paste("<b>", dat$species, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+       fws_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$species, '</b><br>FWS: ', make_dollars(dat$FWS), "</br></div>", sep="")
+       other_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$species, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br></div>", sep="")
+       state_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$species, '</b><br>state: ', make_dollars(dat$State), "</br></div>", sep="")
        res <- data.frame(species=dat$species,
                          FWS=dat$FWS,
                          fws.html.tooltip=fws_tooltip,
@@ -50,9 +51,9 @@ make_top_25_species_df <- function(sub) {
                        "other fed.html.tooltip", "state", "state.html.tooltip")
     } else {
        dat <- sorted[1:25, c(1:4)]
-       fws_tooltip <- paste("<b>", dat$species, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
-       other_tooltip <- paste("<b>", dat$species, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
-       state_tooltip <- paste("<b>", dat$species, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+       fws_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$species, '</b><br>FWS: ', make_dollars(dat$FWS), "</br></div>", sep="")
+       other_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$species, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br></div>", sep="")
+       state_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$species, '</b><br>state: ', make_dollars(dat$State), "</br></div>", sep="")
        res <- data.frame(species=dat$species,
                          FWS=dat$FWS,
                          fws.html.tooltip=fws_tooltip,
@@ -70,13 +71,13 @@ make_top_25_species_df <- function(sub) {
 # Create a small dataframe for taxonomic group spending plot
 make_tax_group_df <- function(x) {
     sub_tax <- data.frame(Group=x$Group, 
-                          FWS=x$fws_per_cnty, 
-                          Other_fed=x$other_fed_per_cnty, 
-                          State=x$state_per_cnty)
+                          FWS=round(x$fws_per_cnty,0), 
+                          Other_fed=round(x$other_fed_per_cnty,0), 
+                          State=round(x$state_per_cnty,0))
     s <- aggregate(cbind(FWS, Other_fed, State)~Group, sub_tax, sum)
-    fws_tooltip <- paste("<b>", s$Group, '</b><br>FWS: ', make_dollars(s$FWS), "</br>", sep="")
-    other_tooltip <- paste("<b>", s$Group, '</b><br>other fed: ', make_dollars(s$Other_fed), "</br>", sep="")
-    state_tooltip <- paste("<b>", s$Group, '</b><br>state: ', make_dollars(s$State), "</br>", sep="")
+    fws_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", s$Group, '</b><br>FWS: ', make_dollars(s$FWS), "</br></div>", sep="")
+    other_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", s$Group, '</b><br>other fed: ', make_dollars(s$Other_fed), "</br></div>", sep="")
+    state_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", s$Group, '</b><br>state: ', make_dollars(s$State), "</br></div>", sep="")
     res <- data.frame(group=s$Group,
                       FWS=s$FWS,
                       fws.html.tooltip=fws_tooltip,
@@ -93,17 +94,17 @@ make_tax_group_df <- function(x) {
 # Create a small dataframe for top 10 states bar plot
 make_top_10_states_df <- function(sub) {
     sub_state <- data.frame(ST=sub$STATE, 
-                            FWS=sub$fws_per_cnty, 
-                            Other_fed=sub$other_fed_per_cnty, 
-                            State=sub$state_per_cnty,
-                            Total=sub$grand_per_cnty)
+                            FWS=round(sub$fws_per_cnty,0), 
+                            Other_fed=round(sub$other_fed_per_cnty,0), 
+                            State=round(sub$state_per_cnty,0),
+                            Total=round(sub$grand_per_cnty,0))
     s <- aggregate(cbind(FWS, Other_fed, State, Total)~ST, sub_state, sum)
     sorted <- s[order(s$Total, decreasing=T),]
     if (length(sorted$ST) <= 25) {
         dat <- sorted[, c(1:4)]
-        fws_tooltip <- paste("<b>", dat$ST, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
-        other_tooltip <- paste("<b>", dat$ST, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
-        state_tooltip <- paste("<b>", dat$ST, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+        fws_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$ST, '</b><br>FWS: ', make_dollars(dat$FWS), "</br></div>", sep="")
+        other_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$ST, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br></div>", sep="")
+        state_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$ST, '</b><br>state: ', make_dollars(dat$State), "</br></div>", sep="")
         res <- data.frame(st=dat$ST,
                           FWS=dat$FWS,
                           fws.html.tooltip=fws_tooltip,
@@ -115,9 +116,9 @@ make_top_10_states_df <- function(sub) {
                         "other fed.html.tooltip", "state", "state.html.tooltip")
     } else {
         dat <- sorted[1:25, c(1:4)]
-        fws_tooltip <- paste("<b>", dat$ST, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
-        other_tooltip <- paste("<b>", dat$ST, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
-        state_tooltip <- paste("<b>", dat$ST, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+        fws_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$ST, '</b><br>FWS: ', make_dollars(dat$FWS), "</br></div>", sep="")
+        other_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$ST, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br></div>", sep="")
+        state_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$ST, '</b><br>state: ', make_dollars(dat$State), "</br></div>", sep="")
         res <- data.frame(st=dat$ST,
                           FWS=dat$FWS,
                           fws.html.tooltip=fws_tooltip,
@@ -135,17 +136,17 @@ make_top_10_states_df <- function(sub) {
 # Create a small dataframe for top 10 counties bar plot
 make_top_10_county_df <- function(sub) {
     sub_cnty <- data.frame(County=sub$cs, 
-                           FWS=sub$fws_per_cnty, 
-                           Other_fed=sub$other_fed_per_cnty, 
-                           State=sub$state_per_cnty,
-                           Total=sub$grand_per_cnty)
+                           FWS=round(sub$fws_per_cnty,0), 
+                           Other_fed=round(sub$other_fed_per_cnty,0), 
+                           State=round(sub$state_per_cnty,0),
+                           Total=round(sub$grand_per_cnty,0))
     s <- aggregate(cbind(FWS, Other_fed, State, Total)~County, sub_cnty, sum)
     sorted <- s[order(s$Total, decreasing=T),]
     if (length(sorted$State) <= 25) {
         dat <- sorted[, c(1:4)]
-        fws_tooltip <- paste("<b>", dat$County, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
-        other_tooltip <- paste("<b>", dat$County, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
-        state_tooltip <- paste("<b>", dat$County, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+        fws_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$County, '</b><br>FWS: ', make_dollars(dat$FWS), "</br></div>", sep="")
+        other_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$County, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br></div>", sep="")
+        state_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$County, '</b><br>state: ', make_dollars(dat$State), "</br></div>", sep="")
         res <- data.frame(cs=dat$County,
                           FWS=dat$FWS,
                           fws.html.tooltip=fws_tooltip,
@@ -157,9 +158,9 @@ make_top_10_county_df <- function(sub) {
                         "other fed.html.tooltip", "state", "state.html.tooltip")
     } else {
         dat <- sorted[1:25, c(1:4)]
-        fws_tooltip <- paste("<b>", dat$County, '</b><br>FWS: ', make_dollars(dat$FWS), "</br>", sep="")
-        other_tooltip <- paste("<b>", dat$County, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br>", sep="")
-        state_tooltip <- paste("<b>", dat$County, '</b><br>state: ', make_dollars(dat$State), "</br>", sep="")
+        fws_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$County, '</b><br>FWS: ', make_dollars(dat$FWS), "</br></div>", sep="")
+        other_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$County, '</b><br>other fed: ', make_dollars(dat$Other_fed), "</br></div>", sep="")
+        state_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", dat$County, '</b><br>state: ', make_dollars(dat$State), "</br></div>", sep="")
         res <- data.frame(cs=dat$County,
                           FWS=dat$FWS,
                           fws.html.tooltip=fws_tooltip,
@@ -176,7 +177,8 @@ make_top_10_county_df <- function(sub) {
 ############################################################################
 # Create a small dataframe for the state-resolution map
 make_map_df <- function(sub) {
-    sub_state <- data.frame(STABBREV=sub()$STABBREV, grand_per_cnty=sub()$grand_per_cnty)
+    sub_state <- data.frame(STABBREV=sub()$STABBREV, 
+                            grand_per_cnty=round(sub()$grand_per_cnty,0))
     s <- aggregate(grand_per_cnty ~ STABBREV, sub_state, sum)
     res <- data.frame(state=s$STABBREV, total=s$grand_per_cnty)
     return(res)
@@ -186,13 +188,13 @@ make_map_df <- function(sub) {
 # Create a small dataframe for the spending over time plot
 make_spend_time_df <- function(sub) {
     spend_tab <- data.frame(Year=sub$Year, 
-                      FWS=sub$fws_per_cnty, 
-                      Other_fed=sub$other_fed_per_cnty, 
-                      State=sub$state_per_cnty)
+                            FWS=round(sub$fws_per_cnty,0), 
+                            Other_fed=round(sub$other_fed_per_cnty,0), 
+                            State=round(sub$state_per_cnty,0))
     s <- aggregate(cbind(FWS, Other_fed, State)~Year, spend_tab, sum)
-    fws_tooltip <- paste("<b>", s$Year, "</b><br>FWS: ", make_dollars(s$FWS), "</br>", sep="")
-    other_tooltip <- paste("<b>", s$Year, "</b><br>other fed: ", make_dollars(s$Other_fed), "</br>", sep="")
-    state_tooltip <- paste("<b>", s$Year, "</b><br>state: ", make_dollars(s$State), "</br>", sep="")
+    fws_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", s$Year, "</b><br>FWS: ", make_dollars(s$FWS), "</br></div>", sep="")
+    other_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", s$Year, "</b><br>other fed: ", make_dollars(s$Other_fed), "</br></div>", sep="")
+    state_tooltip <- paste("<div style='padding:5px 5px 5px 5px;'><b>", s$Year, "</b><br>state: ", make_dollars(s$State), "</br></div>", sep="")
     res <- data.frame(year=s$Year,
                       FWS=s$FWS,
                       fws.html.tooltip=fws_tooltip,
@@ -210,14 +212,14 @@ make_spend_time_df <- function(sub) {
 # Create small dataframe for the percentage plot
 make_percent_plot_df <- function(sub) {
     sub_perc <- data.frame(species=sub$sp,
-                           total=sub$grand_per_cnty)
+                           total=round(sub$grand_per_cnty,0))
     s <- aggregate(total~species, sub_perc, sum)
     sorted <- s[order(s$total, decreasing=T),]
     t_10_pos <- round(length(sorted$total)/10)
     top_10 <- sum(sorted[1:t_10_pos,2])
     other_90 <- sum(sorted[t_10_pos:length(sorted$total),2])
-    tag_10 <- paste("<b># Species: </b>", t_10_pos, "<br>", make_dollars(top_10), "</br>", sep="")
-    tag_90 <- paste("<b># Species: </b>", length(sorted$total)-t_10_pos, "<br>", make_dollars(other_90), "</br>", sep="")
+    tag_10 <- paste("<div style='padding:5px 5px 5px 5px;'><b># Species: </b>", t_10_pos, "<br>", make_dollars(top_10), "</br></div>", sep="")
+    tag_90 <- paste("<div style='padding:5px 5px 5px 5px;'><b># Species: </b>", length(sorted$total)-t_10_pos, "<br>", make_dollars(other_90), "</br></div>", sep="")
     res <- data.frame(names=c("Top 10%", "Other 90%"), spent=c(top_10, other_90), spent.html.tooltip=c(tag_10, tag_90))
     return(res)
 }

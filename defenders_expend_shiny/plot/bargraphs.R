@@ -115,7 +115,7 @@ make_percent_plot <- function(dat) {
                                   xvar="names",
                                   yvar=c("spent", "spent.html.tooltip"),
                                   options = list(legend="{position: 'none'}",
-                                                vAxis="{title: 'Money Spent (American $)'}",
+                                                vAxis="{title: 'Money Spent (American $)', baseline: 0}",
                                                 title="Spending on Top 10% of Species versus the Other 90%",
                                                 isStacked=F,
                                                 tooltip="{isHtml: 'true'}")
