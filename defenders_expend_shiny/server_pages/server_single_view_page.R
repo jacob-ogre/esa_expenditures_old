@@ -30,22 +30,6 @@ server_single_view_page <- function(input, output, selected, session) {
         get_number_species(selected())
     })
 
-    # output$median_time_all <- renderText({
-    #     calculate_median_time(selected())
-    # })
-    # 
-    # output$median_time_formal <- renderText({
-    #     calculate_median_formal_time(selected())
-    # })
-    # 
-    # output$consults_time <- renderGvis({
-    #     make_consult_time_figure(selected)
-    # })
-    # 
-    # output$consults_time_large <- renderGvis({
-    #     make_consult_time_figure(selected, height="575px")
-    # })
-    # 
     output$consults_species <- renderGvis({
         make_species_plot(selected)
     })
@@ -77,19 +61,6 @@ server_single_view_page <- function(input, output, selected, session) {
                            datalessRegionColor = "#FFFFFF",
                            projection = "lambert")
         )
-        # d <- make_map_df(selected)
-        # map <- gvisGeoChart(d, 
-        #     locationvar = "state", 
-        #     colorvar = "total",
-        #     options = list(height="642",
-        #                    region = "US",
-        #                    legend = "none",
-        #                    displayMode = "regions",
-        #                    resolution = "provinces",
-        #                    colorAxis = "{colors:['#CEDAE6', '#0A4783']}", 
-        #                    datalessRegionColor = "#FFFFFF", 
-        #                    projection = "lambert")
-        # ) 
         map
     })
 
@@ -119,28 +90,10 @@ server_single_view_page <- function(input, output, selected, session) {
         cat(map$html$jsData)
         map
     })
-
-    # output$other_states <- renderTable({
-    #     tmp <- selected()
-    #     RIFO <- tmp[tmp$ESOffice == "ROCK ISLAND ECOLOGICAL SERVICES FIELD OFFICE",]
-    #     n_RIFO <- length(RIFO$activity_code)
-    #     NEFO <- tmp[tmp$ESOffice == "NEW ENGLAND ECOLOGICAL SERVICES FIELD OFFICE",]
-    #     n_NEFO <- length(NEFO$activity_code)
-    #     some_data <- data.frame(State=c("IA & IL", "NH, VT, CT, MA, & RI"), 
-    #                             N=c(n_RIFO, n_NEFO))
-    #     some_data
-    # }, include.rownames=FALSE)
-    # 
-    # output$other_states_lg <- renderTable({
-    #     tmp <- selected()
-    #     RIFO <- tmp[tmp$ESOffice == "ROCK ISLAND ECOLOGICAL SERVICES FIELD OFFICE",]
-    #     n_RIFO <- length(RIFO$activity_code)
-    #     NEFO <- tmp[tmp$ESOffice == "NEW ENGLAND ECOLOGICAL SERVICES FIELD OFFICE",]
-    #     n_NEFO <- length(NEFO$activity_code)
-    #     some_data <- data.frame(State=c("IA & IL", "NH, VT, CT, MA, & RI"), 
-    #                             N=c(n_RIFO, n_NEFO))
-    #     some_data
-    # }, include.rownames=FALSE)
+    
+    output$percentage_chart <- renderGvis({
+        make_percent_plot(selected)
+    })
 
     output$spending_time <- renderGvis({
         make_spending_time_line(selected)
@@ -174,18 +127,14 @@ server_single_view_page <- function(input, output, selected, session) {
         make_spend_county_plot(selected, height="575px", chartHeight="70%")
     })
     
-    output$percentage_chart <- renderGvis({
-        make_percent_plot(selected)
-    })
-    
-#     output$a_line <- renderImage({
-#         width <- session$clientData$output_a_line_width
-#         list(src = "www/line-01.png",
-#              contentType = "image/png",
-#              alt = "",
-#              a(href = ""),
-#              width=width)
-#     }, deleteFile=FALSE)
-# 
+    output$a_line <- renderImage({
+        width <- session$clientData$output_a_line_width
+        list(src = "www/line-01.png",
+             contentType = "image/png",
+             alt = "",
+             a(href = ""),
+             width=width)
+    }, deleteFile=FALSE)
+ 
 }
 
