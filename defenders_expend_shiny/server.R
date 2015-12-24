@@ -15,7 +15,7 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 source("server_pages/server_map_page.R")
-# source("server_pages/server_compare_view_page.R")
+source("server_pages/server_chart_page.R")
 # source("server_pages/server_alt_map_page.R")
 
 #############################################################################
@@ -45,6 +45,15 @@ shinyServer(function(input, output, session) {
         )
     })
 
+    selected_2 <- reactive({
+        sub_df(full,
+               input$years_2,
+               input$groups_2,
+               input$species_2,
+               input$state_2
+        )
+    })
+
     output$defenders <- renderImage({
         width <- session$clientData$output_defenders_width
         if (width > 100) {
@@ -59,7 +68,7 @@ shinyServer(function(input, output, session) {
 
     # Call the files with server functions broken out by page
     server_map_page(input, output, selected, session)
-    # server_compare_view_page(input, output, selected_1, selected_2, session)
+    server_chart_page(input, output, selected_2, session)
     # server_alt_map_page(input, output, selected_3, session)
 
     ###########################################################################

@@ -14,8 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-# source("pages/help_page.R")
 source("pages/map_page.R")
+source("pages/chart_page.R")
 # source("pages/compare_page.R")
 # source("pages/alt_map_page.R")
 # source("pages/data_page.R")
@@ -25,7 +25,7 @@ source("pages/map_page.R")
 results_page <- {
     navbarPage("Endangered Species Expenditures",
         map_page,
-        # compare_page,
+        chart_page,
         inverse=FALSE,
         position="fixed-top"
     )

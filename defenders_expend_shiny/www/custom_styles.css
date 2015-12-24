@@ -51,10 +51,16 @@ div.outer {
   padding: 0;
 }
 
+div.graph-outer {
+    /* background-color: white; */
+    top: 1px;
+}
+
 /* Customize fonts */
 body, label, input, button, select { 
-  font-family: 'Helvetica Neue', Helvetica;
-  font-weight: 200;
+  font-family: 'Open Sans';
+  /* font-family: 'Helvetica Neue', Helvetica; */
+  font-weight: 300;
 }
 h1, h2, h3, h4 { font-weight: 400; }
 
@@ -64,7 +70,7 @@ h1, h2, h3, h4 { font-weight: 400; }
   padding: 0 20px 20px 20px;
   cursor: move;
   /* Fade out while not hovering */
-  opacity: 0.65;
+  opacity: 0.75;
   zoom: 0.9;
   transition: opacity 500ms 1s;
 }
@@ -87,6 +93,8 @@ h1, h2, h3, h4 { font-weight: 400; }
   background-color: white !important;
 }
 
-.modal-dialog {
-    padding-top: '70px';
+.bottom-align {
+    position: absolute;
+    bottom: 0;
 }
+

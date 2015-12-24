@@ -19,29 +19,28 @@
 # Server-side code for the section 7 app basic single-view page
 ###########################################################################
 server_map_page <- function(input, output, selected, session) {
-
     # shinyURL.server(session)
 
-    output$total_spent <- renderText({
-        get_number_spent(selected())
-    })
+    # output$total_spent <- renderText({
+    #     get_number_spent(selected())
+    # })
 
-    output$n_species <- renderText({
-        get_number_species(selected())
-    })
+    # output$n_species <- renderText({
+    #     get_number_species(selected())
+    # })
 
-    output$consults_species <- renderGvis({
-        make_species_plot(selected)
-    })
+    # output$consults_species <- renderGvis({
+    #     make_species_plot(selected)
+    # })
 
-    output$consults_species_large <- renderGvis({
-        make_species_plot(selected, height="575px", chartHeight="70%")
-    })
+    # output$consults_species_large <- renderGvis({
+    #     make_species_plot(selected, height="575px", chartHeight="70%")
+    # })
     
-    get_spp <- function(x) {
-        g <- as.character(levels(as.factor(x)))
-        return(paste0(g, collapse="<br>"))
-    }
+    # get_spp <- function(x) {
+    #     g <- as.character(levels(as.factor(x)))
+    #     return(paste0(g, collapse="<br>"))
+    # }
 
     circ_1 <- reactive({
         tmp <- selected()
@@ -72,7 +71,7 @@ server_map_page <- function(input, output, selected, session) {
             clearShapes() %>%
             addCircles(lng = ~INTPTLON,
                        lat = ~INTPTLAT,
-                       radius = ~(n_spp*1000),
+                       radius = ~(n_spp*1000), #TODO: make flexible for varying # species
                        color = ~colorBin("RdYlBu", 
                                          range(circ_1()$tot_exp),
                                          bins=5)(circ_1()$tot_exp),
@@ -130,50 +129,50 @@ server_map_page <- function(input, output, selected, session) {
         }
     })
 
-    output$percent_chart_large <- renderGvis({
-        make_percent_plot(selected, height="550px")
-    })
+    # output$percent_chart_large <- renderGvis({
+    #     make_percent_plot(selected, height="550px")
+    # })
 
-    output$spending_time <- renderGvis({
-        make_spending_time_line(selected)
-    })
+    # output$spending_time <- renderGvis({
+    #     make_spending_time_line(selected)
+    # })
 
-    output$spending_time_large <- renderGvis({
-        make_spending_time_line(selected, height="550px")
-    })
+    # output$spending_time_large <- renderGvis({
+    #     make_spending_time_line(selected, height="550px")
+    # })
 
-    output$spend_tax_group <- renderGvis({
-        make_tax_group_plot(selected)
-    })
+    # output$spend_tax_group <- renderGvis({
+    #     make_tax_group_plot(selected)
+    # })
 
-    output$spend_tax_group_large <- renderGvis({
-        make_tax_group_plot(selected, height="575px", chartHeight="75%")
-    })
+    # output$spend_tax_group_large <- renderGvis({
+    #     make_tax_group_plot(selected, height="575px", chartHeight="75%")
+    # })
 
-    output$spend_state <- renderGvis({
-        make_spend_state_plot(selected)
-    })
+    # output$spend_state <- renderGvis({
+    #     make_spend_state_plot(selected)
+    # })
 
-    output$spend_state_large <- renderGvis({
-        make_spend_state_plot(selected, height="575px", chartHeight="70%")
-    })
+    # output$spend_state_large <- renderGvis({
+    #     make_spend_state_plot(selected, height="575px", chartHeight="70%")
+    # })
 
-    output$spend_county <- renderGvis({
-        make_spend_county_plot(selected)
-    })
+    # output$spend_county <- renderGvis({
+    #     make_spend_county_plot(selected)
+    # })
     
-    output$spend_county_large <- renderGvis({
-        make_spend_county_plot(selected, height="575px", chartHeight="70%")
-    })
+    # output$spend_county_large <- renderGvis({
+    #     make_spend_county_plot(selected, height="575px", chartHeight="70%")
+    # })
     
-    output$a_line <- renderImage({
-        width <- session$clientData$output_a_line_width
-        list(src = "www/line-01.png",
-             contentType = "image/png",
-             alt = "",
-             a(href = ""),
-             width=width)
-    }, deleteFile=FALSE)
+    # output$a_line <- renderImage({
+    #     width <- session$clientData$output_a_line_width
+    #     list(src = "www/line-01.png",
+    #          contentType = "image/png",
+    #          alt = "",
+    #          a(href = ""),
+    #          width=width)
+    # }, deleteFile=FALSE)
  
 }
 

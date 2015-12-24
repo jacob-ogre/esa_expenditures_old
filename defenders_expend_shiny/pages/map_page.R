@@ -17,28 +17,9 @@
 map_page <- {
     tabPanel(
         title="Interactive map",
-        # fluidRow(
-        #     column(1,
-        #         br(), br(), br(),
-        #         bsButton("get_started",
-        #                  label="Getting Started",
-        #                  style="primary"
-        #         ),
-        #         br(), br()
-        #     ),
-        #     column(10,
-        #         br(), br(),
-        #         h2("Endangered Species Expenditures",
-        #            style="text-align:center;font-weight:bold")
-        #     ),
-        #     column(1,
-        #         br(), br(),
-        #         a(href="http://www.defenders.org",
-        #             imageOutput("defenders", height=NULL))
-        #     )
-        # ),
 		div(class="outer",
 		    tags$head(
+                HTML("<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>"),
                 includeCSS("www/custom_styles.css"),
                 includeScript("www/gomap.js")
             ),
@@ -50,7 +31,8 @@ map_page <- {
                 fixed = TRUE, draggable = TRUE, top = 60, left = "auto", 
                 right = 20, bottom = "auto", width = 330, height = "90%",
 
-                h3("Explore the data"),
+                HTML("<h3 style='text-align:center;'>Explore the data</h3>"),
+                hr(),
 
                 # Add in the data selectors:
                 box(title="Selection criteria",
@@ -114,229 +96,20 @@ map_page <- {
                          size="small"),
 
                 hr(),
-                bsButton("get_started",
-                         label="Getting Started",
-                         style="primary"
-                ),
-                bsModal("mod_big_chart",
-                        title="",
-                        trigger="big_chart",
-                        size="large",
-                        htmlOutput("large_chart")
+                tags$div(id='help_img', class='bottom-align',
+                    column(6,
+                        br(), 
+                        bsButton("get_started",
+                                 label="Getting Started",
+                                 style="success"
+                        )
+                    ),
+                    column(6,
+                        a(href="http://www.defenders.org",
+                            imageOutput("defenders", height=NULL))
+                    )
                 )
             )
         )
-
-            # column(2,
-            #     box(title="General Information",
-            #         status="primary",
-            #         solidHeader=TRUE,
-            #         height=NULL,
-            #         width=NULL,
-            #         collapsible=TRUE,
-            #         collapsed=FALSE,
-            #         fluidRow(
-            #               tipify(
-            #                    valueBox(
-            #                        subtitle="Total dollars spent",
-            #                        value=textOutput("total_spent"),
-            #                        color="orange",
-            #                        icon=NULL,
-            #                        width=12
-            #                    ),
-            #                    title="Includes all funding sources."
-            #               )
-            #         ),
-            #         fluidRow(
-            #               tipify(
-            #                    valueBox(
-            #                        subtitle="Number of species",
-            #                        value=textOutput("n_species"),
-            #                        color="blue",
-            #                        icon=NULL,
-            #                        width=12
-            #                    ),
-            #                    title="Number of species receiving funding."
-            #                  )
-            #         ),
-            #         fluidRow(
-            #             box(width=12,
-            #                 solidHeader = TRUE,
-            #                 htmlOutput("percentage_chart"),
-            #                 bsButton("modPercentChart",
-            #                          label="Large",
-            #                          style="primary",
-            #                          size="extra-small"
-            #                 )
-            #             )
-            #         )
-            #     )
-            # )
-        # ),
-        # bsModal("modPercentChart",
-        #         title="Expenditures are massively skewed",
-        #         trigger="modPercentChart",
-        #         size="large",
-        #         htmlOutput("percent_chart_large")
-        # ),
-
-        # fluidRow(
-        #     column(12,
-        #         popify(
-        #             box(title="Spending by Species (Top 25)",
-        #                 status="primary",
-        #                 solidHeader=TRUE,
-        #                 height=NULL,
-        #                 width=NULL,
-        #                 collapsible=TRUE,
-        #                 collapsed=FALSE,
-        #                 htmlOutput("consults_species"),
-        #                 bsButton("modConsultsSpecies",
-        #                          label="Larger",
-        #                          style="primary",
-        #                          size="small")
-        #             ),
-        #             title="Species",
-        #             content="If your favorite species isn't here, try searching in the 'Selection criteria' box."
-        #         )
-        #     ),
-        #     bsModal("largeConsultsSpecies",
-        #             title="Spending by Species (Top 25)",
-        #             trigger="modConsultsSpecies",
-        #             size="large",
-        #             htmlOutput("consults_species_large")
-        #     )
-        # ),
-
-        # fluidRow(
-        #     column(6,
-        #         box(title="Spending Changes Over Time",
-        #             status="primary",
-        #             solidHeader=TRUE,
-        #             height=NULL,
-        #             width=NULL,
-        #             collapsible=TRUE,
-        #             collapsed=FALSE,
-        #             htmlOutput("spending_time"),
-        #             # helpText(""),
-        #             bsButton("modSpendingTime",
-        #                      label="Larger",
-        #                      style="primary",
-        #                      size="small"
-        #             )
-        #         )
-        #     ),
-        #     column(6,
-        #         box(title="Spending per Taxonomic Group",
-        #             status="primary",
-        #             solidHeader=TRUE,
-        #             height=NULL,
-        #             width=NULL,
-        #             collapsible=TRUE,
-        #             collapsed=FALSE,
-        #             htmlOutput("spend_tax_group"),
-        #             bsButton("modTaxSpending",
-        #                      label="Larger",
-        #                      style="primary",
-        #                      size="small"
-        #             )
-        #         )
-        #     ),
-        #     bsModal("largeSpendingTime",
-        #             title="Spending Changes Over Time",
-        #             trigger="modSpendingTime",
-        #             size="large",
-        #             htmlOutput("spending_time_large")
-        #     ),
-        #     bsModal("largeTaxSpending",
-        #             title="Spending per Taxonomic Group",
-        #             trigger="modTaxSpending",
-        #             size="large",
-        #             htmlOutput("spend_tax_group_large")
-        #     )
-        # ),
-
-        # fluidRow(
-        #     column(6,
-        #         box(title="Spending by State (Top 10)",
-        #             status="primary",
-        #             solidHeader=TRUE,
-        #             height=NULL,
-        #             width=NULL,
-        #             collapsible=TRUE,
-        #             collapsed=FALSE,
-        #             htmlOutput("spend_state"),
-        #             bsButton("modSpendState",
-        #                      label="Larger",
-        #                      style="primary",
-        #                      size="small")
-        #         )
-        #     ),
-        # column(6,
-        #     box(title="Spending By County (Top 10)",
-        #         status="primary",
-        #         solidHeader=TRUE,
-        #         height=NULL,
-        #         width=NULL,
-        #         collapsible=TRUE,
-        #         collapsed=FALSE,
-        #         htmlOutput("spend_county"),
-        #         bsButton("modSpendCounty",
-        #                  label="Larger",
-        #                  style="primary",
-        #                  size="small")
-        #     )
-        # ),
-        #     bsModal("largeSpendState",
-        #             title="Spending by State (Top 10)",
-        #             trigger="modSpendState",
-        #             size="large",
-        #             htmlOutput("spend_state_large")
-        #     ),
-        #       bsModal("largeSpendCounty",
-        #               title="Spending By County (Top 10)",
-        #               trigger="modSpendCounty",
-        #               size="large",
-        #               htmlOutput("spend_county_large")
-        #       )
-        # ),
-
-        # # a placeholder
-        # fluidRow(
-        #     column(12,
-        #         imageOutput("a_line", height="5px", width="100%")
-        #     )
-        # ),
-
-        # hr(),
-        # # fluidRow(
-        # #     column(2),
-        # #     column(3,
-        # #         HTML("<h4 style='font-weight:bold'>Alternate views</h4> <p style='font-size:larger'>Check out the <span style='font-weight:bold'>Alternate Map</span> page for a different geographic view, the <span style='font-weight:bold'>Comparison View</span> page for side-by-side comparisons, and the <span style='font-weight:bold'>Data</span> page to get the raw data.</p>")
-        # #     ),
-        # #     column(2),
-        # #     column(3,
-        # #         shinyURL.ui(label=HTML("<h4 style='font-weight:bold'>Share your selection!</h4>"))
-        # #     ),
-        # #     column(2)
-        # # ),
-        # hr(),
-
-        # fluidRow(
-        #     column(3),
-        #     column(6,
-        #         br(),
-        #         br()
-        #     ),
-        #     column(3)
-        # ),
-
-        # fluidRow(
-        #     column(3),
-        #     column(6,
-        #         div(HTML(defenders_cc()), style=center_text)
-        #     ),
-        #     column(3)
-        # )
     )
 }
