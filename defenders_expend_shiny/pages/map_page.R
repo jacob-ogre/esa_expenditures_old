@@ -31,7 +31,7 @@ map_page <- {
                 fixed = TRUE, draggable = TRUE, top = 60, left = "auto", 
                 right = 20, bottom = "auto", width = 330, height = "90%",
 
-                HTML("<h3 style='text-align:center;'>Explore the data</h3>"),
+                HTML("<h4 style='text-align:center;'>Explore the data</h4>"),
                 hr(),
 
                 # Add in the data selectors:
@@ -74,7 +74,7 @@ map_page <- {
                     )
                 ),
 
-                # Let the user show one mini-figure in the bar:
+                # Let the user select which mini-figure is shown:
                 selectInput(
                     inputId="mini_chart",
                     label=h5("Chart"),
@@ -88,7 +88,7 @@ map_page <- {
                     width="95%"
                 ),
 
-                # Show the chart:
+                # Show the small chart:
                 htmlOutput("small_chart"),
                 bsButton("big_chart",
                          label="Larger",

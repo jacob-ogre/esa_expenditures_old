@@ -50,7 +50,8 @@ shinyServer(function(input, output, session) {
                input$years_2,
                input$groups_2,
                input$species_2,
-               input$state_2
+               input$state_2,
+               input$sources_2
         )
     })
 

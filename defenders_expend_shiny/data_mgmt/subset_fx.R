@@ -17,7 +17,7 @@
 ##############################################################################
 # Return a subset of the Sec7 db (x) based on a suite of variables.
 ##############################################################################
-sub_df <- function(x, years, groups, species, state) {
+sub_df <- function(x, years, groups, species, state, src) {
     if (years != "All") {
         x <- x[x$Year == years, ]
     }
@@ -29,6 +29,15 @@ sub_df <- function(x, years, groups, species, state) {
     }
     if (state != "All") {
         x <- x[x$STABBREV %in% state, ]
+    }
+    if (src == "All") {
+        x$exp_report <- x$grand_per_cnty
+    } else if (src == "FWS") {
+        x$exp_report <- x$fws_per_cnty
+    } else if (src == "Fed., non-FWS") {
+        x$exp_report <- x$other_fed_per_cnty
+    } else {
+        x$exp_report <- x$state_per_cnty
     }
     x$st_co_sp <- paste(x$cs, x$sp)
     x$st_co_yr <- paste(x$cs, x$Year)

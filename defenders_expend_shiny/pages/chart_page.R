@@ -20,86 +20,84 @@ chart_page <- {
     tabPanel(
         title="Charts",
         div(class="graph-outer",
-            fluidPage(
-                tags$head(
-                    HTML("<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>"),
-                    includeCSS("www/custom_styles.css")
-                ),
-                # Add in the data selectors:
-                br(), br(),
-                box(title="Selection criteria",
-                    status="primary",
-                    solidHeader=TRUE,
-                    height=NULL,
-                    width=12,
-                    collapsible=TRUE,
-                    collapsed=TRUE,
-                    column(2,
-                        selectInput(
-                            inputId="state_2",
-                            label="State",
-                            choices=states,
-                            selected="All",
-                            multiple=FALSE,
-                            width="95%"
-                        )
+		    tags$head(
+                HTML("<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>"),
+                includeCSS("www/custom_styles.css")
+            ),
+            tags$style(type="text/css", "body {padding-top:30px;}"),
+            column(2,
+                absolutePanel(id="controls-graph", class="panel panel-default", 
+                    fixed=TRUE, draggable=FALSE, top=110, left=40, 
+                    right="auto", bottom="auto", width=230, height=NULL,
+                    selectInput(
+                        inputId="state_2",
+                        label="State",
+                        choices=states,
+                        selected="All",
+                        multiple=FALSE,
+                        width="95%"
                     ),
-                    column(2,
-                        selectInput(
-                            inputId="species_2",
-                            label="Species",
-                            choices=species,
-                            selected="All",
-                            multiple=FALSE,
-                            width="95%"
-                        )
+                    selectInput(
+                        inputId="species_2",
+                        label="Species",
+                        choices=species,
+                        selected="All",
+                        multiple=FALSE,
+                        width="95%"
                     ),
-                    column(2,
-                        selectInput(
-                            inputId="groups_2",
-                            label="Taxonomic group",
-                            choices=groups,
-                            selected="All",
-                            width="95%"
-                        )
+                    selectInput(
+                        inputId="groups_2",
+                        label="Taxonomic group",
+                        choices=groups,
+                        selected="All",
+                        width="95%"
                     ),
-                    column(2,
-                        selectInput(
-                            inputId="years_2",
-                            label="Year",
-                            choices=years,
-                            selected="All",
-                            width="95%"
-                        )
+                    selectInput(
+                        inputId="years_2",
+                        label="Year",
+                        choices=years,
+                        selected="All",
+                        width="95%"
+                    ),
+                    selectInput(
+                        inputId="sources_2",
+                        label="Funding source",
+                        choices=c("All", "FWS", "Fed., non-FWS", "State"),
+                        selected="All",
+                        width="95%"
+                    )
+                )
+            ),
+
+            column(10,
+                fluidRow(
+                    column(3,
+                        htmlOutput("spp_chart_text")
+                    ),
+                    column(9,
+                        htmlOutput("big_spp_chart")
                     )
                 ),
-                box(title="",
-                    status="primary",
-                    solidHeader=FALSE,
-                    height=NULL,
-                    width=12,
-                    collapsible=FALSE,
-                    collapsed=FALSE,
-                    fluidRow(
-                        column(3,
-                            htmlOutput("spp_chart_text")
-                        ),
-                        column(9,
-                            htmlOutput("big_spp_chart")
-                        )
-                    ),
-                    hr(),
-                    br()
-                ),
-
+                hr(),
                 fluidRow(
-                    column(3),
-                    column(6,
-                        div(HTML(defenders_cc()), style=center_text)
+                    column(3,
+                        htmlOutput("spp_chart_text_2")
                     ),
-                    column(3)
-                )
-            )
+                    column(9,
+                        htmlOutput("big_spp_chart_2")
+                    )
+                ),
+                br()
+            ),
+
+            fluidRow(
+                column(3),
+                column(6,
+                    div(HTML(defenders_cc()), style=center_text)
+                ),
+                column(3)
+            ),
+            br(), br()
         )
     )
 }

@@ -18,7 +18,63 @@
 # Server-side code for the section 7 app basic single-view page
 ###########################################################################
 server_chart_page <- function(input, output, selected_2, session) {
+    state_txt <- reactive({
+        res <- ifelse(input$state_2 == "All",
+                      "all states",
+                      input$state_2)
+        res
+    })
+
+    years_txt <- reactive({
+        res <- ifelse(input$years_2 == "All",
+                            paste0("years ", minYear, " - ", maxYear),
+                            paste0("year ", input$years_2))
+        res
+    })
+
+    group_txt <- reactive({
+        res <- ifelse(input$groups_2 == "All",
+                      "all taxonomic groups",
+                      input$groups_2)
+        res
+    })
+
+    species_txt <- reactive({
+        res <- ifelse(input$species_2 == "All",
+                      "all species",
+                      input$species_2)
+        res
+    })
+
+    sources_txt <- reactive({
+        res <- ifelse(input$sources_2 == "All",
+                      "all sources",
+                      input$sources_2)
+        res
+    })
+
     output$spp_chart_text <- renderText({
+        cur_exp <- tapply(selected_2()$grand_per_cnty,
+                          INDEX=selected_2()$sp,
+                          FUN=sum, na.rm=TRUE)
+        cur_gini <- gini(cur_exp)
+        x <- paste0("<h3>Spending is uneven across species</h3>
+                    
+                    <p>With ", state_txt(), ", ", group_txt(), ", ",
+                    species_txt(), ", ", years_txt(), ", and ", sources_txt(), 
+                    " selected, the <a href=https://en.wikipedia.org/wiki/Gini_coefficient>
+                    Gini coefficient</a> of ESA expenditures is ", cur_gini, ". 
+                    For comparison, the estimated Gini coefficient for income in
+                    the U.S. is ~0.45...the disparity of spending between species
+                    is ", gini_rel, " that U.S. incomes.</p>")
+        return(x)
+    })
+             
+    output$big_spp_chart <- renderGvis({        
+        make_species_plot(selected_2, height="450px")
+    })
+
+    output$spp_chart_text_2 <- renderText({
         state_txt <- ifelse(input$state_2 == "All",
                             "all states",
                             input$state_2)
@@ -29,7 +85,7 @@ server_chart_page <- function(input, output, selected_2, session) {
         return(x)
     })
              
-    output$big_spp_chart <- renderGvis({        
+    output$big_spp_chart_2 <- renderGvis({        
         make_species_plot(selected_2, height="450px")
     })
 

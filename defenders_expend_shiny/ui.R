@@ -25,34 +25,29 @@ sidebar <- dashboardSidebar(disable=TRUE)
 #############################################################################
 # Define the page(s) with dashboardBody
 body <- dashboardBody(
-    div(class="graph-outer",
-        tags$head(
-            tags$link(rel = "stylesheet", type = "text/css", href = "custom_styles.css")
-        ),
-        bsModal(id="instructions",
-                title="How do I use this app?",
-                trigger="get_started",
-                includeMarkdown("txt/getting_started.md"),
-                size="large"
-        ),
-        bsModal(id="datatable_help",
-                title="Using the data table",
-                trigger="table_help",
-                HTML("<ul><li>Hover over the table and scroll right to see additional columns.</li>
-                          <li>Search each column using the boxes at the top of the columns.</li>
-                          <li>Sort the table by column using the arrows above each column.</li>
-                          <li>Show/hide additional columns using the button at right.</li>
-                     </ul>"),
-                size="small"
-        ),
-        bsModal("mod_big_chart",
-                title="",
-                trigger="big_chart",
-                size="large",
-                htmlOutput("large_chart")
-        ),
-        results_page
-    )
+    bsModal(id="instructions",
+            title="How do I use this app?",
+            trigger="get_started",
+            includeMarkdown("txt/getting_started.md"),
+            size="large"
+    ),
+    bsModal(id="datatable_help",
+            title="Using the data table",
+            trigger="table_help",
+            HTML("<ul><li>Hover over the table and scroll right to see additional columns.</li>
+                      <li>Search each column using the boxes at the top of the columns.</li>
+                      <li>Sort the table by column using the arrows above each column.</li>
+                      <li>Show/hide additional columns using the button at right.</li>
+                 </ul>"),
+            size="small"
+    ),
+    bsModal("mod_big_chart",
+            title="",
+            trigger="big_chart",
+            size="large",
+            htmlOutput("large_chart")
+    ),
+    results_page
 )
 
 dashboardPage(header, sidebar, body, skin="blue")
