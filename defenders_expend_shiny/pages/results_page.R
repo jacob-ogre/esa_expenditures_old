@@ -15,7 +15,7 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 # source("pages/help_page.R")
-source("pages/single_view_page.R")
+source("pages/map_page.R")
 # source("pages/compare_page.R")
 # source("pages/alt_map_page.R")
 # source("pages/data_page.R")
@@ -24,17 +24,9 @@ source("pages/single_view_page.R")
 # Central landing page for sec7 basic app
 results_page <- {
     navbarPage("Endangered Species Expenditures",
-        single_view_page,
+        map_page,
         # compare_page,
-        # navbarMenu(title="More info",
-        #     tabPanel(title="Alternate map",
-        #              alt_map_page),
-        #     tabPanel(title="Data",
-        #              data_page),
-        #     tabPanel(title="Sec. 7 background",
-        #              help_page)
-        # ),
-        inverse=TRUE,
+        inverse=FALSE,
         position="fixed-top"
     )
 }

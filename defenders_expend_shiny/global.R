@@ -22,7 +22,8 @@ library(httr)
 library(lattice)
 library(lubridate)
 library(RCurl)
-library(RJSONIO)
+library(jsonlite)
+# library(RJSONIO)
 library(shiny)
 library(shinydashboard)
 library(shinyBS)
@@ -52,6 +53,16 @@ source("txt/text_styles.R")
 # Load the data and basic data prep
 #############################################################################
 load("data/FY2008-2013_fed_ESA_expenditures_by_county.RData")
+full$GEOID <- as.character(full$GEOID)
+full$GEOID <- ifelse(nchar(full$GEOID) == 4,
+                     paste0("0", full$GEOID),
+                     full$GEOID)
+full$st_cnty_sp <- paste(full$cs, full$sp)
+
+spa_dat <- read.csv("data/US_counties_attrib.csv", header=TRUE)
+spa_dat$GEOID <- ifelse(nchar(spa_dat$GEOID) == 4,
+                     paste0("0", spa_dat$GEOID),
+                     spa_dat$GEOID)
 
 # To facilitate adding new data, generate the vectors from the data
 years <- c("All", as.numeric(levels(full$Year)))
@@ -60,21 +71,29 @@ groups <- c("All", as.character(levels(full$Group)))
 species <- c("All", as.character(levels(as.factor(full$sp))))
 cty_st <- c("All", as.character(levels(as.factor(full$cs))))
 
+minYear <- min(as.numeric(levels(full$Year)))
+maxYear <- max(as.numeric(levels(full$Year)))
+full$Year <- as.numeric(as.character(full$Year))
 
-# table to look up species-specific jeop/admod info
-# sp_look_f <- "data/jeop_admod_spp_table_12Jun2015.tab"
-# sp_ja_dat <- read.table(sp_look_f, sep="\t", header=T)
+# # Need to get the county outlines...
+# topoData <- readLines("data/US_counties_1e5_topo.json") %>% paste(collapse="\n")
+# topoData <- readLines("data/US_counties_5e4_topo.json") %>% paste(collapse="\n")
+topoData <- readLines("data/US_counties_TIGERd_topo.json", warn=FALSE) %>% 
+                paste(collapse="\n")
 
-# data for ESFO-level map
-# eso_geo_fil <- "data/fieldOfficesTAILS.shp"
-# eso_geo_dat <- readShapePoly(eso_geo_fil, 
-#                              proj4string = CRS("+proj=merc +lon_0=90w"))
+# tdat <- readLines("data/US_counties_TIGERd_topo.json", warn=FALSE) %>% 
+#                   paste(collapse="\n") %>%
+#                   fromJSON(simplifyVector=FALSE)
 
-# extent <- as.vector(bbox(eso_geo_dat))
-# xmin <- extent[1]
-# ymin <- extent[2]
-# xmax <- extent[3]
-# ymax <- extent[4]
+# tdat$style = list(
+#     weight = 1,
+#     color = "#ffcc00",
+#     opacity = 1,
+#     fillOpacity = 0.8
+# )
+
+# d2 <- tdat %>% toJSON(simplifyVector=TRUE)
+
 
 # update colors for CSS
 validColors_2 <- c("red", "yellow", "aqua", "blue", "light-blue", "green",

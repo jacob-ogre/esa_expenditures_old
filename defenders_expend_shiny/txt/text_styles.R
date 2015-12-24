@@ -51,7 +51,7 @@ make_14_bold_gold <- function() {
 }
 
 make_dollars <- function(x) {
-    y <- paste("$", format(x, big.mark=",", scientific=FALSE), sep="")
+    y <- paste("$", format(x, big.mark=",", scientific=FALSE, digits=0), sep="")
     return(y)
 }
 

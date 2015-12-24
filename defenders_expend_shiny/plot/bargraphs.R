@@ -15,23 +15,6 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 #############################################################################
-# Species consultation summary barchart
-# make_consult_time_figure <- function(dat, height="415px") {
-#     cur_dat <- make_consult_year_summary_df(dat())
-#     chart <- gvisColumnChart(cur_dat, 
-#                  xvar="years", 
-#                  yvar=c("all", "formal"),
-#                  options = list(legend="{ position: 'top', maxLines: 2 }",
-#                                 height=height,
-#                                 colors="['#0A4783', '#f49831']",
-#                                 bar="{groupWidth:'90%'}",
-#                                 vAxis="{title: '# Consultations'}",
-#                                 chartArea="{left: 80, top: 50, width:'90%', height:'75%'}")
-#     )
-#     chart
-# }
-
-#############################################################################
 # Species summary barchart
 make_species_plot <- function(dat, height="475px", chartHeight="65%") {
     cur_dat <- make_top_25_species_df(dat())
@@ -43,7 +26,8 @@ make_species_plot <- function(dat, height="475px", chartHeight="65%") {
     #                    chartHeight, "'}", sep="")
     chart2 <- gvisColumnChart(cur_dat,
                  xvar="species",
-                 yvar=c("FWS", "fws.html.tooltip", "other fed", "other fed.html.tooltip", "state", "state.html.tooltip"),
+                 yvar=c("FWS", "fws.html.tooltip", "other fed", 
+                        "other fed.html.tooltip", "state", "state.html.tooltip"),
                  options = list(height=height,
                                 # colors="['#0A4783']",
                                 legend="{position: 'right'}",
@@ -109,16 +93,18 @@ make_spend_county_plot <- function(dat, height="500px", chartHeight="65%") {
 
 #############################################################################
 # top 10% species spending versus bottom 90% chart
-make_percent_plot <- function(dat) {
-        per_dat <- make_percent_plot_df(dat())
-        chart6 <- gvisColumnChart(per_dat,
-                                  xvar="names",
-                                  yvar=c("spent", "spent.html.tooltip"),
-                                  options = list(legend="{position: 'none'}",
-                                                vAxis="{title: 'Money Spent (American $)', baseline: 0}",
-                                                title="Spending on Top 10% of Species versus the Other 90%",
-                                                isStacked=F,
-                                                tooltip="{isHtml: 'true'}")
-        )
+make_top10_low90_plot <- function(dat, height="100%") {
+    per_dat <- make_percent_plot_df(dat())
+    chart6 <- gvisColumnChart(per_dat,
+        xvar="names",
+        yvar=c("spent", "spent.html.tooltip"),
+        options = list(legend="{position: 'none'}",
+            height=height,
+            colors="['#0A4783']",
+            vAxis="{title: 'Expenditures (USD)', baseline: 0}",
+            title="Spending on Top 10% of Species versus the Other 90%",
+            isStacked=F,
+            tooltip="{isHtml: 'true'}")
+    )
     chart6
 }

@@ -25,9 +25,9 @@ sidebar <- dashboardSidebar(disable=TRUE)
 #############################################################################
 # Define the page(s) with dashboardBody
 body <- dashboardBody(
-    tags$head(
-        tags$link(rel = "stylesheet", type = "text/css", href = "custom_styles.css")
-    ),
+    # tags$head(
+    #     tags$link(rel = "stylesheet", type = "text/css", href = "custom_styles.css")
+    # ),
     bsModal(id="instructions",
             title="How do I use this app?",
             trigger="get_started",

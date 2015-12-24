@@ -18,7 +18,7 @@
 ###########################################################################
 # Server-side code for the section 7 app basic single-view page
 ###########################################################################
-server_single_view_page <- function(input, output, selected, session) {
+server_map_page <- function(input, output, selected, session) {
 
     # shinyURL.server(session)
 
@@ -38,61 +38,23 @@ server_single_view_page <- function(input, output, selected, session) {
         make_species_plot(selected, height="575px", chartHeight="70%")
     })
 
-    output$consults_map <- renderGvis({
-        d <- make_map_df(selected)
-        base <- session$clientData$output_a_line_width
-        if(base > 1000) {
-            width <- 1000
-            height <- 642
-        } else {
-            width <- 0.9 * base
-            height <- 0.642 * width
-        }
-        map <- gvisGeoChart(d,
-            locationvar = "state",
-            colorvar = "total",
-            options = list(width=width,
-                           height=height,
-                           region="US",
-                           legend="none",
-                           displayMode = "regions",
-                           resolution = "provinces",
-                           colorAxis = "{colors:['#CEDAE6', '#0A4783']}",
-                           datalessRegionColor = "#FFFFFF",
-                           projection = "lambert")
-        )
-        map
+    output$consults_map <- renderLeaflet({ 
+		map <- leaflet(height="500px") %>% 
+                   setView(lng=-75, lat=52, zoom = 3) %>%
+				   addProviderTiles("Stamen.Toner") %>%
+				   addTopoJSON(topoData, 
+                               weight = 1, 
+                               color = "#ffcc00", 
+                               fill = FALSE)
+        return(map)
     })
 
-    output$consults_map_large <- renderGvis({
-        d <- make_map_df(selected)
-        base <- session$clientData$output_a_line_width
-        if(base > 1000) {
-            width <- 1000
-            height <- 642
-        } else {
-            width <- 0.9 * base
-            height <- 0.642 * width
-        }
-        map <- gvisGeoChart(d,
-            locationvar = "state",
-            colorvar = "total",
-            options = list(width=width,
-                           height=642,
-                           region="US",
-                           legend="none",
-                           displayMode = "regions",
-                           resolution = "provinces",
-                           colorAxis = "{colors:['#CEDAE6', '#0A4783']}",
-                           datalessRegionColor = "#FFFFFF",
-                           projection = "lambert")
-        )
-        cat(map$html$jsData)
-        map
-    })
-    
     output$percentage_chart <- renderGvis({
         make_percent_plot(selected)
+    })
+
+    output$percent_chart_large <- renderGvis({
+        make_percent_plot(selected, height="550px")
     })
 
     output$spending_time <- renderGvis({

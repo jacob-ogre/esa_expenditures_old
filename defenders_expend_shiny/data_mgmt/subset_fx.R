@@ -17,9 +17,9 @@
 ##############################################################################
 # Return a subset of the Sec7 db (x) based on a suite of variables.
 ##############################################################################
-sub_df <- function(x, years, groups, species, cty_st, state) {
+sub_df <- function(x, years, groups, species, state) {
     if (years != "All") {
-        x <- x[x$Year %in% years, ]
+        x <- x[x$Year == years, ]
     }
     if (groups != "All") {
         x <- x[x$Group %in% groups, ]
@@ -27,12 +27,11 @@ sub_df <- function(x, years, groups, species, cty_st, state) {
     if (species != "All") {
         x <- x[x$sp %in% species, ]
     }
-    if (cty_st != "All") {
-        x <- x[x$cs %in% cty_st, ]
-    }
     if (state != "All") {
         x <- x[x$STABBREV %in% state, ]
     }
+    x$st_co_sp <- paste(x$cs, x$sp)
+    x$st_co_yr <- paste(x$cs, x$Year)
     return(x)
 
 }

@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-source("server_pages/server_single_view_page.R")
+source("server_pages/server_map_page.R")
 # source("server_pages/server_compare_view_page.R")
 # source("server_pages/server_alt_map_page.R")
 
@@ -41,61 +41,9 @@ shinyServer(function(input, output, session) {
                input$years,
                input$groups,
                input$species,
-               input$cty_st,
                input$state
         )
     })
-
-    # selected_1 <- reactive({
-    #     sub_df(full,
-    #            input$state_1,
-    #            input$lead_agency_1,
-    #            input$species_1,
-    #            input$action_category_1,
-    #            input$formal_consult_1,
-    #            input$region_1,
-    #            input$ESFO_1,
-    #            input$cons_complex_1,
-    #            input$consult_type_1,
-    #            input$jeopardy_1,
-    #            input$admod_1,
-    #            input$rpa_1
-    #     )
-    # })
-    # 
-    # selected_2 <- reactive({
-    #     sub_df(full,
-    #            input$state_2,
-    #            input$lead_agency_2,
-    #            input$species_2,
-    #            input$action_category_2,
-    #            input$formal_consult_2,
-    #            input$region_2,
-    #            input$ESFO_2,
-    #            input$cons_complex_2,
-    #            input$consult_type_2,
-    #            input$jeopardy_2,
-    #            input$admod_2,
-    #            input$rpa_2
-    #     )
-    # })
-    # 
-    # selected_3 <- reactive({
-    #     sub_df(full,
-    #            input$state_3,
-    #            input$lead_agency_3,
-    #            input$species_3,
-    #            input$action_category_3,
-    #            input$formal_consult_3,
-    #            input$region_3,
-    #            input$ESFO_3,
-    #            input$cons_complex_3,
-    #            input$consult_type_3,
-    #            input$jeopardy_3,
-    #            input$admod_3,
-    #            input$rpa_3
-    #     )
-    # })
 
     output$defenders <- renderImage({
         width <- session$clientData$output_defenders_width
@@ -109,32 +57,8 @@ shinyServer(function(input, output, session) {
              width=width)
     }, deleteFile=FALSE)
 
-    # output$defenders2 <- renderImage({
-    #     width <- session$clientData$output_defenders2_width
-    #     if (width > 100) {
-    #         width <- 100
-    #     }
-    #     list(src = "www/01_DOW_LOGO_COLOR_300-01.png",
-    #          contentType = "image/png",
-    #          alt = "Overview of section 7 consultation",
-    #          a(href = "http://www.defenders.org"),
-    #          width=width)
-    # }, deleteFile=FALSE)
-    # 
-    # output$defenders_3 <- renderImage({
-    #     width <- session$clientData$output_defenders_3_width
-    #     if (width > 100) {
-    #         width <- 100
-    #     }
-    #     list(src = "www/01_DOW_LOGO_COLOR_300-01.png",
-    #          contentType = "image/png",
-    #          alt = "Overview of section 7 consultation",
-    #          a(href = "http://www.defenders.org"),
-    #          width=width)
-    # }, deleteFile=FALSE)
-
     # Call the files with server functions broken out by page
-    server_single_view_page(input, output, selected, session)
+    server_map_page(input, output, selected, session)
     # server_compare_view_page(input, output, selected_1, selected_2, session)
     # server_alt_map_page(input, output, selected_3, session)
 

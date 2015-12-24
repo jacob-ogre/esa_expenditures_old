@@ -42,144 +42,91 @@ map_page <- {
                 includeCSS("www/custom_styles.css"),
                 includeScript("www/gomap.js")
             ),
-
-            leafletOutput("consults_map", height="100%", width="100%"),
+            tags$style(type="text/css", "body {padding-top: 70px;}"),
+            leafletOutput("map", height="100%", width="100%"),
 
             # Add the contol panel
             absolutePanel(id = "controls", class = "panel panel-default", 
                 fixed = TRUE, draggable = TRUE, top = 60, left = "auto", 
-                right = 20, bottom = "auto", width = 330, height = "auto",
+                right = 20, bottom = "auto", width = 330, height = "90%",
 
-                h2("ESA Expenditures"),
+                h3("Explore the data"),
 
                 # Add in the data selectors:
+                box(title="Selection criteria",
+                    status="primary",
+                    solidHeader=TRUE,
+                    height=NULL,
+                    width=NULL,
+                    collapsible=TRUE,
+                    collapsed=TRUE,
+                    selectInput(
+                        inputId="state",
+                        label="State",
+                        choices=states,
+                        selected="All",
+                        multiple=FALSE,
+                        width="95%"
+                    ),
+                    selectInput(
+                        inputId="species",
+                        label="Species",
+                        choices=species,
+                        selected="All",
+                        multiple=FALSE,
+                        width="95%"
+                    ),
+                    selectInput(
+                        inputId="groups",
+                        label="Taxonomic group",
+                        choices=groups,
+                        selected="All",
+                        width="95%"
+                    ),
+                    selectInput(
+                        inputId="years",
+                        label="Year",
+                        choices=years,
+                        selected="All",
+                        width="95%"
+                    )
+                ),
+
+                # Let the user show one mini-figure in the bar:
                 selectInput(
-                    inputId="state",
-                    label="State",
-                    choices=states,
-                    selected="All",
-                    multiple=FALSE,
+                    inputId="mini_chart",
+                    label=h5("Chart"),
+                    choices=c("Top 10% vs. bottom 90%",
+                              "Top species",
+                              "Expenditures by group",
+                              "Expenditures by year",
+                              "Est. expend. by state",
+                              "Top counties"),
+                    selected="Top 10% vs. bottom 90%",
                     width="95%"
                 ),
-                selectInput(
-                    inputId="species",
-                    label="Species",
-                    choices=species,
-                    selected="All",
-                    multiple=FALSE,
-                    width="95%"
-                ),
-                selectInput(
-                    inputId="years",
-                    label="Year",
-                    choices=years,
-                    selected="All",
-                    width="95%"
-                ),
-                selectInput(
-                    inputId="groups",
-                    label="Taxonomic group",
-                    choices=groups,
-                    selected="All",
-                    width="95%"
-                ),
-                selectInput(
-                  inputId="cty_st",
-                  label="County, State",
-                  choices=cty_st,
-                  selected="All",
-                  width="95%"
-                ),
+
+                # Show the chart:
+                htmlOutput("small_chart"),
+                bsButton("big_chart",
+                         label="Larger",
+                         style="primary",
+                         size="small"),
+
+                hr(),
                 bsButton("get_started",
                          label="Getting Started",
                          style="primary"
+                ),
+                bsModal("mod_big_chart",
+                        title="",
+                        trigger="big_chart",
+                        size="large",
+                        htmlOutput("large_chart")
                 )
             )
         )
 
-
-        # fluidRow(
-        #     column(12,
-        #         box(title="Selection criteria",
-        #             status="primary",
-        #             solidHeader=FALSE,
-        #             height=NULL,
-        #             width=NULL,
-        #             collapsible=TRUE,
-        #             collapsed=TRUE,
-        #             column(2,
-        #                 selectInput(
-        #                     inputId="state",
-        #                     label="State",
-        #                     choices=states,
-        #                     selected="All",
-        #                     multiple=FALSE,
-        #                     width="95%"
-        #                 ),
-        #                 selectInput(
-        #                     inputId="species",
-        #                     label="Species",
-        #                     choices=species,
-        #                     selected="All",
-        #                     multiple=FALSE,
-        #                     width="95%"
-        #                 )
-        #             ),
-        #             column(2,
-        #                 selectInput(
-        #                     inputId="years",
-        #                     label="Year",
-        #                     choices=years,
-        #                     selected="All",
-        #                     width="95%"
-        #                 ),
-        #                 selectInput(
-        #                     inputId="groups",
-        #                     label="Taxonomic group",
-        #                     choices=groups,
-        #                     selected="All",
-        #                     width="95%"
-        #                 )
-        #             ),
-        #             column(2,
-        #                 selectInput(
-        #                   inputId="cty_st",
-        #                   label="County, State",
-        #                   choices=cty_st,
-        #                   selected="All",
-        #                   width="95%"
-        #                 )
-        #             ),
-        #             column(6,
-        #                 HTML("<p class='help-block'>Select your favorite state, species, county, and taxonomic group from drop-downs at left; graphs and maps will update automatically. You may select more than one category to filter on.  For example, if you're just interested in bull trout in Idaho and for expenses in 2009, then you may select each of those criteria (or any others as you see fit).")
-        #             )
-        #         ),
-        #         bsModal(id="open_select", 
-        #                 title="Getting started",
-        #                 trigger="get_started",
-        #                 includeMarkdown("txt/getting_started.md")
-        #         )
-        #     )
-        # ),
-
-        # fluidRow(
-        #     column(12,
-                # box(title="Spending by State",
-                #     status="primary",
-                #     solidHeader=FALSE,
-                #     height=550,
-                #     width=NULL,
-                #     collapsible=FALSE,
-                #     collapsed=FALSE,
-                    # leafletOutput("consults_map",
-                    #               height=500) #,
-                    # bsButton("modConsultsMap",
-                    #          label="Larger",
-                    #          style="primary",
-                    #          size="small"
-                    # )
-                # )
-            # ),
             # column(2,
             #     box(title="General Information",
             #         status="primary",
