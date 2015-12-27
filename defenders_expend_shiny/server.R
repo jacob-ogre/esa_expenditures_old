@@ -23,17 +23,6 @@ source("server_pages/server_chart_page.R")
 #############################################################################
 shinyServer(function(input, output, session) {
 
-    # js alerts for initialization
-    createAlert(session=session, 
-                anchorId="waiting",
-                content="<p style='font-weight:bold; font-size:large'>Please wait while the data and plots are loaded.</p><br><ul><li>You may close this box with the 'x' to the upper-right.</li><li>Open the 'Selection criteria' box with the <span style='font-size:large; font-weight:bold'>+</span> in that box.</li></ul>",
-                style="danger")
-
-    createAlert(session=session, 
-                anchorId="waiting_comp",
-                content="<p style='font-weight:bold; font-size:large'>Please wait while the data and plots are loaded.</p><br><ul><li>You may close this box with the 'x' to the upper-right.</li><li>Open the 'Compare two selections' box with the <span style='font-size:large; font-weight:bold'>+</span> in that box.</li></ul>",
-                style="danger")
-
     # The basic reactive subsetting functions...separate functions for each
     # of the pages.
     selected <- reactive({
@@ -67,6 +56,18 @@ shinyServer(function(input, output, session) {
              a(href = "http://www.defenders.org"),
              width=width)
     }, deleteFile=FALSE)
+
+    output$heuristic <- renderImage({
+        # width <- session$clientData$output_heuristic_width
+        # if (width > 200) {
+        #     width <- 200
+        # }
+        list(src = "www/heuristic_2.png",
+             contentType = "image/png",
+             alt = "Heuristic key to bubbles",
+             width=200)
+    }, deleteFile=FALSE)
+
 
     # Call the files with server functions broken out by page
     server_map_page(input, output, selected, session)

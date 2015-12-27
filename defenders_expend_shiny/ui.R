@@ -78,7 +78,10 @@ body <- dashboardBody(
             title="",
             trigger="big_chart",
             size="large",
-            htmlOutput("large_chart")
+            htmlOutput("large_chart"),
+            fluidRow(
+                helpText("Check out the Charts page to get additional information.")
+            )
     ),
     results_page
 )

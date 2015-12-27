@@ -21,6 +21,14 @@
 server_map_page <- function(input, output, selected, session) {
     # shinyURL.server(session)
 
+    cur_zoom <- reactive({
+        if (!is.null(input$map_zoom)) {
+            input$map_zoom
+        } else {
+            4
+        }
+    })
+
     circ_1 <- reactive({
         tmp <- selected()
         tmp$dups <- duplicated(tmp$st_co_sp)
@@ -30,19 +38,34 @@ server_map_page <- function(input, output, selected, session) {
         texp_df <- data.frame(GEOID=names(tot_exp), tot_exp=as.vector(tot_exp))
         int_dat <- merge(nspp_df, texp_df, by="GEOID")
         res <- merge(int_dat, spa_dat, by="GEOID")
+        res$circ_size <- scale(res$n_spp, center=F) * 50000 * (1/cur_zoom())
         res
     })
 
     output$map <- renderLeaflet({ 
 		cur_map <- leaflet() %>% 
-                   setView(lng=-85, lat=42, zoom = 4) %>%
-				   addProviderTiles("Stamen.TonerLite") %>%
-				   addTopoJSON(topoData, 
-                               weight = 0.5, 
-                               color = "#ffcc00", 
-                               fill = FALSE) %>%
+                   setView(lng=-95, lat=38, zoom = 4) %>%
                    mapOptions(zoomToLimits = "never")
         return(cur_map)
+    })
+
+    observe({ 
+        cur_col <- ifelse(input$map_tile == "Stamen.TonerLite" |
+                          input$map_tile == "Stamen.Toner" |
+                          input$map_tile == "OpenStreetMap.Mapnik",
+                          "#ffcc00",
+                          "#000000")
+        leafletProxy("map") %>%
+            addTopoJSON(topoData, 
+                        weight = 0.5, 
+                        color = cur_col, 
+                        fill = FALSE)
+    })
+
+    observe({ 
+        leafletProxy("map") %>% 
+            clearTiles() %>% 
+            addProviderTiles(input$map_tile) 
     })
 
     observe({
@@ -50,11 +73,11 @@ server_map_page <- function(input, output, selected, session) {
             clearShapes() %>%
             addCircles(lng = ~INTPTLON,
                        lat = ~INTPTLAT,
-                       radius = ~(n_spp*1000), #TODO: make flexible for varying # species
+                       radius = ~circ_size, 
                        color = ~colorBin("RdYlBu", 
                                          range(circ_1()$tot_exp),
                                          bins=5)(circ_1()$tot_exp),
-                       fillOpacity=0.8,
+                       fillOpacity=0.85,
                        stroke = FALSE,
                        popup = ~paste0("<b>", NAME, " Co.</b><br>", 
                                        make_dollars(circ_1()$tot_exp),
@@ -108,50 +131,5 @@ server_map_page <- function(input, output, selected, session) {
         }
     })
 
-    # output$percent_chart_large <- renderGvis({
-    #     make_percent_plot(selected, height="550px")
-    # })
-
-    # output$spending_time <- renderGvis({
-    #     make_spending_time_line(selected)
-    # })
-
-    # output$spending_time_large <- renderGvis({
-    #     make_spending_time_line(selected, height="550px")
-    # })
-
-    # output$spend_tax_group <- renderGvis({
-    #     make_tax_group_plot(selected)
-    # })
-
-    # output$spend_tax_group_large <- renderGvis({
-    #     make_tax_group_plot(selected, height="575px", chartHeight="75%")
-    # })
-
-    # output$spend_state <- renderGvis({
-    #     make_spend_state_plot(selected)
-    # })
-
-    # output$spend_state_large <- renderGvis({
-    #     make_spend_state_plot(selected, height="575px", chartHeight="70%")
-    # })
-
-    # output$spend_county <- renderGvis({
-    #     make_spend_county_plot(selected)
-    # })
-    
-    # output$spend_county_large <- renderGvis({
-    #     make_spend_county_plot(selected, height="575px", chartHeight="70%")
-    # })
-    
-    # output$a_line <- renderImage({
-    #     width <- session$clientData$output_a_line_width
-    #     list(src = "www/line-01.png",
-    #          contentType = "image/png",
-    #          alt = "",
-    #          a(href = ""),
-    #          width=width)
-    # }, deleteFile=FALSE)
- 
 }
 
