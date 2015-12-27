@@ -80,13 +80,13 @@ server_map_page <- function(input, output, selected, session) {
         if (input$mini_chart == "Top 10% vs. bottom 90%") {
             make_top10_low90_plot(selected, height="100%")
         } else if (input$mini_chart == "Top species") {
-            make_species_plot(selected(), height="100%")
+            make_species_plot(selected(), height="100%", mini=TRUE)
         } else if (input$mini_chart == "Expenditures by year") {
             make_spending_time_line(selected, height="100%")
         } else if (input$mini_chart == "Expenditures by group") {
-            make_tax_group_plot(selected(), height="100%")
+            make_tax_group_plot(selected(), height="100%", mini=TRUE)
         } else if (input$mini_chart == "Est. expend. by state") {
-            make_spend_state_plot(selected, height="100%")
+            make_spend_state_plot(selected, height="100%", mini=TRUE)
         } else {
             make_spend_county_plot(selected, height="100%")
         }

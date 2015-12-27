@@ -16,14 +16,18 @@
 
 #############################################################################
 # Species summary barchart
-make_species_plot <- function(dat, height="475px", chartHeight="65%") {
+make_species_plot <- function(dat, height="475px", chartHeight="65%", mini=FALSE) {
     cur_dat <- make_top_25_species_df(dat)
     left <- nchar(as.character(cur_dat$species[1])) * 5
     if (left > 200) {
         left <- 200
     }
-    chartArea <- paste("{left: ", left, ", top: 50, width: '90%', height: '",
-                       chartHeight, "'}", sep="")
+    if (!mini) {
+        chartArea <- paste("{left: ", left, ", top: 50, width: '90%', height: '",
+                           chartHeight, "'}", sep="")
+    } else {
+        chartArea <- ""
+    }
     chart2 <- gvisColumnChart(cur_dat,
                   xvar="species",
                   yvar=c("other fed", "other fed.html.tooltip", "FWS", 
@@ -41,10 +45,14 @@ make_species_plot <- function(dat, height="475px", chartHeight="65%") {
 
 #############################################################################
 # Spending by taxonomic group barchart
-make_tax_group_plot <- function(dat, height="440px", chartHeight="65%") {
+make_tax_group_plot <- function(dat, height="440px", chartHeight="65%", mini=FALSE) {
     cur_dat2 <- make_tax_group_df(dat)
-    chartArea <- paste("{left: 200", ", top: 50, width: '90%', height: '",
-                       chartHeight, "'}", sep="")
+    if (!mini) {
+        chartArea <- paste("{left: ", 200, ", top: 50, width: '90%', height: '",
+                           chartHeight, "'}", sep="")
+    } else {
+        chartArea <- ""
+    }
     chart3 <- gvisColumnChart(cur_dat2,
                   xvar="group",
                   yvar=c("other fed", "other fed.html.tooltip", "FWS", 
@@ -114,10 +122,15 @@ make_group_bubble_plot_2 <- function(dat, height="440px", chartHeight="65%") {
 
 #############################################################################
 # Top State spending barchart
-make_spend_state_plot <- function(dat, height="500px", chartHeight="65%") {
+make_spend_state_plot <- function(dat, height="500px", chartHeight="65%", 
+                                  mini=FALSE) {
     cur_dat <- make_top_25_states_df(dat())
-    chartArea <- paste("{left: 200", ", top: 50, width: '90%', height: '",
-                       chartHeight, "'}", sep="")
+    if (!mini) {
+        chartArea <- paste("{left: ", 200, ", top: 50, width: '90%', height: '",
+                           chartHeight, "'}", sep="")
+    } else {
+        chartArea <- ""
+    }
     chart4 <- gvisColumnChart(cur_dat,
                  xvar="st",
                  yvar=c("other fed", "other fed.html.tooltip", "FWS", 
