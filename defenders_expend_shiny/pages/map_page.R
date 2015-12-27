@@ -42,14 +42,21 @@ map_page <- {
                     width=NULL,
                     collapsible=TRUE,
                     collapsed=TRUE,
-                    radioButtons(
+                    selectInput(
                         inputId="map_tile",
-                        label=HTML("<h5>Which basemap?</h5>"),
+                        label=HTML("<h5>Select basemap</h5>"),
                         choices=c("Stamen toner light" = "Stamen.TonerLite",
                                   "Stamen toner dark" = "Stamen.Toner",
                                   "Stamen watercolor" = "Stamen.Watercolor",
                                   "OpenStreetMap Mapnik" = "OpenStreetMap.Mapnik",
                                   "Open Topo" = "OpenTopoMap"),
+                        width="95%"
+                    ),
+                    radioButtons(
+                        inputId="circ_rep",
+                        label=HTML("<h5>Circle representation</h5>"),
+                        choices=c("Size = # species, Color = Expend.",
+                                  "Size, Color = Expend. per species")
                         width="95%"
                     )
                 )

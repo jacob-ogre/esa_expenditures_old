@@ -58,10 +58,6 @@ shinyServer(function(input, output, session) {
     }, deleteFile=FALSE)
 
     output$heuristic <- renderImage({
-        # width <- session$clientData$output_heuristic_width
-        # if (width > 200) {
-        #     width <- 200
-        # }
         list(src = "www/heuristic_2.png",
              contentType = "image/png",
              alt = "Heuristic key to bubbles",
