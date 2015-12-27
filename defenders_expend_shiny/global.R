@@ -67,7 +67,7 @@ spa_dat$GEOID <- ifelse(nchar(spa_dat$GEOID) == 4,
 
 # To facilitate adding new data, generate the vectors from the data
 years <- c("All", as.numeric(levels(full$Year)))
-states <- c("All", as.character(levels(full$STABBREV)))
+states <- c("All", as.character(levels(full$STATE)))
 groups <- c("All", as.character(levels(full$Group)))
 species <- c("All", as.character(levels(as.factor(full$sp))))
 cty_st <- c("All", as.character(levels(as.factor(full$cs))))

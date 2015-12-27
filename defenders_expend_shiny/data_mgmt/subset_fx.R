@@ -28,7 +28,7 @@ sub_df <- function(x, years, groups, species, state, src) {
         x <- x[x$sp %in% species, ]
     }
     if (state != "All") {
-        x <- x[x$STABBREV %in% state, ]
+        x <- x[x$STATE %in% state, ]
     }
     if (src == "All") {
         x$exp_report <- x$grand_per_cnty

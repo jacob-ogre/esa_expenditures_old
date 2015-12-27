@@ -21,33 +21,12 @@
 server_map_page <- function(input, output, selected, session) {
     # shinyURL.server(session)
 
-    # output$total_spent <- renderText({
-    #     get_number_spent(selected())
-    # })
-
-    # output$n_species <- renderText({
-    #     get_number_species(selected())
-    # })
-
-    # output$consults_species <- renderGvis({
-    #     make_species_plot(selected)
-    # })
-
-    # output$consults_species_large <- renderGvis({
-    #     make_species_plot(selected, height="575px", chartHeight="70%")
-    # })
-    
-    # get_spp <- function(x) {
-    #     g <- as.character(levels(as.factor(x)))
-    #     return(paste0(g, collapse="<br>"))
-    # }
-
     circ_1 <- reactive({
         tmp <- selected()
         tmp$dups <- duplicated(tmp$st_co_sp)
         n_spp <- table(tmp[tmp$dups == FALSE, ]$GEOID)
         nspp_df <- data.frame(GEOID=names(n_spp), n_spp=as.vector(n_spp))
-        tot_exp <- tapply(tmp$grand_per_cnty, tmp$GEOID, FUN=sum, na.rm=TRUE)
+        tot_exp <- tapply(tmp$exp_report, tmp$GEOID, FUN=sum, na.rm=TRUE)
         texp_df <- data.frame(GEOID=names(tot_exp), tot_exp=as.vector(tot_exp))
         int_dat <- merge(nspp_df, texp_df, by="GEOID")
         res <- merge(int_dat, spa_dat, by="GEOID")

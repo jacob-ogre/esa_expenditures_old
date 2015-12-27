@@ -65,28 +65,69 @@ chart_page <- {
                         choices=c("All", "FWS", "Fed., non-FWS", "State"),
                         selected="All",
                         width="95%"
-                    )
+                    ),
+                    helpText("Note that the text accompanying the plots changes
+                             depending on the data selection.")
                 )
             ),
 
             column(10,
                 fluidRow(
-                    column(3,
+                    column(4,
                         htmlOutput("spp_chart_text")
                     ),
-                    column(9,
+                    column(8,
                         htmlOutput("big_spp_chart")
                     )
                 ),
                 hr(),
                 fluidRow(
-                    column(3,
-                        htmlOutput("spp_chart_text_2")
+                    column(4,
+                        htmlOutput("group_chart_text")
                     ),
-                    column(9,
-                        htmlOutput("big_spp_chart_2")
+                    column(8,
+                        htmlOutput("big_group_chart")
                     )
                 ),
+                hr(),
+                fluidRow(
+                    column(4,
+                        htmlOutput("group_bubble_text")
+                    ),
+                    column(8,
+                        htmlOutput("group_bubble_chart")
+                    )
+                ),
+                fluidRow(
+                    column(8,
+                        htmlOutput("group_bubble_chart_2")
+                    ),
+                    column(4,
+                        htmlOutput("group_bubble_text_2")
+                    )
+                ),
+                hr(),
+                fluidRow(
+                    column(4,
+                        htmlOutput("state_exp_text")
+                    ),
+                    column(8,
+                        htmlOutput("state_exp_chart")
+                    )
+                ),
+                fluidRow(
+                    column(8,
+                        htmlOutput("state_exp_chart_2")
+                    ),
+                    column(4,
+                        htmlOutput("state_exp_text_2") ,
+                        bsButton("per_sp_rank_change",
+                                 label="See rank change",
+                                 style="primary",
+                                 size="small")
+                    )
+                ),
+                hr(),
                 br()
             ),
 

@@ -41,7 +41,8 @@ shinyServer(function(input, output, session) {
                input$years,
                input$groups,
                input$species,
-               input$state
+               input$state,
+               input$sources
         )
     })
 

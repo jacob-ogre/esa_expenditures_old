@@ -31,6 +31,39 @@ body <- dashboardBody(
             includeMarkdown("txt/getting_started.md"),
             size="large"
     ),
+    bsModal(id="limits_disag",
+            title="Know the limitations",
+            trigger="give_limits",
+            includeMarkdown("txt/disaggregation_limits.md"),
+            size="small"
+    ),
+    bsModal(id="show_rank_change",
+            title="Rank change comparing 'raw' and per-species spending",
+            trigger="per_sp_rank_change",
+            fluidRow(
+                column(2,
+                    HTML("<div style=font-size:smaller; color:gray><p>States (or 
+                         territories) with strong positive rank changes tend to have 
+                         lower overall expenditures, but also relatively few species. 
+                         As a result, their relative ranking increases substantially 
+                         once per-species spending is estimated.</p>
+                         
+                         <p>States with strong negative rank changes tend to have 
+                         either (a) high spending and lots of species or (b) just a 
+                         lot of species.</p>
+                         
+                         <p>Note that these rank changes say little about the
+                         rank of each state, in terms of either 'raw' or per-species 
+                         expenditures. However, we can be reasonably sure that 
+                         states with large rank changes were probably on the ends
+                         of the distribution of 'raw' or per-species lists.</p></div>")
+                ),            
+                column(10,
+                    htmlOutput("rank_change_plot")
+                )
+            ),
+            size="large"
+    ),
     bsModal(id="datatable_help",
             title="Using the data table",
             trigger="table_help",

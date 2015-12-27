@@ -17,24 +17,24 @@
 #############################################################################
 # Species summary barchart
 make_species_plot <- function(dat, height="475px", chartHeight="65%") {
-    cur_dat <- make_top_25_species_df(dat())
-    # left <- nchar(as.character(cur_dat$species[1])) * 5
-    # if (left > 200) {
-    #     left <- 200
-    # }
-    # chartArea <- paste("{left: ", left, ", top: 50, width: '90%', height: '",
-    #                    chartHeight, "'}", sep="")
+    cur_dat <- make_top_25_species_df(dat)
+    left <- nchar(as.character(cur_dat$species[1])) * 5
+    if (left > 200) {
+        left <- 200
+    }
+    chartArea <- paste("{left: ", left, ", top: 50, width: '90%', height: '",
+                       chartHeight, "'}", sep="")
     chart2 <- gvisColumnChart(cur_dat,
-                 xvar="species",
-                 yvar=c("FWS", "fws.html.tooltip", "other fed", 
-                        "other fed.html.tooltip", "state", "state.html.tooltip"),
-                 options = list(height=height,
-                                # colors="['#0A4783']",
-                                legend="{position: 'right'}",
-                                vAxis="{title: 'Money Spent (American $)'}",
-                                # chartArea=chartArea,
-                                isStacked=T,
-                                tooltip="{isHtml: 'true'}")
+                  xvar="species",
+                  yvar=c("other fed", "other fed.html.tooltip", "FWS", 
+                         "fws.html.tooltip", "state", "state.html.tooltip"),
+                  options = list(height=height,
+                                 colors="['#0A4783', '#f49831', '#e60000']",
+                                 legend="{position: 'top'}",
+                                 vAxis="{title: 'Expenditures (USD)'}",
+                                 chartArea=chartArea,
+                                 isStacked=T,
+                                 tooltip="{isHtml: 'true'}")
              )
     chart2
 }
@@ -42,35 +42,154 @@ make_species_plot <- function(dat, height="475px", chartHeight="65%") {
 #############################################################################
 # Spending by taxonomic group barchart
 make_tax_group_plot <- function(dat, height="440px", chartHeight="65%") {
-    cur_dat2 <- make_tax_group_df(dat())
+    cur_dat2 <- make_tax_group_df(dat)
+    chartArea <- paste("{left: 200", ", top: 50, width: '90%', height: '",
+                       chartHeight, "'}", sep="")
     chart3 <- gvisColumnChart(cur_dat2,
-                 xvar="group",
-                 yvar=c("FWS", "fws.html.tooltip", "other fed", "other fed.html.tooltip", "state", "state.html.tooltip"),
-                 # chartid=rand_str(),
-                 options = list(height=height,
-                                # colors="['#0A4783']",
-                                legend="{position: 'top'}",
-                                vAxis="{title: 'Money Spent (American $)'}",
-                                isStacked=T,
-                                tooltip="{isHtml: 'true'}")
+                  xvar="group",
+                  yvar=c("other fed", "other fed.html.tooltip", "FWS", 
+                         "fws.html.tooltip", "state", "state.html.tooltip"),
+                  options = list(height=height,
+                                 colors="['#0A4783', '#f49831', '#e60000']",
+                                 legend="{position: 'top'}",
+                                 vAxis="{title: 'Expenditures (USD)'}",
+                                 chartArea=chartArea,
+                                 isStacked=T,
+                                 tooltip="{isHtml: 'true'}")
              )
     chart3
 }
 
 #############################################################################
+# Spending by taxonomic group and counties occupied 
+make_group_bubble_plot <- function(dat, height="440px", chartHeight="65%") {
+    cur_dat9 <- make_group_bubble_df(dat)
+    chartArea <- paste("{left: 200", ", top: 50, width: '90%', height: '",
+                       chartHeight, "'}", sep="")
+    xAxisVals <- paste0("{title: '# counties occupied', logScale: 'true', 
+                        maxValue: ", 1.5*max(cur_dat9$`N counties occupied`), "}")
+    chart <- gvisBubbleChart(cur_dat9,
+                 idvar="group",
+                 xvar="N counties occupied",
+                 yvar="Expenditures",
+                 colorvar="group",
+                 sizevar="N species",
+                 options = list(height=height,
+                                legend="{position: 'none'}",
+                                vAxis="{title: 'Expenditures (USD)',
+                                        logScale: 'true' }",
+                                hAxis=xAxisVals,
+                                chartArea=chartArea,
+                                bubble="{opacity: 0.6}",
+                                sizeAxis="{minValue: 5, maxSize: 50}")
+                 )
+    chart
+}
+
+#############################################################################
+# Spending by taxonomic group and counties occupied version 2
+make_group_bubble_plot_2 <- function(dat, height="440px", chartHeight="65%") {
+    cur_dat9 <- make_group_bubble_df(dat)
+    chartArea <- paste("{left: 200", ", top: 50, width: '90%', height: '",
+                       chartHeight, "'}", sep="")
+    xAxisVals <- paste0("{title: '# species in group', logScale: 'true', 
+                        maxValue: ", 1.5*max(cur_dat9$`N species`), "}")
+    chart <- gvisBubbleChart(cur_dat9,
+                 idvar="group",
+                 xvar="N species",
+                 yvar="Expenditures",
+                 colorvar="group",
+                 sizevar="N counties occupied",
+                 options = list(height=height,
+                                legend="{position: 'none'}",
+                                vAxis="{title: 'Expenditures (USD)',
+                                        logScale: 'true' }",
+                                hAxis=xAxisVals,
+                                chartArea=chartArea,
+                                bubble="{opacity: 0.6}",
+                                sizeAxis="{minValue: 5, maxSize: 50}")
+                 )
+    chart
+}
+
+#############################################################################
 # Top State spending barchart
 make_spend_state_plot <- function(dat, height="500px", chartHeight="65%") {
-    cur_dat <- make_top_10_states_df(dat())
+    cur_dat <- make_top_25_states_df(dat())
+    chartArea <- paste("{left: 200", ", top: 50, width: '90%', height: '",
+                       chartHeight, "'}", sep="")
     chart4 <- gvisColumnChart(cur_dat,
                  xvar="st",
-                 yvar=c("FWS", "fws.html.tooltip", "other fed", "other fed.html.tooltip", "state", "state.html.tooltip"),
+                 yvar=c("other fed", "other fed.html.tooltip", "FWS", 
+                        "fws.html.tooltip", "state", "state.html.tooltip"),
                  options = list(height=height,
-                                # colors="['#0A4783']",
+                                colors="['#0A4783', '#f49831', '#e60000']",
                                 legend="{position: 'top'}",
-                                vAxis="{title: 'Money Spent (American $)'}",
+                                vAxis="{title: 'Expenditures (USD)'}",
                                 isStacked=T,
+                                chartArea=chartArea,
                                 tooltip="{isHtml: 'true'}")
              )
+    chart4
+}
+
+#############################################################################
+# Top State spending barchart with the selected state in column 1
+make_select_state_spend_plot <- function(dat, sel_st, height="500px", 
+                                         chartHeight="65%") {
+    cur_dat <- make_select_top_24_states_df(dat, sel_st)
+    chartArea <- paste("{left: 200", ", top: 50, width: '90%', height: '",
+                       chartHeight, "'}", sep="")
+    chart4 <- gvisColumnChart(cur_dat,
+                 xvar="st",
+                 yvar=c("other fed", "other fed.html.tooltip", "FWS", 
+                        "fws.html.tooltip", "state", "state.html.tooltip"),
+                 options = list(height=height,
+                                colors="['#0A4783', '#f49831', '#e60000']",
+                                legend="{position: 'top'}",
+                                vAxis="{title: 'Expenditures (USD)'}",
+                                isStacked=T,
+                                chartArea=chartArea,
+                                tooltip="{isHtml: 'true'}")
+             )
+    chart4
+}
+
+#############################################################################
+# Top state spending barchart with per-species expenditure
+make_per_spp_state_plot <- function(dat, height="500px", chartHeight="65%") {
+    cur_dat <- make_per_spp_state_df(dat)
+    chartArea <- paste("{left: 200", ", top: 50, width: '90%', height: '",
+                       chartHeight, "'}", sep="")
+    chart4 <- gvisColumnChart(cur_dat,
+                 xvar="st",
+                 yvar=c("per-sp other fed", "other fed.html.tooltip", 
+                        "per-sp FWS", "fws.html.tooltip", "per-sp state", 
+                        "state.html.tooltip"),
+                 options = list(height=height,
+                                colors="['#0A4783', '#f49831', '#e60000']",
+                                legend="{position: 'top'}",
+                                vAxis="{title: 'Per-species expenditures (USD)'}",
+                                isStacked=TRUE,
+                                chartArea=chartArea,
+                                tooltip="{isHtml: 'true'}")
+             )
+    chart4
+}
+
+#############################################################################
+# Top state spending barchart with per-species expenditure
+make_rank_delta_plot <- function(dat, height="450px", chartHeight="85%") {
+    chartArea <- paste("{left: 200", ", top: 50, width: '90%', height: '",
+                       chartHeight, "'}", sep="")
+    chart4 <- gvisBarChart(dat,
+                           yvar=c("pos_change", "neg_change"),
+                           xvar="state",
+                           options=list(height=height,
+                                        colors="['#0A4783', '#e60000']",
+                                        fontSize=10,
+                                        isStacked=TRUE,
+                                        chartArea=chartArea))
     chart4
 }
 
@@ -82,7 +201,6 @@ make_spend_county_plot <- function(dat, height="500px", chartHeight="65%") {
                             xvar="county",
                             yvar=c("FWS", "fws.html.tooltip", "other fed", "other fed.html.tooltip", "state", "state.html.tooltip"),
                             options = list(height=height,
-                                           # colors="['#0A4783']",
                                            legend="{position: 'top'}",
                                            vAxis="{title: 'Money Spent (American $)'}",
                                            isStacked=T,

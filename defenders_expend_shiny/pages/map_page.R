@@ -31,8 +31,15 @@ map_page <- {
                 fixed = TRUE, draggable = TRUE, top = 60, left = "auto", 
                 right = 20, bottom = "auto", width = 330, height = "90%",
 
-                HTML("<h4 style='text-align:center;'>Explore the data</h4>"),
-                hr(),
+                fluidRow(
+                    column(8,
+                        HTML("<h3 style='font-weight:bold;'>Explore the data</h3>")
+                    ),
+                    column(4,
+                        a(href="http://www.defenders.org",
+                            imageOutput("defenders", height=NULL))
+                    )
+                ),
 
                 # Add in the data selectors:
                 box(title="Selection criteria",
@@ -71,13 +78,20 @@ map_page <- {
                         choices=years,
                         selected="All",
                         width="95%"
+                    ),
+                    selectInput(
+                        inputId="sources",
+                        label="Funding source",
+                        choices=c("All", "FWS", "Fed., non-FWS", "State"),
+                        selected="All",
+                        width="95%"
                     )
                 ),
 
                 # Let the user select which mini-figure is shown:
                 selectInput(
                     inputId="mini_chart",
-                    label=h5("Chart"),
+                    label=HTML("<h4>Which chart?</h4>"),
                     choices=c("Top 10% vs. bottom 90%",
                               "Top species",
                               "Expenditures by group",
@@ -98,15 +112,16 @@ map_page <- {
                 hr(),
                 tags$div(id='help_img', class='bottom-align',
                     column(6,
-                        br(), 
                         bsButton("get_started",
                                  label="Getting Started",
                                  style="success"
                         )
                     ),
                     column(6,
-                        a(href="http://www.defenders.org",
-                            imageOutput("defenders", height=NULL))
+                        bsButton("give_limits",
+                                 label="Limitations",
+                                 style="warning"
+                        )
                     )
                 )
             )
