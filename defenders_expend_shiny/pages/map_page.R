@@ -19,11 +19,13 @@ map_page <- {
         title="Interactive map",
 		div(class="outer",
 		    tags$head(
-                HTML("<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>"),
+                HTML("<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
+                     <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'/>"),
                 includeCSS("www/custom_styles.css"),
-                includeScript("www/gomap.js")
+                includeScript("www/gomap.js"),
+                includeScript("www/leaflet.zoomhome.js")
             ),
-            tags$style(type="text/css", "body {padding-top: 70px;}"),
+            tags$style(type="text/css", "body {padding-top: 80px;}"),
             leafletOutput("map", height="100%", width="100%"),
 
             # Although this panel comes in further down the page than the data
@@ -44,7 +46,7 @@ map_page <- {
                     collapsed=TRUE,
                     selectInput(
                         inputId="map_tile",
-                        label=HTML("<h5>Select basemap</h5>"),
+                        label=HTML("<h4>Select basemap</h4>"),
                         choices=c("Stamen toner light" = "Stamen.TonerLite",
                                   "Stamen toner dark" = "Stamen.Toner",
                                   "Stamen watercolor" = "Stamen.Watercolor",
@@ -54,9 +56,9 @@ map_page <- {
                     ),
                     radioButtons(
                         inputId="circ_rep",
-                        label=HTML("<h5>Circle representation</h5>"),
-                        choices=c("Size = # species, Color = Expend.",
-                                  "Size, Color = Expend. per species")
+                        label=HTML("<h4>Circle representation</h4>"),
+                        choices=c("Size = # species, Color = Expend." = "sep",
+                                  "Size, Color = Expend. per species" = "combo"),
                         width="95%"
                     )
                 )

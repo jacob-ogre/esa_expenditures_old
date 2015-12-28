@@ -19,8 +19,6 @@
 # Server-side code for the section 7 app basic single-view page
 ###########################################################################
 server_map_page <- function(input, output, selected, session) {
-    # shinyURL.server(session)
-
     cur_zoom <- reactive({
         if (!is.null(input$map_zoom)) {
             input$map_zoom
@@ -38,17 +36,26 @@ server_map_page <- function(input, output, selected, session) {
         texp_df <- data.frame(GEOID=names(tot_exp), tot_exp=as.vector(tot_exp))
         int_dat <- merge(nspp_df, texp_df, by="GEOID")
         res <- merge(int_dat, spa_dat, by="GEOID")
-        res$circ_size <- scale(res$n_spp, center=F) * 50000 * (1/cur_zoom())
+        res$scaled_nspp <- scale(res$n_spp, center=F) * 50000 * (1/cur_zoom())
+        res$exp_per_sp <- res$tot_exp / res$n_spp
         res
     })
 
     output$map <- renderLeaflet({ 
-		cur_map <- leaflet() %>% 
+		cur_map <- leaflet() %>%
                    setView(lng=-95, lat=38, zoom = 4) %>%
                    mapOptions(zoomToLimits = "never")
         return(cur_map)
     })
 
+    # proxy to add/change the basemap
+    observe({ 
+        leafletProxy("map") %>% 
+            clearTiles() %>% 
+            addProviderTiles(input$map_tile) 
+    })
+
+    # proxy to add/change topoJSON, with line color dependent on basemap
     observe({ 
         cur_col <- ifelse(input$map_tile == "Stamen.TonerLite" |
                           input$map_tile == "Stamen.Toner" |
@@ -62,21 +69,23 @@ server_map_page <- function(input, output, selected, session) {
                         fill = FALSE)
     })
 
-    observe({ 
-        leafletProxy("map") %>% 
-            clearTiles() %>% 
-            addProviderTiles(input$map_tile) 
-    })
-
+    # proxy to add/change plotted circles, with size/fill dependent on selection
     observe({
+        if (input$circ_rep == "sep") {
+            circle_size <- circ_1()$scaled_nspp
+            circle_color <- circ_1()$tot_exp
+        } else {
+            circle_size <- log(scale(circ_1()$exp_per_sp, center=F)) * 100000 * 1/cur_zoom()
+            circle_color <- circ_1()$exp_per_sp
+        }
         leafletProxy("map", data=circ_1()) %>%
             clearShapes() %>%
             addCircles(lng = ~INTPTLON,
                        lat = ~INTPTLAT,
-                       radius = ~circ_size, 
+                       radius = ~circle_size, 
                        color = ~colorBin("RdYlBu", 
-                                         range(circ_1()$tot_exp),
-                                         bins=5)(circ_1()$tot_exp),
+                                         range(circle_color),
+                                         bins=5)(circle_color),
                        fillOpacity=0.85,
                        stroke = FALSE,
                        popup = ~paste0("<b>", NAME, " Co.</b><br>", 
@@ -85,15 +94,23 @@ server_map_page <- function(input, output, selected, session) {
             )
     })
 
+    # proxy to add/change the legend, conditioned on viz selection
     observe({
+        if (input$circ_rep == "sep") {
+            circle_color <- circ_1()$tot_exp
+            title <- "<p style='text-align:center;'>Est. expenditures<br>(&times; 1,000)</p>"
+        } else {
+            circle_color <- circ_1()$exp_per_sp
+            title <- "<p style='text-align:center;'>Est. per-species expend.<br>(&times; 1,000)</p>"
+        }
         leafletProxy("map", data=circ_1()) %>%
             clearControls() %>%
             addLegend("bottomleft",
                       pal=colorBin("RdYlBu", 
-                                   range(circ_1()$tot_exp),
+                                   range(circle_color),
                                    bins=5),
                       values=circ_1()$tot_exp,
-                      title="<p style='text-align:center;'>Est. expenditures<br>(1,000s USD)</p>",
+                      title=title,
                       labFormat=labelFormat(prefix="$",
                           transform=function(x) {return(x / 1000) }),
                       opacity=1)

@@ -17,43 +17,43 @@
 ###############################################################################
 # Page for users to get the selected data.
 data_page <- {
-    tabPanel(title="selected_data",
+    tabPanel(title="Data",
         fluidRow(
-            br(), br(), br(),
+            # br(), br(), 
             div(style="overflow-x: scroll; background-color: #FFFFFF;
                        padding-left: 15px", 
-                column(4,
-                    h3("Selected data"),
-                    br(),
-                    div(class="btn-group",
-                        bsButton("table_help",
-                                 label="Table Help",
-                                 style="info"
-                        ),
-                        tipify(
-                            downloadButton("download_data", "Download (tab-sep.)"),
-                            title="Download the data subset that is selected by the radio button at right (tab-delimited file)."
-                        ),
-                        tipify(
-                            downloadButton("download_metadata", "Download metadata"),
-                            title="Download metadata for the section 7 data (in JSON format)"
+                fluidRow(
+                    column(4,
+                        h3("Selected data"),
+                        div(class="btn-group",
+                            bsButton("table_help",
+                                     label="Table Help",
+                                     style="info"
+                            ),
+                            tipify(
+                                downloadButton("download_data", "Download (tab-sep.)"),
+                                title="Download the data subset that is selected by the radio button at right (tab-delimited file)."
+                            ),
+                            tipify(
+                                downloadButton("download_metadata", "Download metadata"),
+                                title="Download metadata for the section 7 data (in JSON format)"
+                            )
+                        )
+                    ),
+                    column(1),
+
+                    column(7,
+                        radioButtons(
+                            "which_data",
+                            label=h4("Which data selection to show?"),
+                            choices=c(
+                                "Data in Interactive map" = "map_data",
+                                "Data in Graphs" = "graph_data"),
+                            selected="map_data"
                         )
                     )
                 ),
-
-                column(8,
-                    radioButtons(
-                        "which_data",
-                        label=h4("Which data selection to show?"),
-                        choices=c(
-                            "Data in Single View" = "single",
-                            "Data in Compare View #1" = "no_1",
-                            "Data in Compare View #2" = "no_2",
-                            "Data in Alt. Map View" = "no_3"),
-                        selected="single"
-                    )
-                ),
-                hr(),
+                br(), hr(),
                 DT::dataTableOutput("selected_data")
             )
         ),

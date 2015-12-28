@@ -50,7 +50,7 @@ shinyServer(function(input, output, session) {
         if (width > 100) {
             width <- 100
         }
-        list(src = "www/01_DOW_LOGO_COLOR_300-01.png",
+        list(src = "www/01_DOW_LOGO_COLOR_300.png",
              contentType = "image/png",
              alt = "Overview of section 7 consultation",
              a(href = "http://www.defenders.org"),
@@ -73,49 +73,43 @@ shinyServer(function(input, output, session) {
     ###########################################################################
     # The following function calls are used for getting the data selections
     # for download.
-    # get_selected_data <- function(x) {
-    #     if (x == "single") {
-    #         return(selected())
-    #     } else if (x == "no_1") {
-    #         return(selected_1())
-    #     } else if (x == "no_2") {
-    #         return(selected_2())
-    #     } else {
-    #         return(selected_3())
-    #     }
-    # }
-    # 
-    # output$selected_data <- DT::renderDataTable(
-    #     get_selected_data(input$which_data),
-    #     rownames=FALSE,
-    #     filter="top", 
-    #     extensions="ColVis", 
-    #     options = list(dom = 'C<"clear">lfrtip')
-    # )
-    # 
-    # output$download_data <- downloadHandler(
-    #     filename=function() {
-    #         "selected_data.tab"
-    #     },
-    #     content=function(file) {
-    #         if (input$which_data == "single") {
-    #             data_to_get <- selected()
-    #         } else if (input$which_data == "no_1") {
-    #             data_to_get <- selected_1()
-    #         } else if (input$which_data == "no_2") {
-    #             data_to_get <- selected_2()
-    #         } else {
-    #             data_to_get <- selected_3()
-    #         }
-    #         for_write <- make_writeable(data_to_get)
-    #         write.table(for_write, 
-    #                     file=file, 
-    #                     sep="\t",
-    #                     row.names=FALSE,
-    #                     quote=FALSE)
-    #     }
-    # )
-    # 
+
+    sel_cols <- c(1:15, 17, 19, 21:25)
+    get_selected_data <- function(x) {
+        if (x == "map_data") {
+            return(selected()[, sel_cols])
+        } else {
+            return(selected_2()[, sel_cols])
+        }
+    }
+    
+    output$selected_data <- DT::renderDataTable(
+        get_selected_data(input$which_data),
+        rownames=FALSE,
+        filter="top", 
+        extensions="ColVis", 
+        options = list(dom = 'C<"clear">lfrtip')
+    )
+    
+    output$download_data <- downloadHandler(
+        filename=function() {
+            "selected_data.tab"
+        },
+        content=function(file) {
+            if (input$which_data == "single") {
+                data_to_get <- selected()[, sel_cols]
+            } else {
+                data_to_get <- selected_2()[, sel_cols]
+            }
+            for_write <- data_to_get
+            write.table(for_write, 
+                        file=file, 
+                        sep="\t",
+                        row.names=FALSE,
+                        quote=FALSE)
+        }
+    )
+    
     # output$download_metadata <- downloadHandler(
     #     filename=function() {
     #         "section_7_metadata.json"

@@ -16,9 +16,7 @@
 
 source("pages/map_page.R")
 source("pages/chart_page.R")
-# source("pages/compare_page.R")
-# source("pages/alt_map_page.R")
-# source("pages/data_page.R")
+source("pages/data_page.R")
 
 ###############################################################################
 # Central landing page for sec7 basic app
@@ -26,6 +24,7 @@ results_page <- {
     navbarPage("Endangered Species Expenditures",
         map_page,
         chart_page,
+        data_page,
         inverse=FALSE,
         position="fixed-top"
     )
