@@ -25,7 +25,7 @@ make_spending_time_line <- function(all, height="365px") {
                                 height=height,
                                 # colors="['#0A4783', '#f49831']",
                                 vAxis="{title: 'Money Spent (American $)'}",
-                                hAxis="{title: 'Year'}",
+                                hAxis="{title: 'Year', format: ''}",
                                 tooltip="{isHtml: 'true'}")
     )
     chart
