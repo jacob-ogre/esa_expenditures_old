@@ -19,6 +19,7 @@
 # Server-side code for the section 7 app basic single-view page
 ###########################################################################
 server_map_page <- function(input, output, selected, session) {
+    # cur_zoom <- 4
     cur_zoom <- reactive({
         if (!is.null(input$map_zoom)) {
             input$map_zoom
@@ -94,27 +95,52 @@ server_map_page <- function(input, output, selected, session) {
             )
     })
 
-    # proxy to add/change the legend, conditioned on viz selection
-    observe({
-        if (input$circ_rep == "sep") {
-            circle_color <- circ_1()$tot_exp
-            title <- "<p style='text-align:center;'>Est. expenditures<br>(&times; 1,000)</p>"
-        } else {
-            circle_color <- circ_1()$exp_per_sp
-            title <- "<p style='text-align:center;'>Est. per-species expend.<br>(&times; 1,000)</p>"
-        }
-        leafletProxy("map", data=circ_1()) %>%
-            clearControls() %>%
-            addLegend("bottomleft",
-                      pal=colorBin("RdYlBu", 
-                                   range(circle_color),
-                                   bins=5),
-                      values=circ_1()$tot_exp,
-                      title=title,
-                      labFormat=labelFormat(prefix="$",
-                          transform=function(x) {return(x / 1000) }),
-                      opacity=1)
-    })
+    output$my_legend <- renderPlot({
+        cur_dat <- make_map_legend_df(selected())
+        p <- ggplot(cur_dat, aes(factor(xaxs), spp)) +
+             geom_point(aes(size=spp, colour=dol/1000000)) +
+             geom_point(aes(size=spp)) +
+             scale_size(range=c(2,11)) +
+             scale_y_continuous(breaks=round(cur_dat$spp, 0),
+                                limits=c(0, max(cur_dat$spp) + 0.1*max(cur_dat$spp))) +
+             scale_colour_distiller(palette="RdYlBu", 
+                                    direction=1,
+                                    name="Expenditures\n(million USD)") + 
+             guides(size=FALSE) +
+             labs(x="", y="-      # species      +") +
+             theme_tufte(ticks=FALSE) +
+             theme(axis.text.x=element_blank(),
+                   axis.text.y=element_blank(),
+                   text=element_text(size=12, family="OpenSans"),
+                   legend.text=element_text(size=11), 
+                   legend.title=element_text(size=11),
+                   legend.title.align=-1,
+                   legend.key.width=unit(14, "points"),
+                   legend.position="right")
+        return(p)
+    }, height=175, width=175)
+    
+    # # proxy to add/change the legend, conditioned on viz selection
+    # observe({
+    #     if (input$circ_rep == "sep") {
+    #         circle_color <- circ_1()$tot_exp
+    #         title <- "<p style='text-align:center;'>Est. expenditures<br>(&times; 1,000)</p>"
+    #     } else {
+    #         circle_color <- circ_1()$exp_per_sp
+    #         title <- "<p style='text-align:center;'>Est. per-species expend.<br>(&times; 1,000)</p>"
+    #     }
+    #     leafletProxy("map", data=circ_1()) %>%
+    #         clearControls() %>%
+    #         addLegend("bottomleft",
+    #                   pal=colorBin("RdYlBu", 
+    #                                range(circle_color),
+    #                                bins=5),
+    #                   values=circ_1()$tot_exp,
+    #                   title=title,
+    #                   labFormat=labelFormat(prefix="$",
+    #                       transform=function(x) {return(x / 1000) }),
+    #                   opacity=1)
+    # })
 
     output$small_chart <- renderGvis({
         if (input$mini_chart == "Top 10% vs. bottom 90%") {

@@ -25,6 +25,31 @@
 #     return(dat)
 # }
 
+
+############################################################################
+# Make a small df for the map legend
+make_map_legend_df <- function(sub) {
+    dolcnt <- tapply(sub$grand_per_cnty,
+                     INDEX=sub$cs,
+                     FUN=sum, na.rm=TRUE)
+    sppcnt <- tapply(sub$sp,
+                     INDEX=sub$cs,
+                     FUN=get_n_levels)
+    maxspp <- max(sppcnt)
+    minspp <- min(sppcnt)
+    medspp <- (maxspp + minspp) / 2
+
+    maxdol <- max(dolcnt)
+    mindol <- min(dolcnt)
+    meddol <- (maxdol + mindol) / 2
+
+    spp <- c(maxspp, medspp, minspp)
+    dol <- c(maxdol, meddol, mindol)
+    xaxs <- c(1, 1, 1)
+    d2 <- data.frame(spp, dol, xaxs)
+    return(d2)
+}
+
 ############################################################################
 # Create a small dataframe for top 25 species bar plot
 tooltips <- function(sp, dol, src) {

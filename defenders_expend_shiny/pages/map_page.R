@@ -142,6 +142,13 @@ map_page <- {
                     imageOutput("defenders", height=NULL))
             ),
 
+            # Add the ad-hoc legend
+            absolutePanel(id = "controls", class = "panel panel-default",
+                fixed = TRUE, draggable = TRUE, top = "auto", left = 10, 
+                right = "auto", bottom = "2%", width = 175, height = 175,
+                plotOutput("my_legend")
+            ),
+
             absolutePanel(id = "controls", class = "panel panel-default", 
                 fixed = TRUE, draggable = TRUE, top = 60, left = "auto", 
                 right = 20, bottom = "auto", width = 250, height = "auto",

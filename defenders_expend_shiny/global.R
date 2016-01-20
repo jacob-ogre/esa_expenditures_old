@@ -18,6 +18,8 @@
 # Load packages and source files
 #############################################################################
 library(DT)
+library(ggplot2)
+library(ggthemes)
 library(httr)
 library(lattice)
 library(lubridate)
