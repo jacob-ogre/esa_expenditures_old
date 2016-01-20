@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+source("plot/my_legend.R")
 
 ###########################################################################
 # Server-side code for the section 7 app basic single-view page
@@ -97,28 +98,8 @@ server_map_page <- function(input, output, selected, session) {
 
     output$my_legend <- renderPlot({
         cur_dat <- make_map_legend_df(selected())
-        p <- ggplot(cur_dat, aes(factor(xaxs), spp)) +
-             geom_point(aes(size=spp, colour=dol/1000000)) +
-             geom_point(aes(size=spp)) +
-             scale_size(range=c(2,11)) +
-             scale_y_continuous(breaks=round(cur_dat$spp, 0),
-                                limits=c(0, max(cur_dat$spp) + 0.1*max(cur_dat$spp))) +
-             scale_colour_distiller(palette="RdYlBu", 
-                                    direction=1,
-                                    name="Expenditures\n(million USD)") + 
-             guides(size=FALSE) +
-             labs(x="", y="-      # species      +") +
-             theme_tufte(ticks=FALSE) +
-             theme(axis.text.x=element_blank(),
-                   axis.text.y=element_blank(),
-                   text=element_text(size=12, family="OpenSans"),
-                   legend.text=element_text(size=11), 
-                   legend.title=element_text(size=11),
-                   legend.title.align=-1,
-                   legend.key.width=unit(14, "points"),
-                   legend.position="right")
-        return(p)
-    }, height=175, width=175)
+        return(make_my_legend(cur_dat, input$circ_rep))
+    }, height=170, width=170)
     
     # # proxy to add/change the legend, conditioned on viz selection
     # observe({

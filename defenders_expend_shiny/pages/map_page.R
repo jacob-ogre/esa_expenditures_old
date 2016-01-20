@@ -103,15 +103,6 @@ map_page <- {
                 )
             ),
 
-            # # Add the heuristic key...
-            # # # Not sure why this isn't showing up as intended...for later...
-            # absolutePanel(id = "help-button-box", class = "panel panel-default", 
-            #     fixed = TRUE, draggable = TRUE, top = "auto", left = "auto", 
-            #     right = 20, bottom = "100px", width = 330, height = "auto",
-            #     div(style="right:0;",
-            #         imageOutput("heuristic", height=NULL))
-            # ),
-
             # Add the help buttons in the bottom-right
             absolutePanel(id = "help-button-box", class = "panel panel-default", 
                 fixed = TRUE, draggable = TRUE, top = "auto", left = "auto", 
