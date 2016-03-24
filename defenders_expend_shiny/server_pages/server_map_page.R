@@ -49,6 +49,7 @@ server_map_page <- function(input, output, selected, session) {
                    mapOptions(zoomToLimits = "never")
         return(cur_map)
     })
+    # outputOptions(output, "map", suspendWhenHidden = FALSE)
 
     # proxy to add/change the basemap
     observe({ 
