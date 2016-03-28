@@ -70,26 +70,6 @@ get_number_spent <- function(x) {
     return(dol)
 }
 
-get_number_formal <- function(x) {
-    return(sum(x$formal_consult=="Yes", na.rm=T))
-}
-
-calculate_consults_per_year <- function(x) {
-    return(table(x$FY))
-}
-
-calculate_formal_per_year <- function(x) {
-    return(table(x[x$formal_consult=="Yes",]$FY))
-}
-
-calculate_n_jeop_cons <- function(x) {
-    return(sum(x$n_jeop > 0, na.rm=T))
-}
-
-calculate_n_admod_cons <- function(x) {
-    return(sum(x$n_admo > 0, na.rm=T))
-}
-
 ############################################################################
 # Helper functions for species
 get_number_species <- function(x) {
@@ -103,40 +83,6 @@ get_number_groups <- function(x) {
 calculate_state_n_spp <- function(x) {
     cur_sp_ls <- levels(as.factor(unlist(x$spp_ev_ls)))
     return(length(cur_sp_ls))
-}
-
-############################################################################
-# Helper functions for agencies
-get_number_agencies <- function(x) {
-    return(length(levels(droplevels(x$lead_agency))))
-}
-
-############################################################################
-# Helper functions for personnel
-get_number_personnel <- function(x) {
-    return(length(levels(droplevels(x$staff_lead_hash))))
-}
-
-############################################################################
-# Helper functions for ESFOs
-get_number_ESFO <- function(x) {
-    return(length(levels(droplevels(x$ESOffice))))
-}
-
-############################################################################
-# Helper functions for consultation time
-calculate_median_time <- function(x) {
-    return(median(x$elapsed, na.rm=TRUE))
-}
-
-calculate_median_formal_time <- function(x) {
-    return(median(x[x$formal_consult=="Yes",]$elapsed, na.rm=TRUE))
-}
-
-############################################################################
-# Helper functions for states data/summaries
-get_number_states <- function(x) {
-    return(length(levels(droplevels(x$State))))
 }
 
 ##############################################################################
