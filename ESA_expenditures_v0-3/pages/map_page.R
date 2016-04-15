@@ -99,7 +99,8 @@ map_page <- {
                     bsButton("big_chart",
                              label="Larger",
                              style="primary",
-                             size="small")
+                             size="small"
+                    )
                 )
             ),
 
@@ -125,7 +126,7 @@ map_page <- {
                 )
             ),
 
-            # # Add the Defenders logo
+            # Add the Defenders logo
             absolutePanel(id = "help-button-box", class = "panel panel-default", 
                 fixed = TRUE, draggable = FALSE, top = 120, left = 10, 
                 right = "auto", bottom = "auto", width = 200, height = "auto",

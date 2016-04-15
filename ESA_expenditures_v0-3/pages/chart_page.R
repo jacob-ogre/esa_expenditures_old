@@ -124,7 +124,8 @@ chart_page <- {
                         bsButton("per_sp_rank_change",
                                  label="See rank change",
                                  style="primary",
-                                 size="small")
+                                 size="small"
+                        )
                     )
                 ),
                 hr(),

@@ -19,6 +19,7 @@
 #############################################################################
 library(DT)
 library(ggplot2)
+library(ggthemes)
 # library(httr)
 # library(lattice)
 library(RCurl)
@@ -110,4 +111,67 @@ validateColor_2 <- function(color) {
          paste(validColors_2, collapse = ", "), ".")
 }
 
+# bsModal_alt(id="limits_disag",
+#         title="Know the limitations",
+#         trigger="give_limits",
+#         includeMarkdown("txt/disaggregation_limits.md"),
+#         size="small"
+# ),
+
+bsModal_alt <- function(id, title = "", trigger, ..., size = "small") {
+    # # create the button  
+    # button <- tags$button(
+    #     type = "button", 
+    #     class = "btn btn-info", 
+    #     `data-toggle` = "modal", 
+    #     `data-target` = paste0("#", id, sep = ""), 
+    #     list(icon, label)
+    # )
+    
+    # create the window 
+    window <- tags$div(
+      id = id, 
+      class = "modal fade",
+      tabindex = "-1",
+      role = "dialog",
+      `data-trigger` = trigger,
+      `aria-labelledby` = paste0(id, "Label"),
+      `aria-hidden` = "true",
+      tags$div(
+        class = ifelse(size == "small",
+                       "modal-dialog modal-sm",
+                       "modal-dialog modal-lg"),
+        role = "document",
+        tags$div(
+          class = "modal-content",
+          tags$div(
+            class = "modal-header",
+            tags$button(
+              type = "button",
+              class = "close",
+              `data-dismiss` = "modal", 
+              `aria-hidden` = "true",
+              "x"
+            ),
+            tags$html(id = paste0(id, "Label"), title)
+          ),
+          tags$div(
+            class = "modal-body",
+            list(...)
+          ),
+          tags$div(
+            class = "modal-footer",
+            tags$button(
+              class = "btn",
+              `data-dismiss` = "modal",
+              `aria-hidden` = "true",
+              "Close"
+            )
+          )
+        )
+      )
+    )
+    
+    tags$html(window)
+}
 

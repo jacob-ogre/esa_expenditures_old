@@ -52,8 +52,7 @@ shinyServer(function(input, output, session) {
         }
         list(src = "www/01_DOW_LOGO_COLOR_300.png",
              contentType = "image/png",
-             alt = "Overview of section 7 consultation",
-             a(href = "http://www.defenders.org"),
+             alt = "Defenders of Wildlife",
              width=width)
     }, deleteFile=FALSE)
 

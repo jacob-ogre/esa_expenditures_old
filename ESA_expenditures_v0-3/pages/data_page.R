@@ -26,18 +26,18 @@ data_page <- {
                     column(4,
                         h3("Selected data"),
                         div(class="btn-group",
-                            bsButton("table_help",
-                                     label="Table Help",
-                                     style="info"
+                            actionButton("table_help",
+                                         label="Table Help",
+                                         style="info"
                             ),
-                            tipify(
-                                downloadButton("download_data", "Download (tab-sep.)"),
-                                title="Download the data subset that is selected by the radio button at right (tab-delimited file)."
-                            ),
-                            tipify(
-                                downloadButton("download_metadata", "Download metadata"),
-                                title="Download metadata for the section 7 data (in JSON format)"
-                            )
+                            # tipify(
+                            downloadButton("download_data", "Download (tab-sep.)"),
+                                # title="Download the data subset that is selected by the radio button at right (tab-delimited file)."
+                            # ),
+                            # tipify(
+                            downloadButton("download_metadata", "Download metadata") #,
+                                # title="Download metadata for the section 7 data (in JSON format)"
+                            # )
                         )
                     ),
                     column(1),
