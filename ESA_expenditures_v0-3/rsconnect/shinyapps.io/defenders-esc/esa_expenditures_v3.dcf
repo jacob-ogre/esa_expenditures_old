@@ -1,9 +1,0 @@
-name: esa_expenditures_v3
-account: defenders-esc
-server: shinyapps.io
-appId: 76553
-bundleId: 343435
-url: https://defenders-esc.shinyapps.io/esa_expenditures_v3
-when: 1451993970.65414
-asMultiple: FALSE
-asStatic: FALSE
